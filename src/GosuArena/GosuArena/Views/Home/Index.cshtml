@@ -1,75 +1,74 @@
 ﻿@model IList<GosuArena.Models.Bot>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Match";
 }
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Gosu Arena</title>
-        <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.css")" />
-    </head>
-    <body>
-        <header>
-            <h1>Gosu Arena</h1>
-        </header>
 
-        <canvas id="gameCanvas" width="800" height="600">
+<menu>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("LogOff", "Account")">Log out</a>        
+    } else
+    {
+        <a href="@Url.Action("Login", "Account")">Login</a>
+        <a href="@Url.Action("Register", "Account")">Register</a>    
+    }
+</menu>
+
+<canvas id="gameCanvas" width="800" height="600">
     
-        </canvas>
+</canvas>
         
-        <ul id="botLegends"></ul>
+<ul id="botLegends"></ul>
 
-        <menu>
-            <label for="showBotNames">Show bot names</label>
-            <input id="showBotNames" type="checkbox" name="showBotNames" />
+<menu>
+    <label for="showBotNames">Show bot names</label>
+    <input id="showBotNames" type="checkbox" name="showBotNames" />
 
-            <label for="showBotSights">Show bot sights</label>
-            <input id="showBotSights" type="checkbox" name="showBotSights" />
+    <label for="showBotSights">Show bot sights</label>
+    <input id="showBotSights" type="checkbox" name="showBotSights" />
 
-            <button id="restartMatch">Restart match</button>
-            <button id="stopMatch">Stop match</button>
-        </menu>
+    <button id="restartMatch">Restart match</button>
+    <button id="stopMatch">Stop match</button>
+</menu>
 
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/math.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/point.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/vector.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/line.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/rectangle.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/snapshot.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/rectangleCache.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/bot.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/bullet.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/botOptions.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/collisionDetector.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/actionQueue.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gameVisualizer.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/arenaState.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/gameClock.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/engine.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/settings.js")"> </script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/legend.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/math.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/point.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/vector.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/line.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/rectangle.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gosu/snapshot.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/rectangleCache.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bot.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/bullet.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/botOptions.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/collisionDetector.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/actionQueue.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gameVisualizer.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/arenaState.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/gameClock.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/engine.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/settings.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/legend.js")"> </script>
 
-        @foreach (var bot in Model)
-        {
-            <script type="text/javascript">
+@foreach (var bot in Model)
+{
+    <script type="text/javascript">
                 // @bot.Name.ToUpper()
                 // A few lines of code have been added to the bot definition, to make it
                 // play nice with the framework. The code written by the user can be seen a few lines below
-                gosuArena.ready(function() {
-                    // LRedefine globals
-                    var window = {};
-                    var document = {};
-                    var alert = function() {
-                    };
+        gosuArena.ready(function() {
+            // LRedefine globals
+            var window = {};
+            var document = {};
+            var alert = function() {
+            };
 
-                    // User written code starts here:
-                    @Html.Raw(bot.Script);
-                    // User written code ends here
-                });
-            </script>
-        }
+            // User written code starts here:
+            @Html.Raw(bot.Script);
+            // User written code ends here
+        });
+    </script>
+}
 
-        <script type="text/javascript" src="@Url.Content("~/Scripts/match.js")"> </script>
-    </body>
-</html>
+<script type="text/javascript" src="@Url.Content("~/Scripts/match.js")"> </script>

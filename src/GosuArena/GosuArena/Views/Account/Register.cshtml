@@ -1,0 +1,50 @@
+﻿@model GosuArena.Models.Account.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+<p>
+    Use the form below to register a new user. 
+</p>
+<p>
+    Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Password change was unsuccessful. Please correct the errors and try again.")
+ 
+    <fieldset>
+        <legend>Account Information</legend>
+        
+        <div class="editor-label">
+            @Html.LabelFor(m => m.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.ConfirmPassword)
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+
+        <p>
+            <input type="submit" value="Register" />
+        </p>
+    </fieldset>
+}

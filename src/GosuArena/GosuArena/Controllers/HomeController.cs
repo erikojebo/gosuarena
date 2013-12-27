@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Models;
 using GosuArena.Services;
@@ -22,6 +23,11 @@ namespace GosuArena.Controllers
         {
             var users = Repository.Find<User>().ExecuteList();
             return Content(string.Join(", ", users.Select(x => x.Username)));
+        }
+
+        public ActionResult Error()
+        {
+            throw new InvalidOperationException();
         }
 
         [Authorize]

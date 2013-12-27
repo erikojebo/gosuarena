@@ -1,217 +1,153 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using System.Web.Security;
+using GosuArena.Models;
+using GosuArena.Models.Account;
 
 namespace GosuArena.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        //    private readonly Repository _repository = new Repository();
+        public ActionResult Login()
+        {
+            return View();
+        }
 
-        //    public ActionResult Login()
-        //    {
-        //        return View();
-        //    }
+        public ActionResult Register()
+        {
+            return View();
+        }
 
-        //    [HttpPost]
-        //    public ActionResult Login(LogOnModel model, string returnUrl)
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            if (IsValid(model.UserName, model.Password))
-        //            {
-        //                UpdateLastLoginDate(model.UserName);
+        [HttpPost]
+        public ActionResult Register(RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "The account could not be created");
+                return View(model);
+            }
 
-        //                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+            var existingUser = Repository.Find<User>().Where(x => x.Username == model.UserName).Execute();
 
-        //                return RedirectToReturnUrl(returnUrl);
-        //            }
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("", "There username is already taken");
+                return View(model);
+            }
 
-        //            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-        //        }
+            var user = new User
+            {
+                Username = model.UserName
+            };
 
-        //        // If we got this far, something failed, redisplay form
-        //        return View(model);
-        //    }
+            user.SetPassword(model.Password);
 
-        //    private ActionResult RedirectToReturnUrl(string returnUrl)
-        //    {
-        //        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-        //            && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-        //        {
-        //            return Redirect(returnUrl);
-        //        }
+            Repository.Insert(user);
 
-        //        return RedirectToAction("Page", "Code");
-        //    }
+            return RedirectToAction("Login", "Account");
+        }
 
-        //    private void UpdateLastLoginDate(string userName)
-        //    {
-        //        _repository.Update<User>()
-        //                   .Set(x => x.LastLoginDate, DateTime.Now)
-        //                   .Where(
-        //                       x => x.Username == userName).Execute();
-        //    }
+        [HttpPost]
+        public ActionResult Login(LogOnModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (IsValid(model.UserName, model.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
 
-        //    private bool IsValid(string username, string password)
-        //    {
-        //        var user = _repository.Find<User>()
-        //                              .Where(x => x.Username == username)
-        //                              .ExecuteList()
-        //                              .FirstOrDefault();
+                    return RedirectToReturnUrl(returnUrl);
+                }
 
-        //        if (user == null)
-        //            return false;
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            }
 
-        //        return AuthenticationService.IsValid(user, username, password);
-        //    }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
 
-        //    //
-        //    // GET: /Account/LogOff
+        private ActionResult RedirectToReturnUrl(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            {
+                return Redirect(returnUrl);
+            }
 
-        //    public ActionResult LogOff()
-        //    {
-        //        FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
 
-        //        return RedirectToAction("Page", "Code");
-        //    }
+        private bool IsValid(string username, string password)
+        {
+            var user = Repository.Find<User>()
+                .Where(x => x.Username == username)
+                .ExecuteList()
+                .FirstOrDefault();
 
-        //    [Authorize]
-        //    public ActionResult ChangePassword()
-        //    {
-        //        return View();
-        //    }
+            if (user == null)
+                return false;
 
-        //    //
-        //    // POST: /Account/ChangePassword
+            return user.IsPasswordValid(password);
+        }
 
-        //    [Authorize]
-        //    [HttpPost]
-        //    public ActionResult ChangePassword(ChangePasswordModel model)
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            // ChangePassword will throw an exception rather
-        //            // than return false in certain failure scenarios.
-        //            bool changePasswordSucceeded;
-        //            try
-        //            {
-        //                var users = _repository.Find<User>().Where(x => x.Username == User.Identity.Name &&
-        //                                                                x.HashedPassword == Md5Hasher.Hash(model.OldPassword, CompatibilityMode.PHP))
-        //                                       .ExecuteList();
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
 
+            return RedirectToAction("Index", "Home");
+        }
 
-        //                if (users.Any())
-        //                {
-        //                    users.First().HashedPassword = Md5Hasher.Hash(model.NewPassword, CompatibilityMode.PHP);
-        //                    _repository.Update(users.First());
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
 
-        //                    changePasswordSucceeded = true;
-        //                }
-        //                else
-        //                {
-        //                    changePasswordSucceeded = false;
-        //                }
-        //            }
-        //            catch (Exception)
-        //            {
-        //                changePasswordSucceeded = false;
-        //            }
+        [Authorize]
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // ChangePassword will throw an exception rather
+                // than return false in certain failure scenarios.
+                var user = Repository.Find<User>().Where(x => x.Username == User.Identity.Name).Execute();
 
-        //            if (changePasswordSucceeded)
-        //            {
-        //                return RedirectToAction("ChangePasswordSuccess");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-        //            }
-        //        }
+                if (user != null && user.IsPasswordValid(model.OldPassword))
+                {
+                    user.SetPassword(model.NewPassword);
+                    Repository.Update(user);
 
-        //        // If we got this far, something failed, redisplay form
-        //        return View(model);
-        //    }
+                    return RedirectToAction("ChangePasswordSuccess");
+                }
+            }
 
-        //    //
-        //    // GET: /Account/ChangePasswordSuccess
+            // If we got this far, something failed, redisplay form
+            ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
 
-        //    public ActionResult ChangePasswordSuccess()
-        //    {
-        //        return View();
-        //    }
+            return View(model);
+        }
 
-        //    [AdminAuthorize]
-        //    public ActionResult Users()
-        //    {
-        //        var users = _repository.Find<User>()
-        //            .OrderBy(x => x.FirstName, x => x.LastName)
-        //            .ExecuteList();
+        public ActionResult ChangePasswordSuccess()
+        {
+            return View();
+        }
 
-        //        return View(users);
-        //    }
+        public ActionResult ConfirmResetPassword(string username)
+        {
+            return View(username);
+        }
 
-        //    [AdminAuthorize]
-        //    public ActionResult ConfirmResetPassword(int userId)
-        //    {
-        //        var user = _repository.Find<User>().Where(x => x.Id == userId).Execute();
+        [HttpPost]
+        public ActionResult ResetPassword(string username)
+        {
+            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
 
-        //        return View(user);
-        //    }
+            user.SetPassword(Membership.GeneratePassword(8, 0));
 
-        //    [AdminAuthorize]
-        //    [HttpPost]
-        //    public ActionResult ResetPassword(int userId)
-        //    {
-        //        var user = _repository.Find<User>().Where(x => x.Id == userId).Execute();
+            Repository.Update(user);
 
-        //        var newPassword = CreateNewPassword(user);
-
-        //        _repository.Update(user);
-
-        //        SetSuccessMessageForRedirectResponse(string.Format("Lösenordet för användaren '{0}' har återställts till '{1}'", user.Username, newPassword));
-
-        //        return RedirectToAction("Users");
-        //    }
-
-        //    [AdminAuthorize]
-        //    public ActionResult Create()
-        //    {
-        //        return View(new AddUserModel());
-        //    }
-
-        //    [AdminAuthorize]
-        //    [HttpPost]
-        //    public ActionResult Create(AddUserModel model)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return View(model);
-        //        }
-
-        //        var user = Mapper.Map<User>(model);
-
-        //        var existingUser = _repository.Find<User>().Where(x => x.Username == model.Username).Execute();
-
-        //        if (existingUser != null)
-        //        {
-        //            AddValidationError<AddUserModel>(x => x.Username, "Användarnamnet används redan av en annan användare");
-        //            return View(model);
-        //        }
-
-        //        var password = CreateNewPassword(user);
-
-        //        _repository.Insert(user);
-
-        //        SetSuccessMessageForRedirectResponse(string.Format("Användaren '{0}' har skapats med lösenord '{1}'", user.Username, password));
-
-        //        return RedirectToAction("Users");
-        //    }
-
-        //    private static string CreateNewPassword(User user)
-        //    {
-        //        var newPassword = Membership.GeneratePassword(8, 0);
-
-        //        user.HashedPassword = Md5Hasher.Hash(newPassword, CompatibilityMode.PHP);
-        //        return newPassword;
-        //    }
-        //}
+            return RedirectToAction("Login", "Account");
+        }
     }
 }

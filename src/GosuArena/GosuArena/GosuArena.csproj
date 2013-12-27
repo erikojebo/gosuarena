@@ -39,6 +39,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Gosu.Commons">
       <HintPath>..\packages\Gosu.Commons.1.1.4\lib\net40\Gosu.Commons.dll</HintPath>
     </Reference>
@@ -125,7 +132,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\GosuArenaDatabaseConvention.cs" />
+    <Compile Include="Infrastructure\Md5Hash.cs" />
+    <Compile Include="Models\Account\LogOnModel.cs" />
+    <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Bot.cs" />
+    <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BotScriptRepository.cs" />
@@ -136,7 +147,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\GosuArena.css" />
     <Content Include="Global.asax" />
-    <Content Include="Infrastructure\CreateGosuArenaDatabase.sql" />
+    <Content Include="Infrastructure\ElmahPermissions.sql" />
+    <Content Include="Infrastructure\Elmah.sql" />
+    <Content Include="Infrastructure\CreateDatabase.sql" />
     <Content Include="Scripts\actionQueue.js" />
     <Content Include="Scripts\arenaState.js" />
     <Content Include="Scripts\bot.js" />
@@ -167,6 +180,17 @@
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine.js" />
     <Content Include="Scripts\gosu\snapshot.js" />
     <Content Include="Scripts\gosu\snapshotSpecs.js" />
+    <None Include="Scripts\lib\jquery\jquery-2.0.0.intellisense.js" />
+    <Content Include="Scripts\lib\jquery\jquery-2.0.0.js" />
+    <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.js" />
+    <Content Include="Scripts\lib\jquery\jquery.form.min.js" />
+    <None Include="Scripts\lib\jquery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\lib\jquery\jquery.validate.js" />
+    <Content Include="Scripts\lib\jquery\jquery.validate.min.js" />
+    <Content Include="Scripts\lib\jquery\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\lib\jquery\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lib\knockout\knockout-3.0.0.js" />
+    <Content Include="Scripts\lib\knockout\knockout.protected-observable.js" />
     <Content Include="Scripts\match.js" />
     <Content Include="Scripts\gosu\math\collissions.js" />
     <Content Include="Scripts\gosu\math\collissionsSpecs.js" />
@@ -195,7 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -206,6 +229,14 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.map" />
+    <Content Include="Scripts\lib\jquery\jquery.min.map" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
