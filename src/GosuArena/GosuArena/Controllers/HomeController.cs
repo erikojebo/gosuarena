@@ -1,21 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Compilation;
+﻿using System.Linq;
 using System.Web.Mvc;
-using WeenyMapper;
+using GosuArena.Models;
+using GosuArena.Services;
 
 namespace GosuArena.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
+        private FileBotRepository _botRepository;
+
         public ActionResult Index()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["GosuArena"];
-            var repository = new Repository();
+            _botRepository = new FileBotRepository(Server.MapPath("~/Scripts/bots/"));
 
+            var bots = _botRepository.GetAll();
+
+            return View(bots);
+        }
+
+        public ActionResult Users()
+        {
+            var users = Repository.Find<User>().ExecuteList();
+            return Content(string.Join(", ", users.Select(x => x.Username)));
+        }
+
+        [Authorize]
+        public ActionResult Profile()
+        {
             return View();
         }
     }
