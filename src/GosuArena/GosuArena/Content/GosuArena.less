@@ -4,6 +4,70 @@ html {
     font-family: verdana;
 }
 
+header {
+    height: 50px;
+
+    #menu-bar-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #7117ae;
+        margin-top: 0;
+        height: 25px;
+        width: 100%;
+    
+        #menu-bar {
+            
+            .container;
+
+	        menu {
+                margin: 0;
+                float: right;
+
+                a {
+                    text-transform: lowercase;
+                    color: white;
+                    font-weight: bold;
+                    font-family: arial;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    h1 {
+        text-transform: lowercase;
+        color: #efefef;
+        margin-top: 25px;
+        float: right;
+        font-family: verdana;
+        font-weight: bold;
+        font-size: 50px;
+    }
+}
+
+form {
+    .row;
+
+    [type=submit] {
+        .btn;
+        .btn-default;
+        .pull-right;
+    }
+
+    fieldset {
+    }
+
+    div {
+        .form-group;
+    }
+
+    input[type=text], input[type=password] {
+        .form-control;
+    }
+}
+
 #botLegends {
     display: inline-block;
 
@@ -28,4 +92,7 @@ html {
         vertical-align: top;
         font-size: 12px;
     }
-} 
+}
+
+@media only screen and (min-width: 767px) {
+}

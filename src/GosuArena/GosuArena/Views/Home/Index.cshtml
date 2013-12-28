@@ -4,17 +4,6 @@
     ViewBag.Title = "Match";
 }
 
-<menu>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <a href="@Url.Action("LogOff", "Account")">Log out</a>        
-    } else
-    {
-        <a href="@Url.Action("Login", "Account")">Login</a>
-        <a href="@Url.Action("Register", "Account")">Register</a>    
-    }
-</menu>
-
 <canvas id="gameCanvas" width="800" height="600">
     
 </canvas>

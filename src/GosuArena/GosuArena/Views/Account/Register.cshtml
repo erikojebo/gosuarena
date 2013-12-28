@@ -7,34 +7,30 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Password change was unsuccessful. Please correct the errors and try again.")
- 
-    <fieldset>
-        <legend>Register</legend>
- 
-        <div class="editor-label">
-            @Html.LabelFor(m => m.UserName)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(m => m.UserName)
-            @Html.ValidationMessageFor(m => m.UserName)
-        </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Password)
-        </div>
-        <div class="editor-field">
-            @Html.PasswordFor(m => m.Password)
-            @Html.ValidationMessageFor(m => m.Password)
-        </div>
+    <form role="form">    
+        <fieldset class="col-md-4">
+            <legend>Register</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(m => m.ConfirmPassword)
-        </div>
-        <div class="editor-field">
-            @Html.PasswordFor(m => m.ConfirmPassword)
-            @Html.ValidationMessageFor(m => m.ConfirmPassword)
-        </div>
+            <div>
+                <label for="Username">Username</label>
+                <input name="Username" type="text" placeholder="Username" value="@Model.UserName" />
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
 
-        <input type="submit" value="Register" />
-    </fieldset>
+            <div>
+                <label for="Password">Password</label>
+                <input name="Password" type="password" placeholder="Password" value="@Model.Password" />
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+
+            <div>
+                <label for="Password">Confirm password</label>
+                <input name="Password" type="password" placeholder="Confirm password" value="@Model.ConfirmPassword" />
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+
+            <button type="submit">Register</button>
+        </fieldset>
+    </form>
 }
