@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using GosuArena.Extensions
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -9,15 +10,23 @@
         <header>
             <div id="menu-bar-container">
                 <div id="menu-bar">
-                    <menu>
+                    
+                    <nav>
+                        <ul>
+                            <li>@Html.NavigationMenuItem("Play", "Home", "Play match!")</li>
+                            <li>@Html.NavigationMenuItem("MyProfile", "Home", "Profile")</li>
+                        </ul>
+                    </nav>
+
+                    <menu id="account">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a href="@Url.Action("LogOff", "Account")">Log out</a>
+                            @Html.NavigationMenuItem("LogOff", "Account", "Log out")
                         }
                         else
                         {
-                            <a href="@Url.Action("Login", "Account")">Login</a>
-                            <a href="@Url.Action("Register", "Account")">Sign up</a>
+                            @Html.NavigationMenuItem("Login", "Account", "Login")
+                            @Html.NavigationMenuItem("Register", "Account", "Sign up")
                         }
                     </menu>
                 </div>

@@ -18,19 +18,50 @@ header {
         width: 100%;
     
         #menu-bar {
-            
-            .container;
+            padding-top: 2px;
 
-	        menu {
-                margin: 0;
-                float: right;
+            @menu-bar-item-spacing: 12px;
 
-                a {
+            .menu-bar-item {
                     text-transform: lowercase;
                     color: white;
                     font-weight: bold;
                     font-family: arial;
-                    margin-left: 10px;
+
+                    &.active {
+                        text-decoration: underline;
+                        font-weight: bolder;
+                    }
+            }
+            
+            .container;
+
+            nav {
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    float: left;
+
+                    li {
+                        margin-right: @menu-bar-item-spacing;
+                        list-style: none;
+                        display: inline-block;
+
+                        a {
+                            .menu-bar-item;
+                        }
+                    }
+                }
+            }
+
+	        menu#account {
+                margin: 0;
+                float: right;
+
+                a {
+                    margin-left: @menu-bar-item-spacing;
+
+                    .menu-bar-item;
                 }
             }
         }

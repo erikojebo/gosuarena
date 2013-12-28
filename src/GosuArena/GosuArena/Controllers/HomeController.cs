@@ -31,9 +31,36 @@ namespace GosuArena.Controllers
         }
 
         [Authorize]
-        public ActionResult Profile()
+        public ActionResult MyProfile()
         {
-            return View();
+            var username = User.Identity.Name;
+
+            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
+
+            if (user == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            return View(user);
+        }
+
+        [Authorize]
+        public ActionResult Profile(string username)
+        {
+            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
+
+            if (user == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            return View(user);
+        }
+
+        public ActionResult Play()
+        {
+            throw new NotImplementedException();
         }
     }
 }
