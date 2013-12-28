@@ -4,21 +4,13 @@
     ViewBag.Title = "Register";
 }
 
-<h2>Register</h2>
-<p>
-    Use the form below to register a new user. 
-</p>
-<p>
-    Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
-</p>
-
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true, "Password change was unsuccessful. Please correct the errors and try again.")
  
     <fieldset>
-        <legend>Account Information</legend>
-        
+        <legend>Register</legend>
+ 
         <div class="editor-label">
             @Html.LabelFor(m => m.UserName)
         </div>
@@ -43,8 +35,6 @@
             @Html.ValidationMessageFor(m => m.ConfirmPassword)
         </div>
 
-        <p>
-            <input type="submit" value="Register" />
-        </p>
+        <input type="submit" value="Register" />
     </fieldset>
 }

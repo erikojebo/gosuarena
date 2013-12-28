@@ -10,7 +10,7 @@ namespace GosuArena.Controllers
     {
         public ActionResult Login()
         {
-            return View();
+            return View(new LogOnModel());
         }
 
         public ActionResult Register()
