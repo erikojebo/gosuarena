@@ -1,18 +1,17 @@
 ﻿
 function moveTowardsCenter(actionQueue, status) {
-    if (status.x < gosuArena.arenaWidth * 0.25) {
+    if (status.position.x < gosuArena.arenaWidth * 0.25) {
         actionQueue.east(10);
-    } else if (status.x > gosuArena.arenaWidth * 0.75) {
+    } else if (status.position.x > gosuArena.arenaWidth * 0.75) {
         actionQueue.west(10);
     }
 
-    if (status.y < gosuArena.arenaHeight * 0.25) {
+    if (status.position.y < gosuArena.arenaHeight * 0.25) {
         actionQueue.south(10);
-    } else if (status.x > gosuArena.arenaHeight * 0.75) {
+    } else if (status.position.x > gosuArena.arenaHeight * 0.75) {
         actionQueue.north(10);
     }
 }
-
 
 gosuArena.register(function (actionQueue, status) {
 

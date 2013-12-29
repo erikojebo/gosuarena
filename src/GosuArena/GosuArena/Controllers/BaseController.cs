@@ -8,20 +8,7 @@ namespace GosuArena.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected Repository Repository;
-
-        protected BaseController()
-        {
-            Repository = new Repository
-            {
-                ConnectionString = ConfigurationManager.ConnectionStrings["GosuArena"].ConnectionString,
-                Convention = new DatabaseConvention()
-            };
-        }
-
-        protected override void OnException(ExceptionContext filterContext)
-        {
-        }
+        protected Repository Repository = new Repository(); 
 
         protected int GetCurrentUserId()
         {

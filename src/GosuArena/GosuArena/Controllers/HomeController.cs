@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Entities;
@@ -9,26 +11,20 @@ namespace GosuArena.Controllers
 {
     public class HomeController : BaseController
     {
-        private FileBotRepository _botRepository;
+        private FileBotRepository _fileBotRepository;
+        private BotRepository _botRepository;
 
         public ActionResult Index()
         {
-            _botRepository = new FileBotRepository(Server.MapPath("~/Scripts/bots/"));
+            var bots = FileBotRepository.GetAll();
 
-            var bots = _botRepository.GetAll();
-
-            return View(bots);
+            return PlayMatch(bots.Select(x => x.Id).ToList());
         }
 
         public ActionResult Users()
         {
             var users = Repository.Find<User>().ExecuteList();
             return Content(string.Join(", ", users.Select(x => x.Username)));
-        }
-
-        public ActionResult Error()
-        {
-            throw new InvalidOperationException();
         }
 
         [Authorize]
@@ -59,9 +55,51 @@ namespace GosuArena.Controllers
             return View(user);
         }
 
-        public ActionResult Play()
+        public ActionResult SetupMatch()
         {
-            throw new NotImplementedException();
+            var bots = BotRepository.GetAll();
+
+            return View("SetupMatch", bots);
+        }
+
+        public ActionResult Play(string names)
+        {
+            var botNames = names.Split(',', ';', '&');
+            var botIds = Repository.Find<Bot>()
+                .Select(x => x.Id)
+                .Where(x => botNames.Contains(x.Name))
+                .ExecuteScalarList<int>();
+
+            return PlayMatch(botIds);
+        }
+
+        private ActionResult PlayMatch(IList<int> botIds)
+        {
+            var bots = BotRepository.GetAll().Where(x => botIds.Contains(x.Id)).ToList();
+
+            return View("Play", bots);
+        }
+
+        public FileBotRepository FileBotRepository
+        {
+            get
+            {
+                if (_fileBotRepository == null)
+                    _fileBotRepository = new FileBotRepository(Server.MapPath("~/Scripts/bots/"));
+
+                return _fileBotRepository;
+            }
+        }
+
+        public BotRepository BotRepository
+        {
+            get
+            {
+                if (_botRepository == null)
+                    _botRepository = new BotRepository(FileBotRepository);
+
+                return _botRepository;
+            }
         }
     }
 }

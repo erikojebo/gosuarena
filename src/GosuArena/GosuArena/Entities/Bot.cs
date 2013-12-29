@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.ConstrainedExecution;
 
 namespace GosuArena.Entities
 {
@@ -19,5 +20,21 @@ namespace GosuArena.Entities
 
         public string Script { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public string AuthorUsername
+        {
+            get
+            {
+                return User != null ? User.Username : "";
+            }
+        }
+
+        public bool IsWrittenByUser
+        {
+            get
+            {
+                return User != null;
+            }
+        }
     }
 }

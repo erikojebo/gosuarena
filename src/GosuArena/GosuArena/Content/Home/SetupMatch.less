@@ -1,0 +1,31 @@
+﻿@import "../GosuArena.less";
+
+ul#bots {
+    margin: 20px 0;
+    padding: 0;
+
+    li.bot {
+        list-style: none;
+        font-size: 20px;
+        cursor: pointer;
+
+        margin: 10px 0;
+
+        .author {
+            color: @backgroundInfoColor;
+            float: right;
+        }
+
+        &.selected-bot {
+            background-color: #dff0d8;
+        }
+    }
+}
+
+#play-button {
+    .btn;
+    .btn-primary;
+    .btn-lg;
+
+    float: right;
+}

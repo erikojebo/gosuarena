@@ -1,13 +1,14 @@
 ﻿@model IList<GosuArena.Entities.Bot>
 
 @{
-    ViewBag.Title = "Match";
+    ViewBag.Title = "Play match!";
 }
 
 @section styles
 {
-    <link rel="stylesheet" href="@Url.Content("~/Content/Home/Index.less")" />
 }
+
+<link rel="stylesheet" href="@Url.Content("~/Content/Home/Play.less")" />
 
 <div id="playing-field">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
@@ -63,7 +64,7 @@
             };
 
             // User written code starts here:
-            @Html.Raw(bot.Script);
+            @Html.Raw(bot.Script)
             // User written code ends here
         });
     </script>

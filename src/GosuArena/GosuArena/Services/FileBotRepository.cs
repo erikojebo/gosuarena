@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using GosuArena.Entities;
-using GosuArena.Models;
 
 namespace GosuArena.Services
 {
@@ -17,9 +16,19 @@ namespace GosuArena.Services
 
         public IList<Bot> GetAll()
         {
+            var id = int.MaxValue;
+
             var files = Directory.GetFiles(_botDirectory, "*.js");
 
-            return files.Select(LoadBot).ToList();
+            var bots = files.Select(LoadBot).ToList();
+
+            // Initialize ids of all bots
+            foreach (var bot in bots)
+            {
+                bot.Id = id--;
+            }
+
+            return bots;
         }
 
         private Bot LoadBot(string path)

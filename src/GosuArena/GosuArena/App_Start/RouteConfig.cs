@@ -15,8 +15,13 @@ namespace GosuArena
 
             routes.MapRoute(
                 name: "Profile",
-                url: "Home/Profile/{username}",
+                url: "Profile/{username}",
                 defaults: new { controller = "Home", action = "Profile" });
+
+            routes.MapRoute(
+                name: "Play",
+                url: "Play/{names}",
+                defaults: new { controller = "Home", action = "Play" });
             
             routes.MapRoute(
                 name: "Default",

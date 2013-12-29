@@ -24,7 +24,6 @@ namespace GosuArena.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "The account could not be created");
                 return View(model);
             }
 

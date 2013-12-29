@@ -6,7 +6,7 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "Password change was unsuccessful. Please correct the errors and try again.")
+    @Html.ValidationSummary(true, "The account could not be created")
 
     <form role="form">    
         <fieldset class="col-md-4">
@@ -26,7 +26,7 @@
 
             <div>
                 <label for="Password">Confirm password</label>
-                <input name="Password" type="password" placeholder="Confirm password" value="@Model.ConfirmPassword" />
+                <input name="ConfirmPassword" type="password" placeholder="Confirm password" value="@Model.ConfirmPassword" />
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
 
