@@ -1,11 +1,23 @@
-﻿using GosuArena.Infrastructure;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using GosuArena.Infrastructure;
 
-namespace GosuArena.Models
+namespace GosuArena.Entities
 {
     public class User
     {
+        public User()
+        {
+            JoinDate = DateTime.Now;
+            Bots = new List<Bot>();
+        }
+
+        public int Id { get; set; }
         public string Username { get; set; }
         public string HashedPassword { get; set; }
+        public DateTime JoinDate { get; set; }
+        public IList<Bot> Bots { get; set; }
 
         public void SetPassword(string plainTextPassword)
         {

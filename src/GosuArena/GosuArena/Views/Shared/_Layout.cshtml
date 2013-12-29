@@ -4,7 +4,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+
     <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
+    @RenderSection("styles", required:false)
+
 </head>
     <body class="container">
         <header>

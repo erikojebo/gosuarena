@@ -68,9 +68,11 @@ header {
     }
 
     h1 {
+        height: 0;
+        overflow: visible;
         text-transform: lowercase;
         color: #efefef;
-        margin-top: 25px;
+        margin-top: 35px;
         float: right;
         font-family: verdana;
         font-weight: bold;
@@ -81,7 +83,7 @@ header {
 form {
     .row;
 
-    [type=submit] {
+    [type=submit].main-submit {
         .btn;
         .btn-default;
         .pull-right;
@@ -96,32 +98,6 @@ form {
 
     input[type=text], input[type=password] {
         .form-control;
-    }
-}
-
-#botLegends {
-    display: inline-block;
-
-    div {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        margin-right: 5px;
-        vertical-align: middle;
-    }
-    
-    span {
-        display: inline;
-        line-height: 20px;
-        vertical-align: middle;
-    }
-
-    li {
-        list-style: none;
-        margin-bottom: 5px;
-        display: block;
-        vertical-align: top;
-        font-size: 12px;
     }
 }
 

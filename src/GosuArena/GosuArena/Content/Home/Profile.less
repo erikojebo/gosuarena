@@ -1,0 +1,52 @@
+﻿@import "../GosuArena.less";
+
+ul#bots {
+    margin-top: 25px;
+    margin-left: 0;
+    padding-left: 0;
+
+    li {
+        list-style: none;    
+        font-size: 20px;
+
+        .created-date {
+            color: #aaa;
+            display: block;
+        }
+
+        a {
+            display: inline-block;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        &:hover .actions {
+            visibility: visible;
+        }
+
+        .actions {
+            visibility: hidden;
+            float: right;
+            height: 0;
+        }
+
+        .edit-bot {
+            .btn;
+            .btn-default;
+            .btn-sm;
+        }
+
+        .delete-bot {
+            display: inline-block;
+            margin: 0;
+
+            button {
+                .btn;
+                .btn-danger;
+                .btn-sm;
+            }
+        }
+    }
+}

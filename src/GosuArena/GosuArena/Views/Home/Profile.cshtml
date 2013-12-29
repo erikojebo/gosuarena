@@ -1,3 +1,10 @@
-﻿@model GosuArena.Models.User
+﻿@model GosuArena.Entities.User
 
 <h2>@Model.Username</h2>
+
+<ul>
+    @foreach (var bot in Model.Bots)
+    {
+        <li>@bot.Name</li>
+    }
+</ul>

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using GosuArena.Entities;
 using GosuArena.Models;
 using GosuArena.Models.Account;
 

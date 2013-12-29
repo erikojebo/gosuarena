@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using GosuArena.Entities;
 using GosuArena.Models;
 using GosuArena.Services;
 
@@ -35,7 +36,7 @@ namespace GosuArena.Controllers
         {
             var username = User.Identity.Name;
 
-            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
+            var user = GetUserWithBots(username);
 
             if (user == null)
             {
@@ -48,7 +49,7 @@ namespace GosuArena.Controllers
         [Authorize]
         public ActionResult Profile(string username)
         {
-            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
+            var user = GetUserWithBots(username);
 
             if (user == null)
             {

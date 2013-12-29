@@ -1,0 +1,25 @@
+﻿@model GosuArena.Entities.Bot
+
+@section styles {
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bot/Edit.less")" />
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "The bot could not be created")
+
+    <h1>@Model.Name</h1>
+    
+    <form role="form">
+        <fieldset>
+            <legend>Edit bot</legend>
+
+            <div>
+                <label for="Script">JavaScript for the bot</label>
+                <textarea name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
+            </div>
+
+            <button type="submit" class="main-submit">Save</button>
+        </fieldset>
+    </form>
+}

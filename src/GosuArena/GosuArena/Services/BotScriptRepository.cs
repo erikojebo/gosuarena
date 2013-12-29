@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GosuArena.Entities;
 using GosuArena.Models;
 
 namespace GosuArena.Services

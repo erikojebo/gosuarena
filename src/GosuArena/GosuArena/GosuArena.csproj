@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BotController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Models\Controls\NavigationMenuItemModel.cs" />
@@ -140,9 +141,9 @@
     <Compile Include="Infrastructure\Md5Hash.cs" />
     <Compile Include="Models\Account\LogOnModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
-    <Compile Include="Models\Bot.cs" />
+    <Compile Include="Entities\Bot.cs" />
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BotScriptRepository.cs" />
   </ItemGroup>
@@ -259,6 +260,9 @@
     <Content Include="Content\bootstrap-3.0.3\less\utilities.less" />
     <Content Include="Content\bootstrap-3.0.3\less\variables.less" />
     <Content Include="Content\bootstrap-3.0.3\less\wells.less" />
+    <Content Include="Content\Home\Index.less" />
+    <Content Include="Content\Home\Profile.less" />
+    <Content Include="Content\Bot\Edit.less" />
     <None Include="Scripts\lib\jquery\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.js" />
@@ -298,6 +302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Entities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -318,6 +323,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\NavigationMenuItem.cshtml" />
     <Content Include="Views\Home\MyProfile.cshtml" />
+    <Content Include="Views\Bot\Create.cshtml" />
+    <Content Include="Views\Bot\Edit.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

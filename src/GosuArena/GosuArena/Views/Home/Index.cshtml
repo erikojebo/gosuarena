@@ -1,25 +1,34 @@
-﻿@model IList<GosuArena.Models.Bot>
+﻿@model IList<GosuArena.Entities.Bot>
 
 @{
     ViewBag.Title = "Match";
 }
 
-<canvas id="gameCanvas" width="800" height="600">
-    
-</canvas>
-        
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/Home/Index.less")" />
+}
+
+<div id="playing-field">
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+
+    <form class="options">
+        <label for="showBotNames">Show bot names</label>
+        <input id="showBotNames" type="checkbox" name="showBotNames" />
+
+        <label for="showBotSights">Show bot sights</label>
+        <input id="showBotSights" type="checkbox" name="showBotSights" />
+    </form>
+
+    <menu class="actions">
+        <button id="restartMatch">Restart match</button>
+        <button id="stopMatch">Stop match</button>
+    </menu>
+</div>
+
 <ul id="botLegends"></ul>
 
-<menu>
-    <label for="showBotNames">Show bot names</label>
-    <input id="showBotNames" type="checkbox" name="showBotNames" />
-
-    <label for="showBotSights">Show bot sights</label>
-    <input id="showBotSights" type="checkbox" name="showBotSights" />
-
-    <button id="restartMatch">Restart match</button>
-    <button id="stopMatch">Stop match</button>
-</menu>
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/math.js")"> </script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/gosu/math/point.js")"> </script>
