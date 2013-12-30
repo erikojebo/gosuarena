@@ -23,6 +23,10 @@
             flagAsDirty($(this));
         });
 
+    $(document).on("click", ".clear-dirty-flags", function () {
+       $("[data-changed]").removeAttr("data-changed");
+    });
+
     window.onbeforeunload = function () {
         var hasChangedElements = $(".change-tracked").has("[data-changed]").length > 0;
 
