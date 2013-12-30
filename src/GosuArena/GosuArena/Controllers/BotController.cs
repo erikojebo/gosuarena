@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Controllers.ActionResults;
 using GosuArena.Entities;
@@ -114,6 +115,9 @@ namespace GosuArena.Controllers
                     .Find<User>()
                     .Where(x => x.Username == "GosuArenaTrainer")
                     .Execute();
+
+                if (gosuArenaTrainer == null)
+                    throw new InvalidOperationException("The GosuArenaTrainer user has not been created");
 
                 foreach (var fileBot in fileBots)
                 {
