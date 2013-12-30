@@ -27,7 +27,20 @@ gosuArena.register({
         }
 
         actionQueue.turn(1);
-        actionQueue.forward(1);
+        actionQueue.forward(2);
+    },
+    onHitByBullet: function (actionQueue, status, eventArgs) {
+        actionQueue.clear();
+
+        if (status.canMoveLeft) {
+            actionQueue.moveLeft(10);            
+        } else {
+            actionQueue.moveRight(10);
+        }
+
+        var degreesToTurn = eventArgs.angle - status.angle;
+
+        actionQueue.turn(degreesToTurn);
     },
     options: {
         name: "circler"
