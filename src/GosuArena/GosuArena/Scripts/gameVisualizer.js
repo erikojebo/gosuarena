@@ -3,6 +3,10 @@ gosuArena.factories = gosuArena.factories || {};
 
 gosuArena.factories.createGameVisualizer = function (canvas) {
 
+    var hasMatchEnded = false;
+    var hasDrawnWinnerName = false;
+    var winnerName = null;
+    
     var wallColor = "#000";
     var fieldColor = "#fff";
 
@@ -25,6 +29,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     arena.width = arena.right - arena.left;
     arena.height = arena.bottom - arena.top;
 
+    gosuArena.events.matchEnded(function (result) {
+        hasMatchEnded = true;
+        winnerName = result.winner.name;
+    });
 
     function clearField() {
         context.fillStyle = fieldColor;
@@ -76,10 +84,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             return;
         }
 
-        var nameTextMeasurement = context.measureText(bot.name);
-
         context.fillStyle = "black";
         context.font = "bold 12px sans-serif";
+
+        var nameTextMeasurement = context.measureText(bot.name);
 
         context.fillText(
             bot.name,
@@ -156,7 +164,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         var relativeWeaponMuzzlePoint = bot.weapon.botRelativeMuzzlePosition();
 
         context.translate(relativeWeaponMuzzlePoint.x, relativeWeaponMuzzlePoint.y);
-        
+
         context.fillRect(-bot.sight.width / 2, 0, bot.sight.width, bot.sight.length);
 
         context.restore();
@@ -186,15 +194,54 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         });
     }
 
+    function drawWinnerName() {
+        context.save();
+
+        context.fillStyle = "black";
+        context.font = "bold 30px verdana";
+
+        var message = "The winner is " + winnerName + "!";
+
+        var textMeasurement = context.measureText(message);
+
+        context.translate(arena.width / 2, arena.height / 2);
+
+        context.fillText(
+            message,
+            (-textMeasurement.width / 2),
+            -100);
+
+        hasDrawnWinnerName = true;
+        
+        context.restore();
+    }
+
+    function render(arenaState) {
+
+        // No need to draw any more if the match is over and the result
+        // has been rendered to the screen
+        if (hasMatchEnded && hasDrawnWinnerName) {
+            return;
+        }
+        
+        context.save();
+
+        clearField();
+
+        drawTerrain(arenaState);
+        drawBots(arenaState);
+        drawBullets(arenaState);
+
+        if (hasMatchEnded && !hasDrawnWinnerName) {
+            drawWinnerName();
+        }
+        
+        context.restore();
+    }
+
     return {
         arenaWidth: arena.right - arena.left,
         arenaHeight: arena.bottom - arena.top,
-        render: function(arenaState) {
-            clearField();
-
-            drawTerrain(arenaState);
-            drawBots(arenaState);
-            drawBullets(arenaState);
-        }
+        render: render
     };
 };

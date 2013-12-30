@@ -3,7 +3,6 @@
     var gameClock = null;
 
     gosuArena.events.matchEnded(function (result) {
-        alert("The winner is: " + result.winner.name);
         stopMatch();
     });
 
