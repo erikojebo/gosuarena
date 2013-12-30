@@ -5,6 +5,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     var shotFiredCallbacks = [];
     var killedCallbacks = [];
+    var hitByBulletCallbacks = [];
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
 
     var bot = {
@@ -135,10 +136,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             return;
         }
 
-        shotFiredCallbacks.forEach(function (callback) {
-            callback(bot);
-            bot.weapon.cooldownTimeLeft = bot.weapon.cooldownTime;
-        })
+        raiseShotFiredEvent();
 
         bot.weapon.cooldownTimeLeft = bot.weapon.cooldownTime;
     };
@@ -149,6 +147,10 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     bot.onKilled = function (callback) {
         killedCallbacks.push(callback);
+    }
+
+    bot.onHitByBullet = function (callback) {
+        hitByBulletCallbacks.push(callback);
     }
 
     function translate(vector) {
@@ -247,13 +249,33 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         return sightArea.rotate(bot.angle, bot.center());
     };
 
+    function raiseKilledEvent() {
+        killedCallbacks.forEach(function(callback) {
+            callback(bot);
+        });
+    }
+
+    function raiseShotFiredEvent() {
+        shotFiredCallbacks.forEach(function (callback) {
+            callback(bot);
+        });
+    }
+
+    function raiseHitByBulletEvent(bullet) {
+        hitByBulletCallbacks.forEach(function (callback) {
+            callback({
+                angle: bullet.angle
+            });
+        });
+    }
+
     bot.hitBy = function (bullet) {
         bot.health -= bullet.damage;
 
+        raiseHitByBulletEvent(bullet);
+
         if (!bot.isAlive()) {
-            killedCallbacks.forEach(function(callback) {
-                callback(bot);
-            });
+            raiseKilledEvent();
         }
     };
 

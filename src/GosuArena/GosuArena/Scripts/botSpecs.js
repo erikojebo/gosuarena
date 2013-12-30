@@ -203,4 +203,43 @@ describe("bot", function () {
         expect(wasKilledEventRaised).toEqual(true);
     });
 
+    it("raises event when hit by bullet", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            initialHealthPoints: 50
+        });
+        var enemyBot = gosuArena.factories.createBot(tick, { });
+
+        var bullet = gosuArena.factories.createBullet(enemyBot);
+
+        var wasHitByBulletEventRaised = false;
+
+        bot.onHitByBullet(function () {
+            wasHitByBulletEventRaised = true;
+        });
+        
+        bot.hitBy(bullet);
+
+        expect(wasHitByBulletEventRaised).toBe(true);
+    });
+
+    xit("sends angle from which the bullet came with the onHitByBullet event", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            initialHealthPoints: 50
+        });
+        var enemyBot = gosuArena.factories.createBot(tick, {
+            angle: 135 // north-west
+        });
+
+        var bullet = gosuArena.factories.createBullet(enemyBot);
+
+        var actualAngle = null;
+
+        bot.onHitByBullet(function (eventArgs) {
+            actualAngle = eventArgs.angle;
+        });
+        
+        bot.hitBy(bullet);
+
+        expect(actualAngle).toEqual(315);
+    });
 });
