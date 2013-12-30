@@ -132,6 +132,7 @@
     <Compile Include="Controllers\ActionResults\HttpForbiddenResult.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BotController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
@@ -336,6 +337,7 @@
     <Content Include="Views\Bot\Edit.cshtml" />
     <Content Include="Views\Match\Setup.cshtml" />
     <Content Include="Views\User\ReadOnlyProfile.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
