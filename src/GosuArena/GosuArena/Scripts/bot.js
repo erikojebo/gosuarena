@@ -264,7 +264,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     function raiseHitByBulletEvent(bullet) {
         hitByBulletCallbacks.forEach(function (callback) {
             callback({
-                angle: bullet.angle
+                angle: gosu.math.normalizeAngleInDegrees(bullet.angle - 180)
             });
         });
     }

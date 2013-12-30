@@ -222,7 +222,7 @@ describe("bot", function () {
         expect(wasHitByBulletEventRaised).toBe(true);
     });
 
-    xit("sends angle from which the bullet came with the onHitByBullet event", function () {
+    it("sends south-east as angle from which the bullet came with the onHitByBullet event when hit by bullet travelling north-west", function () {
         var bot = gosuArena.factories.createBot(tick, {
             initialHealthPoints: 50
         });
@@ -241,5 +241,25 @@ describe("bot", function () {
         bot.hitBy(bullet);
 
         expect(actualAngle).toEqual(315);
+    });
+
+        it("sends north-east as angle from which the bullet came with the onHitByBullet event when hit by bullet travelling south-west", function () {
+            
+        var bot = gosuArena.factories.createBot(tick, { });
+        var enemyBot = gosuArena.factories.createBot(tick, {
+            angle: 45
+        });
+
+        var bullet = gosuArena.factories.createBullet(enemyBot);
+
+        var actualAngle = null;
+
+        bot.onHitByBullet(function (eventArgs) {
+            actualAngle = eventArgs.angle;
+        });
+        
+        bot.hitBy(bullet);
+
+        expect(actualAngle).toEqual(225);
     });
 });
