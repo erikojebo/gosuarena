@@ -2,6 +2,11 @@
     var fps = 60;
     var gameClock = null;
 
+    gosuArena.events.matchEnded(function (result) {
+        alert("The winner is: " + result.winner.name);
+        stopMatch();
+    });
+
     function restartMatch() {
 
         if (gameClock) {

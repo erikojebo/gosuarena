@@ -6,6 +6,9 @@ describe("Bot", function () {
     var arenaHeight = 400;
     var arenaWidth = 400;
 
+    var botWidth = null;
+    var botHeight = null;
+
     beforeEach(function () {
         visualizer = {
             render: function() { },
@@ -15,6 +18,9 @@ describe("Bot", function () {
 
         botOptions = gosuArena.factories.createSafeBotOptions({}, true);
 
+        botWidth = botOptions.width;
+        botHeight = botOptions.height;
+        
         clock = gosuArena.gameClock.createFake();
 
         gosuArena.engine.start(visualizer, clock);
@@ -31,7 +37,7 @@ describe("Bot", function () {
         }, {
             startPosition: {
                 x: arenaWidth / 2,
-                y: arenaHeight - botOptions.width,
+                y: arenaHeight - botWidth,
                 angle: 90
             }
         });
@@ -68,8 +74,8 @@ describe("Bot", function () {
             expect(status.canMoveSouth).toEqual(false);
         }, {
             startPosition: {
-                x: arenaWidth - botOptions.width,
-                y: arenaHeight -botOptions.height,
+                x: arenaWidth - botWidth,
+                y: arenaHeight - botHeight,
                 angle: 180
             }
         });
@@ -105,5 +111,64 @@ describe("Bot", function () {
         });
 
         clock.doTick();
+    });
+
+    it("raises gameEnded event when there is only one bot left", function () {
+        gosuArena.register(function (actionQueue, status) {
+        }, {
+            name: "loser 1",
+            startPosition: {
+                x: 0,
+                y: 0,
+                angle: 0
+            }
+        });
+
+        gosuArena.register(function (actionQueue, status) {
+        }, {
+            name: "loser 2",
+            startPosition: {
+                x: botWidth + 10,
+                y: 0,
+                angle: 0
+            }
+        });
+
+        // This bot spawns aiming directly at the two other bots, which are
+        // in a straight westward line.
+        gosuArena.register(function (actionQueue, status) {
+            if (status.canFire) {
+                actionQueue.fire();                
+            }
+        }, {
+            name: "expected winner",
+            startPosition: {
+                x: botWidth * 2 + 20,
+                y: 0,
+                angle: 90
+            }
+        });
+
+        var hasMatchEnded = false;
+        
+        gosuArena.events.matchEnded(function (result) {
+            hasMatchEnded = true;
+
+            var livingBots = gosuArena.engine.botLegends().filter(function (bot) {
+                return bot.isAlive;
+            });
+
+            expect(livingBots.length).toEqual(1);
+            expect(livingBots[0].name).toEqual("expected winner");
+            expect(result.winner.name).toEqual("expected winner");
+        });
+
+        // Tick a bunch of rounds to make sure that the third bot had the time needed
+        // to kill the other two bots.
+        for (var tickCount = 0; tickCount < 1000 && !hasMatchEnded; tickCount++) {
+            clock.doTick();            
+        }
+
+        expect(hasMatchEnded).toEqual(true);
     });
 });

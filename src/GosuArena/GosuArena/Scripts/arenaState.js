@@ -9,6 +9,18 @@ gosuArena.arenaState.create = function () {
         bullets: []
     };
 
+    function onBotKilled(bot) {
+        var livingBots = arenaState.livingBots();
+        
+        if (livingBots.length == 1) {
+            gosuArena.events.raiseMatchEnded({
+                winner: {
+                    name: livingBots[0].name
+                }
+            });
+        }
+    }
+
     arenaState.livingBots = function () {
         return arenaState.bots.filter(function (bot) {
             return bot.isAlive();
@@ -27,6 +39,7 @@ gosuArena.arenaState.create = function () {
     };
 
     arenaState.addBot = function (bot) {
+        bot.onKilled(onBotKilled);
         arenaState.bots.push(bot);
     };
 

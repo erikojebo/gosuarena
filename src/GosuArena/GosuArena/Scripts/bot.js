@@ -4,6 +4,7 @@ gosuArena.factories = gosuArena.factories || {};
 gosuArena.factories.createBot = function (tickCallback, options, collisionDetector) {
 
     var shotFiredCallbacks = [];
+    var killedCallbacks = [];
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
 
     var bot = {
@@ -146,6 +147,10 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         shotFiredCallbacks.push(callback);
     }
 
+    bot.onKilled = function (callback) {
+        killedCallbacks.push(callback);
+    }
+
     function translate(vector) {
         bot.x += vector.x;
         bot.y += vector.y;
@@ -244,6 +249,12 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     bot.hitBy = function (bullet) {
         bot.health -= bullet.damage;
+
+        if (!bot.isAlive()) {
+            killedCallbacks.forEach(function(callback) {
+                callback(bot);
+            });
+        }
     };
 
     gosu.snapshot.extend(bot);

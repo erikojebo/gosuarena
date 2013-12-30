@@ -151,7 +151,9 @@ gosuArena.engine = (function () {
         return arenaState.bots.map(function (bot) {
             return {
                 name: bot.name,
-                color: bot.color
+                color: bot.color,
+                isAlive: bot.isAlive(),
+                health: bot.health
             };
         });
     }
