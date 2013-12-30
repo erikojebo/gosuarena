@@ -24,6 +24,7 @@
                     <menu id="account">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <span class="username">Logged in as @User.Identity.Name</span>
                             @Html.NavigationMenuItem("LogOff", "Account", "Log out")
                         }
                         else

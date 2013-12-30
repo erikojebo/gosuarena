@@ -23,12 +23,15 @@ header {
             padding-top: 2px;
 
             @menu-bar-item-spacing: 12px;
+            @menu-bar-item-color: white;
+
+            color: @menu-bar-item-color;
+            font-family: arial;
+            text-transform: lowercase;
 
             .menu-bar-item {
-                    text-transform: lowercase;
-                    color: white;
                     font-weight: bold;
-                    font-family: arial;
+                    color: @menu-bar-item-color;
 
                     &.active {
                         text-decoration: underline;
