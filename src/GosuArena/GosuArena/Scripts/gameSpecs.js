@@ -20,7 +20,7 @@ describe("Bot", function () {
 
         botWidth = botOptions.width;
         botHeight = botOptions.height;
-        
+
         clock = gosuArena.gameClock.createFake();
 
         gosuArena.engine.start(visualizer, clock);
@@ -138,7 +138,7 @@ describe("Bot", function () {
         // in a straight westward line.
         gosuArena.register(function (actionQueue, status) {
             if (status.canFire) {
-                actionQueue.fire();                
+                actionQueue.fire();
             }
         }, {
             name: "expected winner",
@@ -150,7 +150,7 @@ describe("Bot", function () {
         });
 
         var hasMatchEnded = false;
-        
+
         gosuArena.events.matchEnded(function (result) {
             hasMatchEnded = true;
 
@@ -166,9 +166,33 @@ describe("Bot", function () {
         // Tick a bunch of rounds to make sure that the third bot had the time needed
         // to kill the other two bots.
         for (var tickCount = 0; tickCount < 1000 && !hasMatchEnded; tickCount++) {
-            clock.doTick();            
+            clock.doTick();
         }
 
         expect(hasMatchEnded).toEqual(true);
+    });
+
+    it("receives a tick for each tick of the game", function () {
+
+        var tickCountForBot1 = 0;
+        var tickCountForBot2 = 0;
+
+        gosuArena.register(function (actionQueue, status) {
+            tickCountForBot1++;
+        }, { });
+
+        gosuArena.register(function (actionQueue, status) {
+            tickCountForBot2++;
+        }, { });
+
+        clock.doTick();
+
+        expect(tickCountForBot1).toBe(1);
+        expect(tickCountForBot2).toBe(1);
+        
+        clock.doTick();
+
+        expect(tickCountForBot1).toBe(2);
+        expect(tickCountForBot2).toBe(2);
     });
 });
