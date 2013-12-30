@@ -131,8 +131,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BotController.cs" />
+    <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Services\BotRepository.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Models\Controls\NavigationMenuItemModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,10 +262,10 @@
     <Content Include="Content\bootstrap-3.0.3\less\utilities.less" />
     <Content Include="Content\bootstrap-3.0.3\less\variables.less" />
     <Content Include="Content\bootstrap-3.0.3\less\wells.less" />
-    <Content Include="Content\Home\Play.less" />
-    <Content Include="Content\Home\Profile.less" />
+    <Content Include="Content\Match\Play.less" />
+    <Content Include="Content\User\Profile.less" />
     <Content Include="Content\Bot\Edit.less" />
-    <Content Include="Content\Home\SetupMatch.less" />
+    <Content Include="Content\Match\Setup.less" />
     <None Include="Scripts\lib\jquery\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.js" />
@@ -290,7 +291,9 @@
     <Content Include="Scripts\gosu\math\rectangleSpecs.js" />
     <Content Include="Scripts\gosu\math\vector.js" />
     <Content Include="Scripts\gosu\math\vectorSpecs.js" />
-    <Content Include="Scripts\Pages\Home\SetupMatch.js" />
+    <Content Include="Scripts\Pages\changetracking.js" />
+    <Content Include="Scripts\Pages\Match\Setup.js" />
+    <Content Include="Scripts\Pages\confirmation.js" />
     <Content Include="Scripts\rectangleCache.js" />
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\SpecRunner.html" />
@@ -312,11 +315,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Play.cshtml" />
+    <Content Include="Views\Match\Play.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\Local.pubxml" />
-    <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -326,10 +328,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\NavigationMenuItem.cshtml" />
-    <Content Include="Views\Home\MyProfile.cshtml" />
+    <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Bot\Create.cshtml" />
     <Content Include="Views\Bot\Edit.cshtml" />
-    <Content Include="Views\Home\SetupMatch.cshtml" />
+    <Content Include="Views\Match\Setup.cshtml" />
+    <Content Include="Views\User\ReadOnlyProfile.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

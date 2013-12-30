@@ -65,13 +65,22 @@ namespace GosuArena.Controllers
 
             Repository.Insert(bot);
 
-            return RedirectToAction("MyProfile", "Home");
+            return RedirectToAction("MyProfile", "User");
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            var bot = GetBotWithUser(id);
+
+            if (bot == null)
+                return new HttpNotFoundResult();
+            if (!IsBotOwnedByCurrentUser(bot))
+                return new HttpUnauthorizedResult();
+
+            Repository.Delete(bot);
+
+            return RedirectToAction("MyProfile", "User");
         }
     }
 }

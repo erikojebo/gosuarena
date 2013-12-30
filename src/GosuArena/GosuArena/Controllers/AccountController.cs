@@ -74,7 +74,7 @@ namespace GosuArena.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Match");
         }
 
         private bool IsValid(string username, string password)
@@ -94,7 +94,7 @@ namespace GosuArena.Controllers
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Match");
         }
 
         [Authorize]

@@ -70,10 +70,24 @@ header {
     }
 
     h1 {
+        a {
+            @headerColor: #efefef;
+
+            color: @headerColor;
+
+            &:visited {
+                color: @headerColor;
+            }
+            
+            &:hover {
+                color: #cecece;
+                text-decoration: none;
+            }
+        }
+
         height: 0;
         overflow: visible;
         text-transform: lowercase;
-        color: #efefef;
         margin-top: 35px;
         float: right;
         font-family: verdana;

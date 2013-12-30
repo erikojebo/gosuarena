@@ -2,7 +2,7 @@
 
 @section styles
 {
-    <link rel="stylesheet" href="@Url.Content("~/Content/Home/Profile.less")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/User/Profile.less")" />
 }
 
 <h2>Profile for @Model.Username</h2>
@@ -22,7 +22,7 @@
                 <a href="@Url.Action("Edit", "Bot", new { id = bot.Id })" class="edit-bot">Edit</a>
 
                 <form class="delete-bot" method="POST" action="@Url.Action("Delete", "Bot", new { id = bot.Id})">
-                    <button type="submit">Delete</button>
+                    <button type="submit" data-confirm="Do you really want to delete your bot?">Delete</button>
                 </form>
             </div>
 

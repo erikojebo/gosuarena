@@ -16,8 +16,8 @@
                     
                     <nav>
                         <ul>
-                            <li>@Html.NavigationMenuItem("SetupMatch", "Home", "Play match!")</li>
-                            <li>@Html.NavigationMenuItem("MyProfile", "Home", "Profile")</li>
+                            <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
+                            <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
                         </ul>
                     </nav>
 
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <h1>Gosu Arena</h1>
+            <h1><a href="@Url.Action("Index", "Match")">Gosu Arena</a></h1>
         </header>
         
         <section id="page-container">
@@ -45,6 +45,8 @@
         <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"></script>
         <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"></script>
         <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/changetracking.js")"></script>
         
         @RenderSection("scripts", required:false)
     </body>

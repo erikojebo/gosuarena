@@ -14,19 +14,19 @@ namespace GosuArena
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Profile",
+                name: "User profile",
                 url: "Profile/{username}",
-                defaults: new { controller = "Home", action = "Profile" });
+                defaults: new { controller = "User", action = "Profile" });
 
             routes.MapRoute(
-                name: "Play",
+                name: "Play match",
                 url: "Play/{names}",
-                defaults: new { controller = "Home", action = "Play" });
+                defaults: new { controller = "Match", action = "Play" });
             
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Match", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
