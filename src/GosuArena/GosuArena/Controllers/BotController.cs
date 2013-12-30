@@ -59,6 +59,18 @@ namespace GosuArena.Controllers
         [HttpPost]
         public ActionResult Create(Bot bot)
         {
+            var existingBot = Repository
+                .Find<Bot>()
+                .Where(x => x.Name == bot.Name)
+                .Select(x => x.Name)
+                .Execute();
+
+            if (existingBot != null)
+            {
+                ModelState.AddModelError("", "The is already a bot with the given name");
+                return View(bot);
+            }
+
             var userId = GetCurrentUserId();
 
             bot.UserId = userId;
