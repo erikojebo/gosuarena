@@ -38,11 +38,13 @@ gosuArena.factories.createActionQueue = function (collisionDetector) {
     }
 
     function turn(degrees) {
+        var increment = degrees >= 0 ? 1 : -1;
+
         enqueueAction(function (bot) {
             changePosition(bot, function(b) {
-                b.turn(degrees);
+                b.turn(increment);
             });            
-        });
+        }, degrees);
     }
 
     function forward(count) {
@@ -57,6 +59,22 @@ gosuArena.factories.createActionQueue = function (collisionDetector) {
         enqueueAction(function (bot) {
             changePosition(bot, function(b) {
                 b.moveBack();
+            });            
+        }, count);
+    }
+
+    function left(count) {
+        enqueueAction(function (bot) {
+            changePosition(bot, function(b) {
+                b.moveLeft();
+            });            
+        }, count);
+    }
+
+    function right(count) {
+        enqueueAction(function (bot) {
+            changePosition(bot, function(b) {
+                b.moveRight();
             });            
         }, count);
     }
@@ -115,13 +133,15 @@ gosuArena.factories.createActionQueue = function (collisionDetector) {
         south: south,
         west: west,
         east: east,
+        forward: forward,
+        back: back,
+        left: left,
+        right: right,
         performNext: performNext,
         clear: clear,
         isEmpty: isEmpty,
         length: length,
         turn: turn,
-        forward: forward,
-        back: back,
         fire: fire
     };
 }

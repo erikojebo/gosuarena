@@ -28,6 +28,10 @@ gosuArena.engine = (function () {
 
         bot.onShotFired(onShotFiredByBot);
 
+        if (options.onHitByBullet) {
+            bot.onHitByBullet(options.onHitByBullet);
+        }
+
         arenaState.addBot(bot);
     };
 

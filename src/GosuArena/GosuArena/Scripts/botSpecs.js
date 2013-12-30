@@ -235,25 +235,6 @@ describe("bot", function () {
         expect(wasHitByBulletEventRaised).toBe(true);
     });
 
-    it("raises event when hit by bullet", function () {
-        var bot = gosuArena.factories.createBot(tick, {
-            initialHealthPoints: 50
-        }, collisionDetector);
-        var enemyBot = gosuArena.factories.createBot(tick, { });
-
-        var bullet = gosuArena.factories.createBullet(enemyBot);
-
-        var wasHitByBulletEventRaised = false;
-
-        bot.onHitByBullet(function () {
-            wasHitByBulletEventRaised = true;
-        });
-
-        bot.hitBy(bullet);
-
-        expect(wasHitByBulletEventRaised).toBe(true);
-    });
-
     it("sends bot status with the onHitByBullet event", function () {
 
         var bot = gosuArena.factories.createBot(tick, {
@@ -265,7 +246,7 @@ describe("bot", function () {
 
         var bullet = gosuArena.factories.createBullet(enemyBot);
 
-        bot.onHitByBullet(function (status, eventArgs) {
+        bot.onHitByBullet(function (actionQueue, status, eventArgs) {
             expect(status.position.x).toEqual(1);
             expect(status.position.y).toEqual(2);
             expect(status.angle).toEqual(3);
@@ -285,7 +266,7 @@ describe("bot", function () {
 
         var actualAngle = null;
 
-        bot.onHitByBullet(function (status, eventArgs) {
+        bot.onHitByBullet(function (actionQueue, status, eventArgs) {
             actualAngle = eventArgs.angle;
         });
 
@@ -305,7 +286,7 @@ describe("bot", function () {
 
         var actualAngle = null;
 
-        bot.onHitByBullet(function (status, eventArgs) {
+        bot.onHitByBullet(function (actionQueue, status, eventArgs) {
             actualAngle = eventArgs.angle;
         });
 

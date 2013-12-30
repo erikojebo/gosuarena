@@ -33,9 +33,9 @@ gosuArena.register({
         actionQueue.clear();
 
         if (status.canMoveLeft) {
-            actionQueue.moveLeft(10);            
+            actionQueue.left(10);            
         } else {
-            actionQueue.moveRight(10);
+            actionQueue.right(10);
         }
 
         var degreesToTurn = eventArgs.angle - status.angle;

@@ -1,4 +1,4 @@
-describe("Bot", function () {
+describe("Game", function () {
     var visualizer = null;
     var clock = null;
     var botOptions = null;
@@ -26,105 +26,178 @@ describe("Bot", function () {
         gosuArena.engine.start(visualizer, clock);
     });
 
-    it("can move forward, back, east, west and north when facing west next to south wall", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                expect(status.canMoveForward).toEqual(true);
-                expect(status.canMoveBack).toEqual(true);
-                expect(status.canMoveNorth).toEqual(true);
-                expect(status.canMoveEast).toEqual(true);
-                expect(status.canMoveWest).toEqual(true);
-                expect(status.canMoveSouth).toEqual(false);
-            }, options: {
-                startPosition: {
-                    x: arenaWidth / 2,
-                    y: arenaHeight - botWidth,
-                    angle: 90
+    describe("Bot", function () {
+        it("can move forward, back, east, west and north when facing west next to south wall", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.canMoveForward).toEqual(true);
+                    expect(status.canMoveBack).toEqual(true);
+                    expect(status.canMoveNorth).toEqual(true);
+                    expect(status.canMoveEast).toEqual(true);
+                    expect(status.canMoveWest).toEqual(true);
+                    expect(status.canMoveSouth).toEqual(false);
+                }, options: {
+                    startPosition: {
+                        x: arenaWidth / 2,
+                        y: arenaHeight - botWidth,
+                        angle: 90
+                    }
                 }
-            }
+            });
+
+            clock.doTick();
         });
 
-        clock.doTick();
-    });
-
-    it("can move back, east and south when facing west in north west corner", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                expect(status.canMoveForward).toEqual(false);
-                expect(status.canMoveBack).toEqual(true);
-                expect(status.canMoveNorth).toEqual(false);
-                expect(status.canMoveEast).toEqual(true);
-                expect(status.canMoveWest).toEqual(false);
-                expect(status.canMoveSouth).toEqual(true);
-            },
-            options: {
-                startPosition: {
-                    x: 0,
-                    y: 0,
-                    angle: 90
+        it("can move back, east and south when facing west in north west corner", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.canMoveForward).toEqual(false);
+                    expect(status.canMoveBack).toEqual(true);
+                    expect(status.canMoveNorth).toEqual(false);
+                    expect(status.canMoveEast).toEqual(true);
+                    expect(status.canMoveWest).toEqual(false);
+                    expect(status.canMoveSouth).toEqual(true);
+                },
+                options: {
+                    startPosition: {
+                        x: 0,
+                        y: 0,
+                        angle: 90
+                    }
                 }
-            }
+            });
+
+            clock.doTick();
         });
 
-        clock.doTick();
-    });
-
-    it("can move forward, west and north when facing north in south east corner", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                expect(status.canMoveForward).toEqual(true);
-                expect(status.canMoveBack).toEqual(false);
-                expect(status.canMoveNorth).toEqual(true);
-                expect(status.canMoveEast).toEqual(false);
-                expect(status.canMoveWest).toEqual(true);
-                expect(status.canMoveSouth).toEqual(false);
-            },
-            options: {
-                startPosition: {
-                    x: arenaWidth - botWidth,
-                    y: arenaHeight - botHeight,
-                    angle: 180
+        it("can move forward, west and north when facing north in south east corner", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.canMoveForward).toEqual(true);
+                    expect(status.canMoveBack).toEqual(false);
+                    expect(status.canMoveNorth).toEqual(true);
+                    expect(status.canMoveEast).toEqual(false);
+                    expect(status.canMoveWest).toEqual(true);
+                    expect(status.canMoveSouth).toEqual(false);
+                },
+                options: {
+                    startPosition: {
+                        x: arenaWidth - botWidth,
+                        y: arenaHeight - botHeight,
+                        angle: 180
+                    }
                 }
-            }
+            });
+
+            clock.doTick();
         });
 
-        clock.doTick();
-    });
-
-    it("can turn both ways when in the middle of the field", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                expect(status.canTurnLeft).toEqual(true);
-                expect(status.canTurnRight).toEqual(true);
-            },
-            options: {
-                startPosition: {
-                    x: 100,
-                    y: 100,
-                    angle: 0
+        it("can turn both ways when in the middle of the field", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.canTurnLeft).toEqual(true);
+                    expect(status.canTurnRight).toEqual(true);
+                },
+                options: {
+                    startPosition: {
+                        x: 100,
+                        y: 100,
+                        angle: 0
+                    }
                 }
-            }
+            });
+
+            clock.doTick();
         });
 
-        clock.doTick();
-    });
-
-    it("can not turn at all when in a corner", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                expect(status.canTurnLeft).toEqual(false);
-                expect(status.canTurnRight).toEqual(false);
-            },
-            options: {
-                startPosition: {
-                    x: 0,
-                    y: 0,
-                    angle: 0
+        it("can not turn at all when in a corner", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.canTurnLeft).toEqual(false);
+                    expect(status.canTurnRight).toEqual(false);
+                },
+                options: {
+                    startPosition: {
+                        x: 0,
+                        y: 0,
+                        angle: 0
+                    }
                 }
-            }
+            });
+
+            clock.doTick();
         });
 
-        clock.doTick();
+        it("receives a tick for each tick of the game", function () {
+
+            var tickCountForBot1 = 0;
+            var tickCountForBot2 = 0;
+
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    tickCountForBot1++;
+                }
+            });
+
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    tickCountForBot2++;
+                }
+            });
+
+            clock.doTick();
+
+            expect(tickCountForBot1).toBe(1);
+            expect(tickCountForBot2).toBe(1);
+
+            clock.doTick();
+
+            expect(tickCountForBot1).toBe(2);
+            expect(tickCountForBot2).toBe(2);
+        });
+
+        it("gets call to specified hitByBullet callback when the bot is hit by a bullet", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                onHitByBullet: function (actionQueue, status, eventArgs) {
+
+                    expect(actionQueue.left).toBeDefinedFunction();
+                    expect(status.angle).toEqual(180);
+                    expect(status.position.x).toEqual(2);
+                    expect(status.position.y).toEqual(1);
+                    expect(eventArgs.angle).toEqual(270);
+
+                    hitByBulletCallbackCount++;
+                },
+                options: {
+                    startPosition: {
+                        x: 2,
+                        y: 1,
+                        angle: 180
+                    }
+                }
+            });
+
+            // This bot spawns aiming directly at the other bot
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    actionQueue.fire();
+                },
+                options: {
+                    startPosition: {
+                        x: botWidth + 5,
+                        y: 0,
+                        angle: 90
+                    }
+                }
+            });
+
+            var hitByBulletCallbackCount = 0;
+
+            clock.doTick(3);
+
+            expect(hitByBulletCallbackCount).toEqual(1);
+        });
     });
 
     it("raises gameEnded event when there is only one bot left", function () {
@@ -191,33 +264,5 @@ describe("Bot", function () {
         }
 
         expect(hasMatchEnded).toEqual(true);
-    });
-
-    it("receives a tick for each tick of the game", function () {
-
-        var tickCountForBot1 = 0;
-        var tickCountForBot2 = 0;
-
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                tickCountForBot1++;
-            }
-        });
-
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                tickCountForBot2++;
-            }
-        });
-
-        clock.doTick();
-
-        expect(tickCountForBot1).toBe(1);
-        expect(tickCountForBot2).toBe(1);
-
-        clock.doTick();
-
-        expect(tickCountForBot1).toBe(2);
-        expect(tickCountForBot2).toBe(2);
     });
 });

@@ -274,7 +274,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         };
         
         hitByBulletCallbacks.forEach(function (callback) {
-            callback(status, eventArgs);
+            callback(actionQueue, status, eventArgs);
         });
     }
 
