@@ -17,12 +17,14 @@ gosuArena.engine = (function () {
         matchStartedCallbacks.push(callback);
     }
 
-    gosuArena.register = function (tickCallback, userOptions) {
-        var botOptions = gosuArena.factories.createSafeBotOptions(userOptions, isTraining);
+    gosuArena.register = function (options) {
+        
+        var botOptions =
+            gosuArena.factories.createSafeBotOptions(options.options, isTraining);
 
         botOptions.actionsPerRound = actionsPerRound;
 
-        var bot = gosuArena.factories.createBot(tickCallback, botOptions, collisionDetector);
+        var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);
 
         bot.onShotFired(onShotFiredByBot);
 

@@ -1,10 +1,13 @@
-﻿gosuArena.register(function (actionQueue, status) {
+﻿gosuArena.register({
+    tick: function (actionQueue, status) {
 
-    if (status.seenBots.length > 0) {
-        actionQueue.fire();        
-    } else {
-        actionQueue.turn(1);
+        if (status.seenBots.length > 0) {
+            actionQueue.fire();
+        } else {
+            actionQueue.turn(1);
+        }
+    },
+    options: {
+        name: "turnbot"
     }
-}, {
-    name: "turnbot"
 });

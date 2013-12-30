@@ -1,15 +1,18 @@
-﻿gosuArena.register(function (actionQueue, status) {
-    if (status.angle < 45) {
-        actionQueue.turn(2);
-    } else
-    {
-        actionQueue.south();
-    }
-}, {
-    color: "navy",
-    startPosition: {
-        x: 305,
-        y: 270
+﻿gosuArena.register({
+    tick: function (actionQueue, status) {
+        if (status.angle < 45) {
+            actionQueue.turn(2);
+        } else
+        {
+            actionQueue.south();
+        }
     },
-    name: "corner collider 2"
+    options: {
+        color: "navy",
+        startPosition: {
+            x: 305,
+            y: 270
+        },
+        name: "corner collider 2"
+    }
 });

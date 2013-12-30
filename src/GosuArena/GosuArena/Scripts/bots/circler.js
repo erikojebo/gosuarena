@@ -13,20 +13,23 @@ function moveTowardsCenter(actionQueue, status) {
     }
 }
 
-gosuArena.register(function (actionQueue, status) {
+gosuArena.register({
+    tick: function (actionQueue, status) {
 
-    if (!status.canMoveForward || !status.canTurnRight) {
-        actionQueue.clear();
-        moveTowardsCenter(actionQueue, status);
-        return;
+        if (!status.canMoveForward || !status.canTurnRight) {
+            actionQueue.clear();
+            moveTowardsCenter(actionQueue, status);
+            return;
+        }
+
+        if (status.canFire) {
+            actionQueue.fire();
+        }
+
+        actionQueue.turn(1);
+        actionQueue.forward(1);
+    },
+    options: {
+        name: "circler"
     }
-
-    if (status.canFire) {
-        actionQueue.fire();
-    }
-
-    actionQueue.turn(1);
-    actionQueue.forward(1);
-}, {
-    name: "circler"
 });
