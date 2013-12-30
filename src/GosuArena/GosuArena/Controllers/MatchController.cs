@@ -10,14 +10,19 @@ namespace GosuArena.Controllers
     {
         public ActionResult Index()
         {
-            var bots = FileBotRepository.GetAll();
+            var bots = Repository.Find<Bot>()
+                .Where(x => x.IsTrainer)
+                .ExecuteList();
 
-            return PlayMatch(bots.Select(x => x.Id).ToList());
+            return PlayMatch(bots);
         }
 
         public ActionResult Setup()
         {
-            var bots = BotRepository.GetAll();
+            var bots = Repository.Find<Bot>()
+                .Join(x => x.User)
+                .OrderBy(x => x.Name)
+                .ExecuteList();
 
             return View("Setup", bots);
         }
@@ -26,18 +31,15 @@ namespace GosuArena.Controllers
         {
             var botNames = names.Split(',', ';');
 
-            var botIds = Repository.Find<Bot>()
-                .Select(x => x.Id)
+            var bots = Repository.Find<Bot>()
                 .Where(x => botNames.Contains(x.Name))
-                .ExecuteScalarList<int>();
+                .ExecuteList();
 
-            return PlayMatch(botIds);
+            return PlayMatch(bots);
         }
 
-        private ActionResult PlayMatch(IList<int> botIds)
+        private ActionResult PlayMatch(IList<Bot> bots)
         {
-            var bots = BotRepository.GetAll().Where(x => botIds.Contains(x.Id)).ToList();
-
             return View("Play", bots);
         }
     }

@@ -19,7 +19,10 @@
             </a>
 
             <div class="actions">
-                <a href="@Url.Action("Edit", "Bot", new { id = bot.Id })" class="edit-bot">Edit</a>
+                @if (bot.CanBeEdited)
+                {
+                    <a href="@Url.Action("Edit", "Bot", new { id = bot.Id })" class="edit-bot">Edit</a>    
+                }
 
                 <form class="delete-bot" method="POST" action="@Url.Action("Delete", "Bot", new { id = bot.Id})">
                     <button type="submit" data-confirm="Do you really want to delete your bot?">Delete</button>

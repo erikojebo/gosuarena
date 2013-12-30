@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using GosuArena.Controllers.ActionResults;
 using GosuArena.Entities;
+using GosuArena.Services;
 
 namespace GosuArena.Controllers
 {
@@ -25,11 +24,13 @@ namespace GosuArena.Controllers
         public ActionResult Edit(Bot bot)
         {
             var existingBot = GetBotWithUser(bot.Id);
-        
+
             if (existingBot == null)
                 return new HttpNotFoundResult();
             if (!IsBotOwnedByCurrentUser(existingBot))
                 return new HttpUnauthorizedResult();
+            if (existingBot.IsTrainer)
+                return new HttpForbiddenResult("Training bots cannot be edited via the web UI");
 
             existingBot.Script = bot.Script;
 
@@ -93,6 +94,48 @@ namespace GosuArena.Controllers
             Repository.Delete(bot);
 
             return RedirectToAction("MyProfile", "User");
+        }
+
+        [Authorize(Users = "erikojebo")]
+        public ActionResult CreateFromFiles()
+        {
+            using (var transaction = Repository.BeginTransaction())
+            {
+                var fileBotRepository = new FileBotRepository(Server.MapPath("~/Scripts/bots/"));
+                var fileBots = fileBotRepository.GetAll();
+                var fileBotNames = fileBots.Select(x => x.Name).ToArray();
+
+                var existingFileBots = Repository
+                    .Find<Bot>()
+                    .Where(x => fileBotNames.Contains(x.Name))
+                    .ExecuteList();
+
+                var gosuArenaTrainer = Repository
+                    .Find<User>()
+                    .Where(x => x.Username == "GosuArenaTrainer")
+                    .Execute();
+
+                foreach (var fileBot in fileBots)
+                {
+                    var existingBot = existingFileBots.SingleOrDefault(x => x.Name == fileBot.Name);
+
+                    if (existingBot != null)
+                    {
+                        existingBot.Script = fileBot.Script;
+                        Repository.Update(existingBot);
+                    }
+                    else
+                    {
+                        fileBot.IsTrainer = true;
+                        fileBot.UserId = gosuArenaTrainer.Id;
+                        Repository.Insert(fileBot);
+                    }
+                }
+
+                transaction.Commit();
+            }
+
+            return RedirectToAction("Profile", "User", new { username = "GosuArenaTrainer" });
         }
     }
 }

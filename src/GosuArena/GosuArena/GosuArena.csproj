@@ -129,10 +129,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActionResults\HttpForbiddenResult.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BotController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
-    <Compile Include="Services\BotRepository.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Models\Controls\NavigationMenuItemModel.cs" />
@@ -185,9 +185,10 @@
     <Content Include="Content\bootstrap-3.0.3\js\transition.js" />
     <Content Include="Content\GosuArena.less" />
     <Content Include="Global.asax" />
-    <Content Include="Infrastructure\ElmahPermissions.sql" />
-    <Content Include="Infrastructure\Elmah.sql" />
-    <Content Include="Infrastructure\CreateDatabase.sql" />
+    <Content Include="Infrastructure\SQL\DefaultData.sql" />
+    <Content Include="Infrastructure\SQL\ElmahPermissions.sql" />
+    <Content Include="Infrastructure\SQL\Elmah.sql" />
+    <Content Include="Infrastructure\SQL\CreateDatabase.sql" />
     <Content Include="Scripts\actionQueue.js" />
     <Content Include="Scripts\arenaState.js" />
     <Content Include="Scripts\bot.js" />
@@ -214,6 +215,7 @@
     <Content Include="Scripts\gameSpecs.js" />
     <Content Include="Scripts\gameVisualizer.js" />
     <Content Include="Scripts\gosu\eventAggregator.js" />
+    <Content Include="Scripts\gosu\jasmineMatchers.js" />
     <Content Include="Scripts\legend.js" />
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine-html.js" />
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine.css" />
@@ -310,7 +312,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\ActionResults\" />
     <Folder Include="Models\Entities\" />
   </ItemGroup>
   <ItemGroup>
