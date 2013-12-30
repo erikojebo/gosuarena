@@ -183,4 +183,24 @@ describe("bot", function () {
 
         expect(bot.weapon.botRelativeMuzzlePosition()).toEqualPoint({ x: 0, y: 2.8 });
     });
+
+    it("raises event when killed", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            initialHealthPoints: 50
+        });
+        var enemyBot = gosuArena.factories.createBot(tick, { });
+
+        var wasKilledEventRaised = false;
+
+        bot.onKilled(function () {
+            wasKilledEventRaised = true;
+        });
+
+        for (var i = 0; i < 100 && bot.isAlive(); i++) {
+            bot.hitBy(gosuArena.factories.createBullet(enemyBot));
+        }
+
+        expect(wasKilledEventRaised).toEqual(true);
+    });
+
 });
