@@ -198,6 +198,24 @@ describe("Game", function () {
 
             expect(hitByBulletCallbackCount).toEqual(1);
         });
+
+        it("includes arena size in bot status of the tick event", function () {
+
+            var wasTickCalled = false;
+
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    expect(status.arena.width).toEqual(arenaWidth);
+                    expect(status.arena.height).toEqual(arenaHeight);
+
+                    wasTickCalled = true;
+                }
+            });
+
+            clock.doTick();
+
+            expect(wasTickCalled).toBe(true);
+        });
     });
 
     it("raises gameEnded event when there is only one bot left", function () {

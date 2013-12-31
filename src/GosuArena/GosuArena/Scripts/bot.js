@@ -169,9 +169,13 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
                 width: bot.width,
                 height: bot.height,
                 isAtSouthWall: gosuArena.arenaHeight - bot.bottom() < 1,
-                isAtTop: bot.top() < 1,
+                isAtNorthWall: bot.top() < 1,
                 isAtWestWall: bot.left() < 1,
                 isAtEastWall: gosuArena.arenaWidth - bot.right() < 1
+            },
+            arena: {
+                width: gosuArena.arenaWidth,
+                height: gosuArena.arenaHeight
             },
             angle: bot.angle,
             roundsUntilWeaponIsReady: bot.weapon.cooldownTimeLeft,
