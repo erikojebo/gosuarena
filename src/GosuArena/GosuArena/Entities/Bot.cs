@@ -21,6 +21,7 @@ namespace GosuArena.Entities
         public string Script { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsTrainer { get; set; }
+        public bool IsDemoBot { get; set; }
 
         public string AuthorUsername
         {
@@ -45,5 +46,6 @@ namespace GosuArena.Entities
                 return !IsTrainer;
             }
         }
+
     }
 }

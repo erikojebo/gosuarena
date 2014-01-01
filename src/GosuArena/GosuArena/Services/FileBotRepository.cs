@@ -33,10 +33,21 @@ namespace GosuArena.Services
 
         private Bot LoadBot(string path)
         {
-            return new Bot()
+            var name = Path.GetFileNameWithoutExtension(path);
+            var isDemoBot = false;
+
+            if (name.StartsWith("demo."))
             {
-                Name = Path.GetFileNameWithoutExtension(path),
-                Script = File.ReadAllText(path)
+                name = name.Substring("demo.".Length);
+                isDemoBot = true;
+            }
+
+            return new Bot
+            {
+                Name = name,
+                Script = File.ReadAllText(path),
+                IsDemoBot = isDemoBot,
+                IsTrainer = true
             };
         }
     }

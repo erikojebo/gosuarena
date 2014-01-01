@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[Bots](
 	[Script] [nvarchar](MAX) NULL,
 	[CreatedDate] [datetime] NOT NULL,
 	[IsTrainer] [bit] NOT NULL,
+	[IsDemoBot] [bit] NOT NULL,
 	CONSTRAINT UQ_Bots_Name UNIQUE(Name))
 GO
 

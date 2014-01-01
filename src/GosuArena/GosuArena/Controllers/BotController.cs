@@ -14,7 +14,7 @@ namespace GosuArena.Controllers
             var bot = GetBotWithUser(id);
 
             ViewBag.TrainingBots = Repository.Find<Bot>()
-                .Where(x => x.IsTrainer || x.UserId == bot.UserId)
+                .Where(x => !x.IsDemoBot && (x.IsTrainer || x.UserId == bot.UserId))
                 .ExecuteList();
 
             if (bot == null)
@@ -130,11 +130,11 @@ namespace GosuArena.Controllers
                     if (existingBot != null)
                     {
                         existingBot.Script = fileBot.Script;
+                        existingBot.IsDemoBot = fileBot.IsDemoBot;
                         Repository.Update(existingBot);
                     }
                     else
                     {
-                        fileBot.IsTrainer = true;
                         fileBot.UserId = gosuArenaTrainer.Id;
                         Repository.Insert(fileBot);
                     }

@@ -11,7 +11,7 @@ namespace GosuArena.Controllers
         public ActionResult Index()
         {
             var bots = Repository.Find<Bot>()
-                .Where(x => x.IsTrainer)
+                .Where(x => x.IsTrainer || x.IsDemoBot)
                 .ExecuteList();
 
             return PlayMatch(bots);
@@ -20,6 +20,7 @@ namespace GosuArena.Controllers
         public ActionResult Setup()
         {
             var bots = Repository.Find<Bot>()
+                .Where(x => !x.IsDemoBot)
                 .Join(x => x.User)
                 .OrderBy(x => x.Name)
                 .ExecuteList();
