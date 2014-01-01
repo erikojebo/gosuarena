@@ -39,12 +39,13 @@ gosuArena.factories.createActionQueue = function (collisionDetector) {
 
     function turn(degrees) {
         var increment = degrees >= 0 ? 1 : -1;
-
+        var iterationCount = Math.abs(degrees);
+            
         enqueueAction(function (bot) {
             changePosition(bot, function(b) {
                 b.turn(increment);
             });            
-        }, degrees);
+        }, iterationCount);
     }
 
     function forward(count) {
