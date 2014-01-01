@@ -7,6 +7,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     var killedCallbacks = [];
     var hitByBulletCallbacks = [];
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
+    var userActionQueue = gosuArena.factories.createUserActionQueue(actionQueue);
 
     var bot = {
         x: options.x,
@@ -204,7 +205,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
         var status = createStatus();
 
-        tickCallback(actionQueue, status);
+        tickCallback(userActionQueue, status);
 
         for (var i = 0; i < options.actionsPerRound; i++) {
             actionQueue.performNext(bot);
@@ -278,7 +279,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         };
         
         hitByBulletCallbacks.forEach(function (callback) {
-            callback(actionQueue, status, eventArgs);
+            callback(userActionQueue, status, eventArgs);
         });
     }
 

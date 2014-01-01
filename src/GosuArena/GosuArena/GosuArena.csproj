@@ -355,6 +355,7 @@
     <Content Include="Scripts\rectangleCache.js" />
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\SpecRunner.html" />
+    <Content Include="Scripts\userActionQueue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

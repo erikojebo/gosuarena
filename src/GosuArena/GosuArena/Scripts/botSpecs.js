@@ -1,7 +1,8 @@
 describe("bot", function () {
     var tick = function () {};
     var collisionDetector = null;
-
+    var actionQueue = null;
+    
     beforeEach(function () {
         collisionDetector = {
             seenBots: function () {
@@ -11,6 +12,8 @@ describe("bot", function () {
                 return true;
             }
         };
+
+        actionQueue = gosuArena.factories.createActionQueue(actionQueue);
     });
 
 
@@ -293,5 +296,46 @@ describe("bot", function () {
         bot.hitBy(bullet);
 
         expect(actualAngle).toEqual(315);
+    });
+
+    it("only exposes performNext on the action queue of the bot, not on the queue sent to the tick callback", function () {
+
+        var wasTickCalled = false;
+        
+        var bot = gosuArena.factories.createBot(function (actionQueue, status) {
+        
+            expect(actionQueue.performNext).toBe(undefined);
+
+            wasTickCalled = true;
+    
+        }, { }, collisionDetector);
+
+        bot.tick();
+
+        expect(wasTickCalled).toBe(true);
+        expect(actionQueue.performNext).toBeDefinedFunction();
+    });
+
+    it("only exposes performNext on the action queue of the bot, not on the queue sent to the onHitByBullet callback", function () {
+        var bot = gosuArena.factories.createBot(tick, { }, collisionDetector);
+        var enemyBot = gosuArena.factories.createBot(tick, {
+            angle: 135
+        });
+
+        var bullet = gosuArena.factories.createBullet(enemyBot);
+
+        var wasCallbackCalled = false;
+
+        bot.onHitByBullet(function (actionQueue, status, eventArgs) {
+            
+            expect(actionQueue.performNext).toBe(undefined);
+
+            wasCallbackCalled = true;
+        });
+
+        bot.hitBy(bullet);
+
+        expect(wasCallbackCalled).toBe(true);
+        expect(actionQueue.performNext).toBeDefinedFunction();
     });
 });
