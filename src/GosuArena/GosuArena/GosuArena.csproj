@@ -187,9 +187,16 @@
     <Content Include="Content\bootstrap-3.0.3\js\tests\vendor\qunit.js" />
     <Content Include="Content\bootstrap-3.0.3\js\tooltip.js" />
     <Content Include="Content\bootstrap-3.0.3\js\transition.js" />
+    <Content Include="Content\codemirror-3.20\addon\lint\coffeescript-lint.js" />
+    <Content Include="Content\codemirror-3.20\addon\lint\css-lint.js" />
+    <Content Include="Content\codemirror-3.20\addon\lint\javascript-lint.js" />
+    <Content Include="Content\codemirror-3.20\addon\lint\json-lint.js" />
+    <Content Include="Content\codemirror-3.20\addon\lint\lint.css" />
+    <Content Include="Content\codemirror-3.20\addon\lint\lint.js" />
     <Content Include="Content\codemirror-3.20\lib\codemirror-compressed.js" />
     <Content Include="Content\codemirror-3.20\lib\codemirror.css" />
     <Content Include="Content\codemirror-3.20\lib\codemirror.js" />
+    <Content Include="Content\codemirror-3.20\lib\jshint.js" />
     <Content Include="Content\codemirror-3.20\mode\javascript\index.html" />
     <Content Include="Content\codemirror-3.20\mode\javascript\javascript.js" />
     <Content Include="Content\codemirror-3.20\mode\javascript\test.js" />
