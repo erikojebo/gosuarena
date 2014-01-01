@@ -17,6 +17,7 @@ namespace GosuArena.Controllers
             return PlayMatch(bots);
         }
 
+        [Authorize]
         public ActionResult Setup()
         {
             var bots = Repository.Find<Bot>()
@@ -28,6 +29,7 @@ namespace GosuArena.Controllers
             return View("Setup", bots);
         }
 
+        [Authorize]
         public ActionResult Play(string names)
         {
             var botNames = names.Split(',', ';');

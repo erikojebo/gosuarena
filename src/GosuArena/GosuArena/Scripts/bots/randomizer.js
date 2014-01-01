@@ -19,8 +19,5 @@
         } else {
             actionQueue.turn(Math.random() * 90);
         }
-    },
-    options: {
-        name: "bot1"
     }
 });

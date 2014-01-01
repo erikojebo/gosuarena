@@ -20,7 +20,6 @@
         startPosition: {
             x: gosuArena.arenaWidth / 3,
             y: gosuArena.arenaHeight / 4
-        },
-        name: "bot3"
+        }
     }
 });

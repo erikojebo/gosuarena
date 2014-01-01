@@ -7,7 +7,6 @@
         startPosition: {
             x: gosuArena.arenaWidth / 5,
             y: gosuArena.arenaHeight - 100
-        },
-        name: "southbot"
+        }
     }
 });

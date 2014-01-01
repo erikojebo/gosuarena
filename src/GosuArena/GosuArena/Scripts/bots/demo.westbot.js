@@ -12,7 +12,6 @@
         startPosition: {
             x: 90,
             y: 110
-        },
-        name: "westbot"
+        }
     }
 });

@@ -11,7 +11,6 @@
         startPosition: {
             x: 300,
             y: 300
-        },
-        name: "corner collider"
+        }
     }
 });

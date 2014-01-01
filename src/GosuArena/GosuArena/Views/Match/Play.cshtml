@@ -55,10 +55,10 @@
 @foreach (var bot in Model)
 {
     <script type="text/javascript">
-                // @bot.Name.ToUpper()
-                // A few lines of code have been added to the bot definition, to make it
-                // play nice with the framework. The code written by the user can be seen a few lines below
-        gosuArena.ready(function() {
+        // @bot.Name.ToUpper()
+        // A few lines of code have been added to the bot definition, to make it
+        // play nice with the framework. The code written by the user can be seen a few lines below
+        gosuArena.initiateBotRegistration("@bot.Name", function() {
             // Redefine globals
             var window = {};
             var document = {};

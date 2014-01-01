@@ -47,7 +47,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
         y: y,
         angle: angle,
         color: userOptions.color || "#cecece",
-        name: userOptions.name,
+        name: null, // Set through the registration process
         weaponCooldownTime: weaponCooldownTime,
         weaponWidth: weaponWidth,
         weaponHeight: weaponLength,

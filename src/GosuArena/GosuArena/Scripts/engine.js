@@ -9,8 +9,25 @@ gosuArena.engine = (function () {
     var visualizer = null;
     var collisionDetector = gosuArena.factories.createCollisionDetector(arenaState);
 
+    var currentRegisteringBot = null;
+
     gosuArena.ready = function(callback) {
         readyCallbacks.push(callback);
+    };
+
+    gosuArena.initiateBotRegistration = function (name, callback) {
+
+        // This makes sure that we keep track of the name of the bot being
+        // registered during the execution of the bot script, so that
+        // we can automatically initialize the bot with the name
+        // given when creating the bot.
+        gosuArena.ready(function () {
+            currentRegisteringBot = name;
+
+            callback();
+            
+            currentRegisteringBot = null;            
+        });
     };
 
     gosuArena.matchStarted = function (callback) {
@@ -21,6 +38,8 @@ gosuArena.engine = (function () {
         
         var botOptions =
             gosuArena.factories.createSafeBotOptions(options.options, isTraining);
+
+        botOptions.name = currentRegisteringBot;
 
         botOptions.actionsPerRound = actionsPerRound;
 

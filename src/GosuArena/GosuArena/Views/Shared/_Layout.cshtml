@@ -8,33 +8,27 @@
         <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
         @RenderSection("styles", required: false)
 
+        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"> </script>
     </head>
     <body>
-
         <div class="container">
             <header>
                 <h1><a href="@Url.Action("Index", "Match")">Gosu Bot Arena</a></h1>
             </header>
         
-            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"> </script>
-
             <section id="page-container">
                 @RenderBody()
             </section>
-
-            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"> </script>
-            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"> </script>
-            <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"> </script>
-            <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/changetracking.js")"> </script>
-        
-            @RenderSection("scripts", required: false)
         </div>
         <div id="menu-bar-container">
             <div id="menu-bar">
                 <nav>
                     <ul>
-                        <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
-                        <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
+                            <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
+                        }
                         <li>@Html.NavigationMenuItem("Index", "Docs", "Documentation")</li>
                     </ul>
                 </nav>
@@ -53,6 +47,12 @@
                 </menu>
             </div>
         </div>
+        
+        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/changetracking.js")"> </script>
+    
+        @RenderSection("scripts", required: false)
     </body>
-
 </html>

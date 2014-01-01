@@ -25,7 +25,6 @@ gosuArena.register({
         startPosition: {
             x: gosuArena.arenaWidth / 3,
             y: gosuArena.arenaHeight / 3
-        },
-        name: "bot2"
+        }
     }
 });

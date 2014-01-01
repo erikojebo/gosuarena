@@ -12,7 +12,6 @@
         startPosition: {
             x: 305,
             y: 270
-        },
-        name: "corner collider 2"
+        }
     }
 });

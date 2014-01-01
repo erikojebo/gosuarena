@@ -6,8 +6,5 @@
         } else {
             actionQueue.turn(1);
         }
-    },
-    options: {
-        name: "turnbot"
     }
 });
