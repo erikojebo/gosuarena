@@ -6,6 +6,12 @@
 
 @section styles {
     <link rel="stylesheet" href="@Url.Content("~/Content/Bot/Edit.less")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/codemirror-3.20/lib/codemirror.css")" />
+}
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Content/codemirror-3.20/lib/codemirror-compressed.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Bot/Edit.js")"></script>
 }
 
 @Html.ValidationSummary(true, "The bot could not be created")
@@ -19,7 +25,7 @@
         <input type="hidden" name="Id" value="@Model.Id" />
 
         <label for="Script">JavaScript for the bot</label>
-        <textarea name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
+        <textarea id="editor" name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
 
         <button type="submit" class="main-submit clear-dirty-flags">Save</button>
     </fieldset>

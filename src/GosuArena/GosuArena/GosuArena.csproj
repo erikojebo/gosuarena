@@ -187,6 +187,13 @@
     <Content Include="Content\bootstrap-3.0.3\js\tests\vendor\qunit.js" />
     <Content Include="Content\bootstrap-3.0.3\js\tooltip.js" />
     <Content Include="Content\bootstrap-3.0.3\js\transition.js" />
+    <Content Include="Content\codemirror-3.20\lib\codemirror-compressed.js" />
+    <Content Include="Content\codemirror-3.20\lib\codemirror.css" />
+    <Content Include="Content\codemirror-3.20\lib\codemirror.js" />
+    <Content Include="Content\codemirror-3.20\mode\javascript\index.html" />
+    <Content Include="Content\codemirror-3.20\mode\javascript\javascript.js" />
+    <Content Include="Content\codemirror-3.20\mode\javascript\test.js" />
+    <Content Include="Content\codemirror-3.20\mode\javascript\typescript.html" />
     <Content Include="Content\font-awesome-4.0.3\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.0.3\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome-4.0.3\fonts\fontawesome-webfont.svg" />
@@ -351,6 +358,7 @@
     <Content Include="Scripts\gosu\math\rectangleSpecs.js" />
     <Content Include="Scripts\gosu\math\vector.js" />
     <Content Include="Scripts\gosu\math\vectorSpecs.js" />
+    <Content Include="Scripts\Pages\Bot\Edit.js" />
     <Content Include="Scripts\Pages\changetracking.js" />
     <Content Include="Scripts\Pages\Match\Setup.js" />
     <Content Include="Scripts\Pages\confirmation.js" />

@@ -44,6 +44,11 @@ form#script-editor-form {
     right: 0;
     bottom: 0;
     pointer-events: all;
+    margin: 0;
+
+    div {
+        margin: 0;
+    }
 
     fieldset {
         position: absolute;
@@ -52,12 +57,24 @@ form#script-editor-form {
         right: 0;
         bottom: 0;
 
-        textarea {
+        textarea, .CodeMirror {
+            height: auto;
+            font-size: 15px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #cecece;
+            padding: 0 10px;
+                        
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 70px;
+        }
+
+        .CodeMirror-scroll {
+            // Fixes double scroll bar issue in CodeMirror
+            overflow-y: hidden;
         }
 
         button {
