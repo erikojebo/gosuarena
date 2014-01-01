@@ -6,6 +6,7 @@
         gutters: ["CodeMirror-lint-markers"],
         lint: true,
         matchBrackets: true,
-        highlightSelectionMatches: {showToken: /\w/}
+        highlightSelectionMatches: { showToken: /\w/ },
+        styleActiveLine: true
     });
 });
