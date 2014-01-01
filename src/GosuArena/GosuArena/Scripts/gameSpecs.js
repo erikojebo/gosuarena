@@ -216,6 +216,74 @@ describe("Game", function () {
 
             expect(wasTickCalled).toBe(true);
         });
+
+        it("passes statuses of seen bots to tick callback rather than the bots themselves", function () {
+
+            var bot1Position = { x: 1, y: 2 };
+            var bot2Position = { x: botWidth + 10, y: 0 };
+            
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    startPosition: {
+                        x: bot1Position.x,
+                        y: bot1Position.y,
+                        angle: 0
+                    }
+                }
+            });
+
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    startPosition: {
+                        x: bot2Position.x,
+                        y: bot2Position.y,
+                        angle: 0
+                    }
+                }
+            });
+
+            var wasTickCalled = false;
+
+            // This bot spawns aiming directly at the two other bots, which are
+            // in a straight westward line.
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+
+                    expect(status.seenBots.length).toEqual(2);
+
+                    // Make sure that the object passed as a seen bot
+                    // doesn't have actual move actions defined
+                    expect(status.seenBots[0].moveForward).toBe(undefined);
+                    
+                    // Make sure there are seen bots matching the positions
+                    // of the actual bots
+                    expect(status.seenBots.filter(function (b) {
+                        return b.position.x == bot1Position.x &&
+                            b.position.y == bot1Position.y;
+                    }).length).toEqual(1);
+
+                    expect(status.seenBots.filter(function (b) {
+                        return b.position.x == bot2Position.x &&
+                            b.position.y == bot2Position.y;
+                    }).length).toEqual(1);
+
+                    wasTickCalled = true;
+                },
+                options: {
+                    startPosition: {
+                        x: botWidth * 2 + 20,
+                        y: 0,
+                        angle: 90
+                    }
+                }
+            });
+
+            clock.doTick();
+            
+            expect(wasTickCalled).toBe(true);
+        });
     });
 
     it("raises gameEnded event when there is only one bot left", function () {
@@ -256,7 +324,7 @@ describe("Game", function () {
 
             return options;
         }
-        
+
         // This bot spawns aiming directly at the two other bots, which are
         // in a straight westward line.
         gosuArena.register({

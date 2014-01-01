@@ -159,9 +159,11 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         bot.y += vector.y;
     }
 
-    function createStatus() {
+    bot.createStatus = function () {
 
-        var seenBots = collisionDetector.seenBots(bot);
+        var seenBots = collisionDetector.seenBots(bot).map(function (bot) {
+            return bot.createStatus();
+        });
 
         return {
             position: {
@@ -203,7 +205,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             bot.weapon.cooldownTimeLeft--;
         }
 
-        var status = createStatus();
+        var status = bot.createStatus();
 
         tickCallback(userActionQueue, status);
 
@@ -273,7 +275,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     function raiseHitByBulletEvent(bullet) {
 
-        var status = createStatus();
+        var status = bot.createStatus();
         var eventArgs = {
             angle: gosu.math.normalizeAngleInDegrees(bullet.angle - 180)
         };
