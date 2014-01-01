@@ -4,6 +4,8 @@
         lineNumbers: true,
         mode: "javascript",
         gutters: ["CodeMirror-lint-markers"],
-        lint: true
+        lint: true,
+        matchBrackets: true,
+        highlightSelectionMatches: {showToken: /\w/}
     });
 });
