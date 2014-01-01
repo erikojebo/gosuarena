@@ -7,18 +7,18 @@
 @Html.ValidationSummary(true, "The bot could not be created")
 
 <h1>@Model.Name</h1>
-    
-<form method="POST" action="@Url.Action("Edit")" role="form" class="change-tracked">
+
+<form id="script-editor-form" method="POST" action="@Url.Action("Edit")" role="form" class="change-tracked col-md-9">
     <fieldset>
         <legend>Edit bot</legend>
-            
+
         <input type="hidden" name="Id" value="@Model.Id" />
 
-        <div>
-            <label for="Script">JavaScript for the bot</label>
-            <textarea name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
-        </div>
+        <label for="Script">JavaScript for the bot</label>
+        <textarea name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
 
         <button type="submit" class="main-submit clear-dirty-flags">Save</button>
     </fieldset>
 </form>
+
+<aside id="match-setup" style="background-color: blue" class="col-md-3"></aside>

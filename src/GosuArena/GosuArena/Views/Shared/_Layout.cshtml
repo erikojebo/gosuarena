@@ -1,55 +1,57 @@
 ﻿@using GosuArena.Extensions
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
 
-    <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
-    @RenderSection("styles", required:false)
+        <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
+        @RenderSection("styles", required: false)
 
-</head>
-    <body class="container">
-        <header>
-            <div id="menu-bar-container">
-                <div id="menu-bar">
-                    
-                    <nav>
-                        <ul>
-                            <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
-                            <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
-                            <li>@Html.NavigationMenuItem("Index", "Docs", "Documentation")</li>
-                        </ul>
-                    </nav>
+    </head>
+    <body>
 
-                    <menu id="account">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <span class="username">Logged in as @User.Identity.Name</span>
-                            @Html.NavigationMenuItem("LogOff", "Account", "Log out")
-                        }
-                        else
-                        {
-                            @Html.NavigationMenuItem("Login", "Account", "Login")
-                            @Html.NavigationMenuItem("Register", "Account", "Sign up")
-                        }
-                    </menu>
-                </div>
+        <div class="container">
+            <header>
+                <h1><a href="@Url.Action("Index", "Match")">Gosu Arena</a></h1>
+            </header>
+        
+            <section id="page-container">
+                @RenderBody()
+            </section>
+
+            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"> </script>
+            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"> </script>
+            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"> </script>
+            <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"> </script>
+            <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/changetracking.js")"> </script>
+        
+            @RenderSection("scripts", required: false)
+        </div>
+        <div id="menu-bar-container">
+            <div id="menu-bar">
+                <nav>
+                    <ul>
+                        <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
+                        <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
+                        <li>@Html.NavigationMenuItem("Index", "Docs", "Documentation")</li>
+                    </ul>
+                </nav>
+
+                <menu id="account">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <span class="username">Logged in as @User.Identity.Name</span>
+                        @Html.NavigationMenuItem("LogOff", "Account", "Log out")
+                    }
+                    else
+                    {
+                        @Html.NavigationMenuItem("Login", "Account", "Login")
+                        @Html.NavigationMenuItem("Register", "Account", "Sign up")
+                    }
+                </menu>
             </div>
-
-            <h1><a href="@Url.Action("Index", "Match")">Gosu Arena</a></h1>
-        </header>
-        
-        <section id="page-container">
-            @RenderBody()
-        </section>
-
-        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/changetracking.js")"></script>
-        
-        @RenderSection("scripts", required:false)
+        </div>
     </body>
+
 </html>
