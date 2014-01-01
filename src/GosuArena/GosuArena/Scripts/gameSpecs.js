@@ -217,6 +217,36 @@ describe("Game", function () {
             expect(wasTickCalled).toBe(true);
         });
 
+        it("can turn a negative amount of degrees", function () {
+
+            var tickCount = 0;
+            
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    actionQueue.turn(-1);
+
+                    if (tickCount == 1) {
+                        expect(status.angle).toEqual(89);
+                    }
+                    
+                    tickCount++;
+                },
+                options: {
+                    startPosition: {
+                        x: 100,
+                        y: 100,
+                        angle: 90
+                    }
+                }
+            });
+
+            clock.doTick();
+            clock.doTick();            
+
+            expect(tickCount).toEqual(2);
+        });
+
+
         it("passes statuses of seen bots to tick callback rather than the bots themselves", function () {
 
             var bot1Position = { x: 1, y: 2 };
