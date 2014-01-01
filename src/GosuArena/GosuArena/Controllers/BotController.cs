@@ -78,12 +78,14 @@ namespace GosuArena.Controllers
             }
 
             var userId = GetCurrentUserId();
+            var defaultScript = System.IO.File.ReadAllText(Server.MapPath("~/Scripts/bots/bootstrapping/defaultBotScript.js"));
 
             bot.UserId = userId;
+            bot.Script = defaultScript;
 
             Repository.Insert(bot);
 
-            return RedirectToAction("MyProfile", "User");
+            return RedirectToAction("Edit", "Bot", new { id = bot.Id });
         }
 
         [HttpPost]

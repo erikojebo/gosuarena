@@ -246,6 +246,7 @@
     <Content Include="Scripts\bot.js" />
     <Content Include="Scripts\botOptions.js" />
     <Content Include="Scripts\botSpecs.js" />
+    <Content Include="Scripts\bots\bootstrapping\defaultBotScript.js" />
     <Content Include="Scripts\bots\randomizer.js" />
     <Content Include="Scripts\bots\demo.bot2.js" />
     <Content Include="Scripts\bots\demo.bot3.js" />
