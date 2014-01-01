@@ -159,11 +159,19 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         bot.y += vector.y;
     }
 
-    bot.createStatus = function () {
+    bot.createStatus = function (simplified) {
 
-        var seenBots = collisionDetector.seenBots(bot).map(function (bot) {
-            return bot.createStatus();
-        });
+        var seenBots = null;
+
+        // Since seenBots calls createStatus for the other bots
+        // this is an endless loop waiting to happen if two bots see
+        // each other at the same time. 
+        if (!simplified) {
+            seenBots = collisionDetector.seenBots(bot).map(function (bot) {
+                // Use simplified status to avoid endless loop
+                return bot.createStatus(true);
+            });
+        }
 
         return {
             position: {
@@ -279,7 +287,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         var eventArgs = {
             angle: gosu.math.normalizeAngleInDegrees(bullet.angle - 180)
         };
-        
+
         hitByBulletCallbacks.forEach(function (callback) {
             callback(userActionQueue, status, eventArgs);
         });
