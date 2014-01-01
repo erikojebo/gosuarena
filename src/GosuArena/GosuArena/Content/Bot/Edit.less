@@ -43,6 +43,7 @@ form#script-editor-form {
     left: 0;
     right: 0;
     bottom: 0;
+    pointer-events: all;
 
     fieldset {
         position: absolute;
@@ -73,4 +74,31 @@ form#script-editor-form {
     right: 0;
     top: @content-top-margin;
     bottom: 0;
+    pointer-events: all;
+
+    h2 {
+        margin-top: 0;
+        font-size: 25px;
+    }
+
+    ul#bots {
+        margin: 5px 0;
+
+        li.bot {
+            padding: 6px 12px;
+            margin: 4px 0px;
+        }
+    }
+
+    .name {
+        font-size: 15px;
+    }
+
+    form {
+        margin: 0;
+
+        button {
+            width: 100%;
+        }
+    }
 }

@@ -49,8 +49,9 @@
     <Reference Include="Elmah.Mvc">
       <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Gosu.Commons">
-      <HintPath>..\packages\Gosu.Commons.1.1.4\lib\net40\Gosu.Commons.dll</HintPath>
+    <Reference Include="Gosu.Commons, Version=1.0.0.26109, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Gosu.Commons.1.1.6\lib\net40\Gosu.Commons.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -137,6 +138,7 @@
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Models\Controls\MatchSetupModel.cs" />
     <Compile Include="Models\Controls\NavigationMenuItemModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -393,6 +395,7 @@
     <Content Include="Views\User\ReadOnlyProfile.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Docs\Index.cshtml" />
+    <Content Include="Views\Shared\MatchSetup.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

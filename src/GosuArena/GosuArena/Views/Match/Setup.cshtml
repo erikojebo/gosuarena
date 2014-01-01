@@ -1,41 +1,13 @@
-﻿@model IList<GosuArena.Entities.Bot>
+﻿@using GosuArena.Extensions
+@using GosuArena.Models.Controls
+@model IList<GosuArena.Entities.Bot>
 
 @{
     ViewBag.Title = "Play match!";
 }
 
-@section styles
+@Html.MatchSetup(new MatchSetupModel
 {
-    <link rel="stylesheet" href="@Url.Content("~/Content/Match/Setup.less")" />
-}
-
-@section scripts {
-    <script type="text/javascript">
-        var gosuArena = gosuArena || {};
-        gosuArena.pageData = gosuArena.pageData || {};
-        gosuArena.pageData.playUrl = '@Url.Action("Play")';
-
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Match/Setup.js")"></script>
-}
-
-<h2>Which bots should face each other in combat?</h2>
-
-<ul id="bots">
-    @foreach (var bot in Model)
-    {
-        <li class="bot well" data-id="@bot.Id" data-bot-name="@bot.Name">
-            <span class="name">@bot.Name</span>
-            
-            @if (bot.IsWrittenByUser)
-            {
-                <span class="author">by @bot.AuthorUsername</span>
-            }
-        </li>
-    }
-</ul>
-
-<form method="GET" action="@Url.Action("Play")">
-    <input type="hidden" name="names" id="names" />
-    <button type="submit" id="play-button">Play!</button>
-</form>
+    Title = "Which bots should face each other in combat?",
+    Bots = Model
+})

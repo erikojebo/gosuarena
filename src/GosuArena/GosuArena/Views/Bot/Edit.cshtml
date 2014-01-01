@@ -1,4 +1,8 @@
-﻿@model GosuArena.Entities.Bot
+﻿@using Gosu.Commons.Extensions
+@using GosuArena.Extensions
+@using GosuArena.Models.Controls
+
+@model GosuArena.Entities.Bot
 
 @section styles {
     <link rel="stylesheet" href="@Url.Content("~/Content/Bot/Edit.less")" />
@@ -21,4 +25,12 @@
     </fieldset>
 </form>
 
-<aside id="match-setup" style="background-color: blue" class="col-md-3"></aside>
+<aside id="match-setup" class="col-md-3">
+    @Html.MatchSetup(new MatchSetupModel
+    {
+        Title = "Play training match",
+        Bots = ViewBag.TrainingBots,
+        PreselectedBots = Model.AsList(),
+        ShouldOpenNewTab = true
+    })
+</aside>

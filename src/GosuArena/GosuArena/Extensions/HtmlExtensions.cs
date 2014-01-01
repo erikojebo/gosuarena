@@ -21,5 +21,10 @@ namespace GosuArena.Extensions
          {
              return html.ViewContext.RouteData.GetRequiredString("action");
          }
+
+        public static MvcHtmlString MatchSetup(this HtmlHelper html, MatchSetupModel model)
+        {
+            return html.Partial("MatchSetup", model);
+        }
     }
 }

@@ -16,11 +16,12 @@
                 <h1><a href="@Url.Action("Index", "Match")">Gosu Arena</a></h1>
             </header>
         
+            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"> </script>
+
             <section id="page-container">
                 @RenderBody()
             </section>
 
-            <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery-2.0.0.js")"> </script>
             <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.js")"> </script>
             <script type="text/javascript" src="@Url.Content("~/Scripts/lib/jquery/jquery.validate.unobtrusive.js")"> </script>
             <script type="text/javascript" src="@Url.Content("~/Scripts/Pages/confirmation.js")"> </script>

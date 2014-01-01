@@ -1,0 +1,31 @@
+﻿@model GosuArena.Models.Controls.MatchSetupModel
+
+<link rel="stylesheet" href="@Url.Content("~/Content/Match/Setup.less")" />
+
+<h2>@Model.Title</h2>
+
+<ul id="bots">
+    @foreach (var bot in Model.SelectableBots)
+    {
+        <li class="bot well" data-id="@bot.Id" data-bot-name="@bot.Name">
+            <span class="name">@bot.Name</span>
+
+            @if (bot.IsWrittenByUser)
+            {
+                <span class="author">by @bot.AuthorUsername</span>
+            }
+        </li>
+    }
+    
+    @for (var i = 0; i < Model.PreselectedBots.Count; i++)
+    {
+        <li class="preselected-bot" data-bot-name="@Model.PreselectedBots[i].Name">@Model.PreselectedBots[i].Name</li>
+    }
+</ul>
+
+<form method="GET" action="@Url.Action("Play", "Match")" target="@Model.Target">
+    <input type="hidden" name="names" id="names" />
+    <button type="submit" id="play-button">Play!</button>
+</form>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Pages/Match/Setup.js")"></script>
