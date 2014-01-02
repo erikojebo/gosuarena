@@ -12,6 +12,7 @@ namespace GosuArena.Controllers
         {
             var bots = Repository.Find<Bot>()
                 .Where(x => x.IsTrainer || x.IsDemoBot)
+                .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 
             return PlayMatch(bots);
@@ -36,6 +37,7 @@ namespace GosuArena.Controllers
 
             var bots = Repository.Find<Bot>()
                 .Where(x => botNames.Contains(x.Name))
+                .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 
             return PlayMatch(bots);

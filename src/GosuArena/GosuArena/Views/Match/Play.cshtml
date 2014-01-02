@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization
+@using Yahoo.Yui.Compressor
 @model IList<GosuArena.Entities.Bot>
 
 @{
@@ -52,7 +53,7 @@
 <script type="text/javascript" src="@Url.Content("~/Scripts/settings.js")"> </script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/legend.js")"> </script>*@
 
-@foreach (var bot in Model)
+@foreach (var bot in Model.Where(x => !string.IsNullOrWhiteSpace(x.Script)))
 {
     <script type="text/javascript">
         // @bot.Name.ToUpper()
@@ -66,7 +67,17 @@
             };
 
             // User written code starts here:
-            @Html.Raw(bot.Script)
+            
+            @{
+                var isBotWrittenByCurrentUser = User.Identity.Name == bot.User.Username;
+                var shouldRenderPlainScript = isBotWrittenByCurrentUser || bot.IsTrainer || bot.IsDemoBot;
+                 
+                var compressor = new JavaScriptCompressor();
+                
+                var scriptToRender = shouldRenderPlainScript ? bot.Script : compressor.Compress(bot.Script);
+            }
+            
+            @Html.Raw(scriptToRender)
             // User written code ends here
         });
     </script>
