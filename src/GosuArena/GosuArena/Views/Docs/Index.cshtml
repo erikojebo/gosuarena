@@ -282,6 +282,37 @@ Your bot interacts with gosuArena through a couple of different events, and thos
     Look for a script block with a comment including the name of your bot to find your code.
 </p>
 
+<h5>Debugging Position Dependent Behavior</h5>
+
+<p>
+    Sometimes you might have problems when your bot gets to a certain spot on the playing field, such as
+    when it is facing a wall or something like that. To make debugging such scenarios easier you can
+    set the starting position and angle of the bot when playing training matches. Matches launched from the
+    bot editing page are considered training matches.
+</p>
+
+<p>
+    Here is an example of how to configure the starting position for training games:
+</p>
+
+<pre class="prettify">
+  gosuArena.register({
+    tick: function (actionQueue, status) {
+        // Bot logic goes here...
+    },
+
+    // You specify the training starting position as a property on the options object,
+    // which in turn is a property on the object passed to the register method.
+    options: {
+        startPosition: {
+            x: 100,
+            y: 100,
+            angle: 45
+        }
+    }
+});
+</pre>
+
 <h4>Globals and Scoping</h4>
 
 <p>
