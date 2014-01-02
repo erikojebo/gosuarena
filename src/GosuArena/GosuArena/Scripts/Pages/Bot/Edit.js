@@ -1,4 +1,13 @@
 ﻿$(function () {
+    
+    CodeMirror.commands.insertSpacesAsTab = function(cm) {
+        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+        cm.replaceSelection(spaces, "end", "+input");
+    };
+
+    CodeMirror.keyMap["default"]["Tab"] = "insertSpacesAsTab";
+
+
     var textArea = document.getElementById("editor");
     var editor = CodeMirror.fromTextArea(textArea, {
         lineNumbers: true,
