@@ -25,6 +25,12 @@
 
 <form method="GET" action="@Url.Action("Play", "Match")" target="@Model.Target">
     <input type="hidden" name="names" id="names" />
+    
+    @if (Model.IsTraining)
+    {
+        <input type="hidden" name="training" value="@Model.IsTraining.ToString().ToLower()"/>
+    }
+    
     <button type="submit" id="play-button" class="btn btn-lg btn-primary">Play!</button>
 </form>
 

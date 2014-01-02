@@ -1,4 +1,5 @@
 ﻿(function () {
+    
     var fps = 60;
     var gameClock = null;
 
@@ -17,7 +18,9 @@
         var canvas = document.getElementById("gameCanvas");
         var gameVisualizer = gosuArena.factories.createGameVisualizer(canvas);
 
-        gosuArena.engine.start(gameVisualizer, gameClock);
+        gosuArena.engine.start(gameVisualizer, gameClock, {
+            isTraining: gosuArena.settings.isTraining()
+        });
 
         gameClock.start();
     };

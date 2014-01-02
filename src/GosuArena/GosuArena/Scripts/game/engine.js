@@ -145,7 +145,10 @@ gosuArena.engine = (function () {
         visualizer.render(arenaState);        
     }
 
-    function restartMatch(gameVisualizer, gameClock) {
+    function restartMatch(gameVisualizer, gameClock, options) {
+        options = options || {};
+        
+        isTraining = options.isTraining;
 
         visualizer = gameVisualizer;
 

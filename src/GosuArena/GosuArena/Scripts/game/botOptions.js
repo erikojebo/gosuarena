@@ -28,6 +28,8 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     var x = Math.random() * (gosuArena.arenaWidth - width);
     var y = Math.random() * (gosuArena.arenaHeight - height);
 
+    var angle = 0;
+
     if (isTraining) {
         if (isValidX(userOptions.startPosition.x)) {
             x = userOptions.startPosition.x;
@@ -37,7 +39,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
             y = userOptions.startPosition.y;
         }
 
-        var angle = userOptions.startPosition.angle || 0;
+        angle = userOptions.startPosition.angle || angle;
     }
 
     return {

@@ -16,6 +16,7 @@ namespace GosuArena.Models.Controls
         public IList<Bot> Bots { get; set; }
         public IList<Bot> PreselectedBots { get; set; }
         public bool ShouldOpenNewTab { get; set; }
+        public bool IsTraining { get; set; }
 
         public string Target
         {
