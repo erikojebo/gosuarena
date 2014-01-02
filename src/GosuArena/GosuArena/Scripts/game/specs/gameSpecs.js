@@ -220,7 +220,7 @@ describe("Game", function () {
         it("can turn a negative amount of degrees", function () {
 
             var tickCount = 0;
-            
+
             gosuArena.register({
                 tick: function (actionQueue, status) {
                     actionQueue.turn(-1);
@@ -228,7 +228,7 @@ describe("Game", function () {
                     if (tickCount == 1) {
                         expect(status.angle).toEqual(89);
                     }
-                    
+
                     tickCount++;
                 },
                 options: {
@@ -241,7 +241,7 @@ describe("Game", function () {
             });
 
             clock.doTick();
-            clock.doTick();            
+            clock.doTick();
 
             expect(tickCount).toEqual(2);
         });
@@ -251,7 +251,7 @@ describe("Game", function () {
 
             var bot1Position = { x: 1, y: 2 };
             var bot2Position = { x: botWidth + 10, y: 0 };
-            
+
             gosuArena.register({
                 tick: function (actionQueue, status) { },
                 options: {
@@ -286,7 +286,7 @@ describe("Game", function () {
                     // Make sure that the object passed as a seen bot
                     // doesn't have actual move actions defined
                     expect(status.seenBots[0].moveForward).toBe(undefined);
-                    
+
                     // Make sure there are seen bots matching the positions
                     // of the actual bots
                     expect(status.seenBots.filter(function (b) {
@@ -311,34 +311,38 @@ describe("Game", function () {
             });
 
             clock.doTick();
-            
+
             expect(wasTickCalled).toBe(true);
         });
     });
 
     it("raises gameEnded event when there is only one bot left", function () {
-        gosuArena.register({
-            tick: function (actionQueue, status) { },
-            options: {
-                name: "loser 1",
-                startPosition: {
-                    x: 0,
-                    y: 0,
-                    angle: 0
+        gosuArena.initiateBotRegistration("loser 1", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    name: "loser 1",
+                    startPosition: {
+                        x: 0,
+                        y: 0,
+                        angle: 0
+                    }
                 }
-            }
+            });
         });
 
-        gosuArena.register({
-            tick: function (actionQueue, status) { },
-            options: {
-                name: "loser 2",
-                startPosition: {
-                    x: botWidth + 10,
-                    y: 0,
-                    angle: 0
+        gosuArena.initiateBotRegistration("loser 2", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    name: "loser 2",
+                    startPosition: {
+                        x: botWidth + 10,
+                        y: 0,
+                        angle: 0
+                    }
                 }
-            }
+            });
         });
 
         // Wrap the creation of bot options so that we can modify the default
@@ -357,21 +361,23 @@ describe("Game", function () {
 
         // This bot spawns aiming directly at the two other bots, which are
         // in a straight westward line.
-        gosuArena.register({
-            tick: function (actionQueue, status) {
-                if (status.canFire) {
-                    actionQueue.fire();
+        gosuArena.initiateBotRegistration("expected winner", function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    if (status.canFire) {
+                        actionQueue.fire();
+                    }
+                },
+                options: {
+                    startPosition: {
+                        x: botWidth * 2 + 20,
+                        y: 0,
+                        angle: 90
+                    }
                 }
-            },
-            options: {
-                name: "expected winner",
-                startPosition: {
-                    x: botWidth * 2 + 20,
-                    y: 0,
-                    angle: 90
-                }
-            }
+            });
         });
+
 
         var hasMatchEnded = false;
 
@@ -386,6 +392,8 @@ describe("Game", function () {
             expect(livingBots[0].name).toEqual("expected winner");
             expect(result.winner.name).toEqual("expected winner");
         });
+
+        gosuArena.engine.start(visualizer, clock);
 
         // Tick a bunch of rounds to make sure that the third bot had the time needed
         // to kill the other two bots.
