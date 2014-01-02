@@ -18,5 +18,8 @@ gosuArena.register({
         
         // This will be called if your bot is hit by a bullet from another bot
 
+    },
+    options: {
+        color: "#71d40e"
     }
 });

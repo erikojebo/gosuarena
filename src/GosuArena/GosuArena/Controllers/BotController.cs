@@ -13,14 +13,16 @@ namespace GosuArena.Controllers
         {
             var bot = GetBotWithUser(id);
 
-            ViewBag.TrainingBots = Repository.Find<Bot>()
-                .Where(x => !x.IsDemoBot && (x.IsTrainer || x.UserId == bot.UserId))
-                .ExecuteList();
-
             if (bot == null)
                 return new HttpNotFoundResult();
             if (!IsBotOwnedByCurrentUser(bot))
                 return new HttpUnauthorizedResult();
+
+            var trainingBots = Repository.Find<Bot>()
+                .Where(x => !x.IsDemoBot && (x.IsTrainer || x.UserId == bot.UserId))
+                .ExecuteList();
+
+            ViewBag.TrainingBots = trainingBots;
 
             return View(bot);
         }

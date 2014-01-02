@@ -2,6 +2,10 @@
 @using GosuArena.Models.Controls
 @model IList<GosuArena.Entities.Bot>
 
+@section styles {
+    <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
+}
+
 @{
     ViewBag.Title = "Play match!";
 }
