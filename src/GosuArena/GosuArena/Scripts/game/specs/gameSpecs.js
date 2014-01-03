@@ -23,7 +23,9 @@ describe("Game", function () {
 
         clock = gosuArena.gameClock.createFake();
 
-        gosuArena.engine.start(visualizer, clock);
+        gosuArena.engine.start(visualizer, clock,{
+            isTraining: true
+        });
     });
 
     describe("Bot", function () {
@@ -393,7 +395,9 @@ describe("Game", function () {
             expect(result.winner.name).toEqual("expected winner");
         });
 
-        gosuArena.engine.start(visualizer, clock);
+        gosuArena.engine.start(visualizer, clock, {
+            isTraining: true
+        });
 
         // Tick a bunch of rounds to make sure that the third bot had the time needed
         // to kill the other two bots.
