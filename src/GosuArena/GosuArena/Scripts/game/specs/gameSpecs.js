@@ -9,6 +9,14 @@ describe("Game", function () {
     var botWidth = null;
     var botHeight = null;
 
+    var arenaState = null;
+
+    var arenaStateInterceptor = {
+        initialize: function (state) {
+            arenaState = state;
+        }
+    };
+
     beforeEach(function () {
         visualizer = {
             render: function() { },
@@ -23,6 +31,7 @@ describe("Game", function () {
 
         clock = gosuArena.gameClock.createFake();
 
+        gosuArena.engine.reset();
         gosuArena.engine.start(visualizer, clock,{
             isTraining: true
         });
@@ -380,14 +389,6 @@ describe("Game", function () {
             });
         });
 
-        var arenaState = null;
-
-        var gameListener = {
-            initialize: function (state) {
-                arenaState = state;
-            }
-        };
-
         var hasMatchEnded = false;
 
         gosuArena.events.matchEnded(function (result) {
@@ -402,7 +403,7 @@ describe("Game", function () {
 
         gosuArena.engine.start(visualizer, clock, {
             isTraining: true,
-            listeners: [gameListener]
+            listeners: [arenaStateInterceptor]
         });
 
         // Tick a bunch of rounds to make sure that the third bot had the time needed
@@ -423,7 +424,7 @@ describe("Game", function () {
 
         var actualArenaState = null;
         var wasInitializeCalled = false;
-        
+
         var listener = {
             initialize: function (arenaState) {
                 wasInitializeCalled = true;
@@ -443,8 +444,32 @@ describe("Game", function () {
 
     it("gives unique ids to bots in order of registration", function () {
 
-        // Fail until implemented
-        expect(1).toEqual(2);
+        gosuArena.engine.reset();
+
+        gosuArena.initiateBotRegistration("bot1", function () {
+            gosuArena.register({
+                tick: function () { }
+            });
+        });
+
+        gosuArena.initiateBotRegistration("bot2", function () {
+            gosuArena.register({
+                tick: function () { }
+            });
+        });
+
+        gosuArena.engine.start(visualizer, clock, {
+            isTraining: true,
+            listeners: [arenaStateInterceptor]
+        });
+
+        expect(arenaState.bots.length).toEqual(2);
+        expect(arenaState.bots[0].id).toBeTruthy();
+        expect(arenaState.bots[1].id).toBeTruthy();
+
+        // The ids should be running numbers incrementing for each registered bot
+        // so that there is a defined ordering of the bots by their ids
+        expect(arenaState.bots[0].id < arenaState.bots[1].id).toBe(true);
     });
 
 });

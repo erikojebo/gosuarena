@@ -10,6 +10,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     var userActionQueue = gosuArena.factories.createUserActionQueue(actionQueue);
 
     var bot = {
+        id: options.id,
         x: options.x,
         y: options.y,
         width: options.width,

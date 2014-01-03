@@ -10,6 +10,7 @@ gosuArena.engine = (function () {
     var visualizer = null;
     var collisionDetector = gosuArena.factories.createCollisionDetector(arenaState);
 
+    var nextBotId = 0;
     var currentRegisteringBot = null;
 
     gosuArena.ready = function(callback) {
@@ -41,9 +42,9 @@ gosuArena.engine = (function () {
             gosuArena.factories.createSafeBotOptions(options.options, isTraining);
 
         botOptions.name = currentRegisteringBot;
-
         botOptions.actionsPerRound = actionsPerRound;
-
+        botOptions.id = ++nextBotId; // Increment first to start with id 1
+        
         var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);
 
         bot.onShotFired(onShotFiredByBot);
@@ -192,7 +193,14 @@ gosuArena.engine = (function () {
         raiseMatchStartedEvent();
     }
 
+    function reset() {
+        arenaState.clear();
+        readyCallbacks.length = 0;
+        nextBotId = 0;
+    }
+
     return {
-        start: restartMatch
+        start: restartMatch,
+        reset: reset
     };
 })();
