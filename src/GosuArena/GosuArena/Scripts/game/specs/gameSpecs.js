@@ -380,15 +380,20 @@ describe("Game", function () {
             });
         });
 
+        var arenaState = null;
+
+        var gameListener = {
+            initialize: function (state) {
+                arenaState = state;
+            }
+        };
 
         var hasMatchEnded = false;
 
         gosuArena.events.matchEnded(function (result) {
             hasMatchEnded = true;
 
-            var livingBots = gosuArena.engine.botLegends().filter(function (bot) {
-                return bot.isAlive;
-            });
+            var livingBots = arenaState.livingBots();
 
             expect(livingBots.length).toEqual(1);
             expect(livingBots[0].name).toEqual("expected winner");
@@ -396,7 +401,8 @@ describe("Game", function () {
         });
 
         gosuArena.engine.start(visualizer, clock, {
-            isTraining: true
+            isTraining: true,
+            listeners: [gameListener]
         });
 
         // Tick a bunch of rounds to make sure that the third bot had the time needed
@@ -434,4 +440,11 @@ describe("Game", function () {
         expect(wasInitializeCalled).toBe(true);
         expect(actualArenaState.livingBots()).not.toBeEmpty();
     });
+
+    it("gives unique ids to bots in order of registration", function () {
+
+        // Fail until implemented
+        expect(1).toEqual(2);
+    });
+
 });
