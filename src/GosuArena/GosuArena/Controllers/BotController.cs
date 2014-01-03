@@ -66,6 +66,7 @@ namespace GosuArena.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Bot bot)
         {
             var existingBot = Repository
