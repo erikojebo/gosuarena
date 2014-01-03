@@ -104,6 +104,7 @@ namespace GosuArena.Controllers
         }
 
         [Authorize]
+        [ValidateAntiForgeryToken]        
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
@@ -139,6 +140,7 @@ namespace GosuArena.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(string username)
         {
             var user = Repository.Find<User>().Where(x => x.Username == username).Execute();

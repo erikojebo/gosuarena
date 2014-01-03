@@ -22,6 +22,9 @@
 <h1>@Model.Name</h1>
 
 <form id="script-editor-form" method="POST" action="@Url.Action("Edit")" role="form" class="change-tracked col-md-9">
+    
+    @Html.AntiForgeryToken()
+
     <fieldset>
         <legend>Edit bot</legend>
 

@@ -25,6 +25,8 @@
                 }
 
                 <form class="delete-bot" method="POST" action="@Url.Action("Delete", "Bot", new { id = bot.Id})">
+                    @Html.AntiForgeryToken()
+                    
                     <button type="submit" data-confirm="Do you really want to delete your bot?">Delete</button>
                 </form>
             </div>

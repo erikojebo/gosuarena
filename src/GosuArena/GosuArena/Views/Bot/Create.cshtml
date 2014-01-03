@@ -4,21 +4,21 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
 }
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true, "The bot could not be created")
+@Html.ValidationSummary(true, "The bot could not be created")
 
-    <form role="form">    
-        <fieldset class="col-md-4">
-            <legend>Create bot</legend>
+<form method="POST" action="@Url.Action("Create", "Bot")" role="form">
+        
+    @Html.AntiForgeryToken()
 
-            <div>
-                <label for="Name">Name</label>
-                <input name="Name" type="text" placeholder="Name" value="@Model.Name" />
-                @Html.ValidationMessageFor(m => m.Name)
-            </div>
+    <fieldset class="col-md-4">
+        <legend>Create bot</legend>
 
-            <button type="submit" class="main-submit">Create</button>
-        </fieldset>
-    </form>
-}
+        <div>
+            <label for="Name">Name</label>
+            <input name="Name" type="text" placeholder="Name" value="@Model.Name" />
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+
+        <button type="submit" class="main-submit">Create</button>
+    </fieldset>
+</form>

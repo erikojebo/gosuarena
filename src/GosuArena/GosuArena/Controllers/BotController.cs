@@ -28,6 +28,7 @@ namespace GosuArena.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Bot bot)
         {
             var existingBot = GetBotWithUser(bot.Id);
@@ -91,6 +92,7 @@ namespace GosuArena.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var bot = GetBotWithUser(id);
