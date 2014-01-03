@@ -407,4 +407,31 @@ describe("Game", function () {
 
         expect(hasMatchEnded).toEqual(true);
     });
+
+    it("Initializes listeners before bot registration when the game starts", function () {
+        gosuArena.initiateBotRegistration("bot", function () {
+            gosuArena.register({
+                tick: function () { }
+            });
+        });
+
+        var actualArenaState = null;
+        var wasInitializeCalled = false;
+        
+        var listener = {
+            initialize: function (arenaState) {
+                wasInitializeCalled = true;
+                actualArenaState = arenaState;
+                expect(arenaState.livingBots()).toBeEmpty();
+            }
+        };
+
+        gosuArena.engine.start(visualizer, clock, {
+            isTraining: true,
+            listeners: [listener]
+        });
+
+        expect(wasInitializeCalled).toBe(true);
+        expect(actualArenaState.livingBots()).not.toBeEmpty();
+    });
 });

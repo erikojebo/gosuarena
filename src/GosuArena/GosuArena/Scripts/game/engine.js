@@ -6,6 +6,7 @@ gosuArena.engine = (function () {
     var matchStartedCallbacks = [];
     var actionsPerRound = 2;
     var isTraining = true;
+    var gameListeners = [];
     var visualizer = null;
     var collisionDetector = gosuArena.factories.createCollisionDetector(arenaState);
 
@@ -25,8 +26,8 @@ gosuArena.engine = (function () {
             currentRegisteringBot = name;
 
             callback();
-            
-            currentRegisteringBot = null;            
+
+            currentRegisteringBot = null;
         });
     };
 
@@ -35,7 +36,7 @@ gosuArena.engine = (function () {
     }
 
     gosuArena.register = function (options) {
-        
+
         var botOptions =
             gosuArena.factories.createSafeBotOptions(options.options, isTraining);
 
@@ -142,12 +143,34 @@ gosuArena.engine = (function () {
         updateBots();
         updateBullets();
 
-        visualizer.render(arenaState);        
+        visualizer.render(arenaState);
+    }
+
+    function initializeGameListeners() {
+        gameListeners.forEach(function (listener) {
+            listener.initialize(arenaState);
+        });
+    }
+
+    function raiseReadyEvent() {
+        readyCallbacks.forEach(function (callback) {
+
+            // Invoke the callback with an empty object as this
+            // to reduce hacking opportunities
+            callback.call({});
+        });
+    }
+
+    function raiseMatchStartedEvent() {
+        matchStartedCallbacks.forEach(function (callback) {
+            callback.call({});
+        })
     }
 
     function restartMatch(gameVisualizer, gameClock, options) {
         options = options || {};
-        
+
+        gameListeners = options.listeners || [];
         isTraining = options.isTraining;
 
         visualizer = gameVisualizer;
@@ -158,21 +181,15 @@ gosuArena.engine = (function () {
         gosuArena.arenaHeight = gameVisualizer.arenaHeight;
 
         initializeTerrain();
+        initializeGameListeners();
 
-        readyCallbacks.forEach(function (callback) {
-
-            // Invoke the callback with an empty object as this
-            // to reduce hacking opportunities
-            callback.call({});
-        })
+        raiseReadyEvent();
 
         fixStartPositionsToAvoidCollisions();
 
         startGameLoop(gameClock);
 
-        matchStartedCallbacks.forEach(function (callback) {
-            callback.call({});
-        })
+        raiseMatchStartedEvent();
     }
 
     function botLegends() {
