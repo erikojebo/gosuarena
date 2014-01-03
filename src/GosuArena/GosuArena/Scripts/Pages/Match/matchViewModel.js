@@ -7,7 +7,11 @@ gosuArena.factories.createMatchViewModel = function () {
 
     function sortLegendsByHealth() {
         botLegends.sort(function (a, b) {
-            return b.health() - a.health();
+            if (b.health() !== a.health()) {
+                return b.health() - a.health();                
+            }
+
+            return a.id - b.id;
         });
     }
 

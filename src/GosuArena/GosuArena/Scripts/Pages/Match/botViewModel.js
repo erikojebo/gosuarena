@@ -16,6 +16,7 @@ gosuArena.factories.createBotViewModel = function (bot) {
     }
 
     var viewModel = {
+        id: bot.id,
         bot: bot,
         name: name,
         health: health,
