@@ -7,6 +7,8 @@
         stopMatch();
     });
 
+    gosuArena.matchViewModel = gosuArena.factories.createMatchViewModel();
+    
     function restartMatch() {
 
         if (gameClock) {
@@ -14,12 +16,13 @@
         }
         
         gameClock = gosuArena.gameClock.create(fps);
-        
+
         var canvas = document.getElementById("gameCanvas");
         var gameVisualizer = gosuArena.factories.createGameVisualizer(canvas);
 
         gosuArena.engine.start(gameVisualizer, gameClock, {
-            isTraining: gosuArena.settings.isTraining()
+            isTraining: gosuArena.settings.isTraining(),
+            listeners: [gosuArena.matchViewModel]
         });
 
         gameClock.start();
@@ -33,5 +36,10 @@
 
     document.getElementById("restartMatch").onclick = restartMatch;
     document.getElementById("stopMatch").onclick = stopMatch;
-    window.onload = restartMatch;
+
+
+    $(function () {
+        restartMatch();
+        ko.applyBindings(gosuArena.matchViewModel); 
+    });
 })();

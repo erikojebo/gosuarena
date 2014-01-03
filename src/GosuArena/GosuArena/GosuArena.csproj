@@ -288,7 +288,6 @@
     <Content Include="Scripts\game\gameVisualizer.js" />
     <Content Include="Scripts\gosu\eventAggregator.js" />
     <Content Include="Scripts\gosu\specs\jasmineMatchers.js" />
-    <Content Include="Scripts\Pages\Match\legend.js" />
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine-html.js" />
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine.css" />
     <Content Include="Scripts\lib\jasmine-1.3.0\jasmine.js" />
