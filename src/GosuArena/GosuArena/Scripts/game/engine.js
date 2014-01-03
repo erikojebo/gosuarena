@@ -192,19 +192,7 @@ gosuArena.engine = (function () {
         raiseMatchStartedEvent();
     }
 
-    function botLegends() {
-        return arenaState.bots.map(function (bot) {
-            return {
-                name: bot.name,
-                color: bot.color,
-                isAlive: bot.isAlive(),
-                health: bot.health
-            };
-        });
-    }
-
     return {
-        start: restartMatch,
-        botLegends: botLegends
+        start: restartMatch
     };
 })();
