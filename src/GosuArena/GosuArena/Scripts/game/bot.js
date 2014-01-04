@@ -288,5 +288,9 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     gosu.snapshot.extend(bot);
 
+    bot.snapshotPosition = function () {
+        bot.snapshot("x", "y", "angle");
+    };
+
     return bot;
 };
