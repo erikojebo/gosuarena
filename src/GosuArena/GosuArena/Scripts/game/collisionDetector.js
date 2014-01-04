@@ -15,8 +15,8 @@ gosuArena.factories.createCollisionDetector = function(arenaState) {
     function collidingWalls(bot) {
         var botRectangle = bot.rectangle();
 
-        return arenaState.terrain.filter(function (wallRectangle) {
-            return botRectangle.overlaps(wallRectangle);
+        return arenaState.terrain.filter(function (terrain) {
+            return botRectangle.overlaps(terrain.rectangle());
         });
     }
 
@@ -35,7 +35,7 @@ gosuArena.factories.createCollisionDetector = function(arenaState) {
 
     function bulletsHitTerrain(terrain) {
         return arenaState.bullets.filter(function (bullet) {
-            return terrain.overlaps(bullet.rectangle());
+            return terrain.rectangle().overlaps(bullet.rectangle());
         });
     }
 

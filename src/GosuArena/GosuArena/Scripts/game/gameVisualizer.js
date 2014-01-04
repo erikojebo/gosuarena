@@ -57,12 +57,14 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
 
         arenaState.terrain.forEach(function(terrain) {
 
+            var terrainRectangle = terrain.rectangle();
+            
             context.beginPath();
-            var startPoint = adjustToCanvasCoordinates(terrain.corners[0]);
+            var startPoint = adjustToCanvasCoordinates(terrainRectangle.corners[0]);
             context.moveTo(startPoint.x, startPoint.y);
 
-            for(var i = 1; i < terrain.corners.length; i++) {
-                var point = adjustToCanvasCoordinates(terrain.corners[i]);
+            for(var i = 1; i < terrainRectangle.corners.length; i++) {
+                var point = adjustToCanvasCoordinates(terrainRectangle.corners[i]);
                 context.lineTo(point.x, point.y);
             }
 

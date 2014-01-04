@@ -59,37 +59,37 @@ gosuArena.engine = (function () {
     function initializeTerrain() {
         var wallMargin = 100;
 
-        var westWall = gosu.math.rectangle.createFromPoints({
-            x1: -wallMargin,
-            y1: -wallMargin,
-            x2: 0,
-            y2: gosuArena.arenaHeight + wallMargin
+        var westWall = gosuArena.factories.createTerrain({
+            x: -wallMargin,
+            y: -wallMargin,
+            width: wallMargin,
+            height: gosuArena.arenaHeight + 2 * wallMargin
+        });
+        
+        var eastWall = gosuArena.factories.createTerrain({
+            x: gosuArena.arenaWidth,
+            y: -wallMargin,
+            width: wallMargin,
+            height: gosuArena.arenaHeight + 2 * wallMargin
         });
 
-        var eastWall = gosu.math.rectangle.createFromPoints({
-            x1: gosuArena.arenaWidth,
-            y1: -wallMargin,
-            x2: gosuArena.arenaWidth + wallMargin,
-            y2: gosuArena.arenaHeight + wallMargin
+        var northWall = gosuArena.factories.createTerrain({
+            x: -wallMargin,
+            y: -wallMargin,
+            width: gosuArena.arenaWidth + 2 * wallMargin,
+            height: wallMargin
         });
 
-        var norhtWall = gosu.math.rectangle.createFromPoints({
-            x1: -wallMargin,
-            y1: -wallMargin,
-            x2: gosuArena.arenaWidth + wallMargin,
-            y2: 0
+        var southWall = gosuArena.factories.createTerrain({
+            x: -wallMargin,
+            y: gosuArena.arenaHeight,
+            width: gosuArena.arenaWidth + 2 * wallMargin,
+            height: wallMargin
         });
-
-        var southWall = gosu.math.rectangle.createFromPoints({
-            x1: -wallMargin,
-            y1: gosuArena.arenaHeight + wallMargin,
-            x2: gosuArena.arenaWidth + wallMargin,
-            y2: gosuArena.arenaHeight
-        });
-
+        
         arenaState.addTerrain(eastWall);
         arenaState.addTerrain(westWall);
-        arenaState.addTerrain(norhtWall);
+        arenaState.addTerrain(northWall);
         arenaState.addTerrain(southWall);
     }
 

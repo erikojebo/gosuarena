@@ -34,7 +34,8 @@ gosuArena.worldObject = gosuArena.worldObject || {};
         translate: function (vector) {
             this.x += vector.x;
             this.y += vector.y;
-        }
+        },
+        tick: function () { }
     };
 
     gosuArena.worldObject.create = function (properties) {
