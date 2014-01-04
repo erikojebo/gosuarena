@@ -21,7 +21,10 @@ gosu.snapshot.extend = function (obj) {
 
     obj.snapshot = function () {
 
-        snapshotValues.length = 0;
+        // Performa a complete reset of the previous snapshot,
+        // so that nothing more than what is captured in this
+        // snapshot can be restored later on
+        snapshotValues = {};
 
         if (arguments.length > 0) {
             snapshotSelectedProperties(arguments);

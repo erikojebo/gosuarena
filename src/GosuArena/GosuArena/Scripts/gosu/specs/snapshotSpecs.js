@@ -39,4 +39,34 @@ describe("snapshot", function () {
         expect(obj.d).toEqual(4);
     });
 
+    it("first taking a larger snapshot, then a smaller and then restoring just restores the smaller snapshot", function () {
+        var obj = { a: 1, b: 2, c: 3 };
+
+        gosu.snapshot.extend(obj);
+
+        obj.snapshot("b", "c");
+
+        obj.a = 11;
+        obj.b = 12;
+        obj.c = 13;
+        obj.d = 14;
+
+        obj.restoreSnapshot();
+
+        obj.snapshot("b");
+        
+        obj.a = 11;
+        obj.b = 12;
+        obj.c = 13;
+        obj.d = 14;
+
+        obj.restoreSnapshot();
+        
+        expect(obj.a).toEqual(11);
+        expect(obj.b).toEqual(2);
+        expect(obj.c).toEqual(13);
+        expect(obj.d).toEqual(14);
+        
+    });
+
 });
