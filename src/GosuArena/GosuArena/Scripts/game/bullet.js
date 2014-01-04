@@ -8,8 +8,7 @@ gosuArena.factories.createBullet = function (bot) {
     var width = 3;
     var height = 6;
 
-
-    var bullet = {
+    var properties = {
         x: botMuzzlePosition.x - width / 2,
         y: botMuzzlePosition.y - height / 2,
         width: width,
@@ -20,32 +19,11 @@ gosuArena.factories.createBullet = function (bot) {
         damage: bot.weapon.damage
     };
 
-    function translate(vector) {
-        bullet.x += vector.x;
-        bullet.y += vector.y;
-    }
-
+    var bullet = gosuArena.worldObject.create(properties);
+    
     bullet.tick = function () {
         var movementVector = gosu.math.point.rotate({ x: 0, y: 10 }, bullet.angle);
-        translate(movementVector);
-    };
-
-    bullet.center = function () {
-        return {
-            x: bullet.x + bullet.width / 2,
-            y: bullet.y + bullet.height / 2
-        };
-    };
-
-    bullet.rectangle = function() {
-        var bulletRectangle = gosu.math.rectangle.createFromPoints({
-            x1: bullet.x,
-            y1: bullet.y,
-            x2: bullet.x + bullet.width,
-            y2: bullet.y + bullet.height
-        });
-
-        return bulletRectangle.rotateAroundCenter(bullet.angle);
+        bullet.translate(movementVector);
     };
 
     return bullet;
