@@ -13,6 +13,10 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     var sightWidth = 1;
     var sightLength = 1000;
 
+    function isValidColor(value) {
+        return value && /^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(value);
+    }
+
     function isValidX(value) {
         return value >= 0 && value <= gosuArena.arenaWidth - width;
     }
@@ -42,13 +46,15 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
         angle = userOptions.startPosition.angle || angle;
     }
 
+    var color = isValidColor(userOptions.color) ? userOptions.color : "#cecece";
+
     return {
         width: width,
         height: height,
         x: x,
         y: y,
         angle: angle,
-        color: userOptions.color || "#cecece",
+        color: color,
         name: null, // Set through the registration process
         weaponCooldownTime: weaponCooldownTime,
         weaponWidth: weaponWidth,

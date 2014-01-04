@@ -338,4 +338,17 @@ describe("bot", function () {
         expect(wasCallbackCalled).toBe(true);
         expect(actionQueue.performNext).toBeDefinedFunction();
     });
+
+    it("uses default color if user supplies non-hex value as color", function () {
+
+        var safeOptions = gosuArena.factories.createSafeBotOptions({
+                    color: "function () { }" // invalid color value
+        });
+        
+        var bot = gosuArena.factories.createBot(tick, safeOptions, collisionDetector);
+        
+        var defaultOptions = gosuArena.factories.createSafeBotOptions({});
+
+        expect(bot.color).toEqual(defaultOptions.color);
+    });
 });
