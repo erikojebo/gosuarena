@@ -147,19 +147,19 @@ gosuArena.engine = (function () {
     function tick() {
 
         if (hasTicked) {
-            return;
+//            return;
         }
 
         hasTicked = true;
 
         var startTime = new Date().getTime();
 
-        for (var i = 0; i < 1000; i++) {
+  //      for (var i = 0; i < 1000; i++) {
 
             updateBots();
             updateBullets();
 
-        }
+//        }
 
         var endTime = new Date().getTime();
         console.log("Time (ms): "  + (endTime - startTime));
