@@ -15,7 +15,7 @@ gosuArena.worldObject = gosuArena.worldObject || {};
                 y: this.y + this.height / 2
             };
         },
-        rectangle: function () {
+        calculateRectangle: function () {
             var rectangle = gosu.math.rectangle.createFromPoints({
                 x1: this.x,
                 y1: this.y,
@@ -24,6 +24,12 @@ gosuArena.worldObject = gosuArena.worldObject || {};
             });
 
             return rectangle.rotateAroundCenter(this.angle);
+        },
+        // Separate the calculation of the rectangle from the retrieval
+        // so that children are free to override the retrieval to use
+        // caching or something like that while still sharing the calculation
+        rectangle: function () {
+            return this.calculateRectangle();
         },
         translate: function (vector) {
             this.x += vector.x;

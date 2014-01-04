@@ -9,7 +9,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
     var userActionQueue = gosuArena.factories.createUserActionQueue(actionQueue);
 
-    var bot = {
+    var properties = {
         id: options.id,
         x: options.x,
         y: options.y,
@@ -31,6 +31,8 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             length: options.sightLength
         }
     };
+
+    var bot = gosuArena.worldObject.create(properties);
 
     bot.top = function() {
         return bot.rectangle().maxY;
@@ -82,10 +84,6 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         return gosu.math.point.translate(bot.center(), offsetVectorFromCenter);
     };
 
-    bot.center = function () {
-        return { x: bot.x + bot.width / 2, y: bot.y + bot.height / 2 };
-    };
-
     bot.position = function () {
         return { x: bot.x, y: bot.y };
     };
@@ -113,7 +111,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     function moveRelativeToBot(vector) {
         var movementVector = gosu.math.point.rotate(vector, bot.angle);
 
-        translate(movementVector);
+        bot.translate(movementVector);
     }
 
     bot.moveNorth = function () {
@@ -153,11 +151,6 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     bot.onHitByBullet = function (callback) {
         hitByBulletCallbacks.push(callback);
-    }
-
-    function translate(vector) {
-        bot.x += vector.x;
-        bot.y += vector.y;
     }
 
     bot.createStatus = function (simplified) {
@@ -233,21 +226,10 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     bot.rectangle = function() {
         if (!rectangleCache.isValidFor(bot)) {
-            rectangleCache.addEntry(bot, calculateRectangle());
+            rectangleCache.addEntry(bot, bot.calculateRectangle());
         }
 
         return rectangleCache.getEntry(bot);
-    };
-
-    function calculateRectangle() {
-        var botRectangle = gosu.math.rectangle.createFromPoints({
-            x1: bot.x,
-            y1: bot.y,
-            x2: bot.x + bot.width,
-            y2: bot.y + bot.height
-        });
-
-        return botRectangle.rotateAroundCenter(bot.angle);
     };
 
     bot.sightRectangle = function () {
