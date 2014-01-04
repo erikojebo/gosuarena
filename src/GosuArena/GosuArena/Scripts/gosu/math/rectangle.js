@@ -62,27 +62,11 @@ gosu.math.rectangle = gosu.math.rectangle || {};
                 }
             }
 
-            // Credit: http://stackoverflow.com/questions/2752725/finding-whether-a-point-lies-inside-a-rectangle-or-not
-            function isPointInsideEdges(point, edges) {
-                var edgesWithPointToRight = edges.filter(function (edge) {
-
-                    var a = -(edge.y2 - edge.y1);
-                    var b = edge.x2 - edge.x1;
-                    var c = -(a * edge.x1 + b * edge.y1);
-                    var d = a * point.x + b * point.y + c;
-
-                    return d < 0;
-                });
-
-                return edgesWithPointToRight.length == 4;
-            }
-
-
             var isOtherRectangleInsideThisOne =
-                isPointInsideEdges(otherRectangle.corners[0], edges);
+                gosu.math.isPointInsideEdges(otherRectangle.corners[0], edges);
             
             var isThisRectangleInsideOther =
-                isPointInsideEdges(corners[0], otherRectangle.edges);
+                gosu.math.isPointInsideEdges(corners[0], otherRectangle.edges);
 
             // If only one line is intersecting then one of the corners
             // of one rectangle is exactly on one edge of the other rectangle

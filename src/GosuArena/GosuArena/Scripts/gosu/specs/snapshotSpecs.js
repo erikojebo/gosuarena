@@ -1,21 +1,42 @@
 describe("snapshot", function () {
-   it("restoring snapshot resets all properties to the values they had when the snapshot was taken", function () {
-       
-       var referencedObject = { x: 3 };
-       var obj = { a: 1, b: 2, c: referencedObject };
+    it("restoring snapshot resets all properties to the values they had when the snapshot was taken", function () {
 
-       gosu.snapshot.extend(obj);
+        var referencedObject = { x: 3 };
+        var obj = { a: 1, b: 2, c: referencedObject };
 
-       obj.snapshot();
+        gosu.snapshot.extend(obj);
 
-       obj.a = 3;
-       obj.b = 5;
-       obj.c = {};
+        obj.snapshot();
 
-       obj.restoreSnapshot();
+        obj.a = 3;
+        obj.b = 5;
+        obj.c = {};
 
-       expect(obj.a).toEqual(1);
-       expect(obj.b).toEqual(2);
-       expect(obj.c).toEqual(referencedObject);
-   });
+        obj.restoreSnapshot();
+
+        expect(obj.a).toEqual(1);
+        expect(obj.b).toEqual(2);
+        expect(obj.c).toEqual(referencedObject);
+    });
+
+    it("restoring partial snapshot only restores properties included in snapshot", function () {
+        var obj = { a: 1, b: 2, c: 3, d: 4 };
+
+        gosu.snapshot.extend(obj);
+
+        obj.snapshot("b", "d");
+
+        obj.a = 11;
+        obj.b = 12;
+        obj.c = 13;
+        obj.d = 14;
+
+        obj.restoreSnapshot();
+
+        expect(obj.a).toEqual(11);
+        expect(obj.b).toEqual(2);
+        expect(obj.c).toEqual(13);
+        expect(obj.d).toEqual(4);
+    });
+
 });
