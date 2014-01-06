@@ -44,7 +44,7 @@ gosuArena.engine = (function () {
         botOptions.name = currentRegisteringBot;
         botOptions.actionsPerRound = actionsPerRound;
         botOptions.id = ++nextBotId; // Increment first to start with id 1
-        
+
         var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);
 
         bot.onShotFired(onShotFiredByBot);
@@ -65,7 +65,7 @@ gosuArena.engine = (function () {
             width: wallMargin,
             height: gosuArena.arenaHeight + 2 * wallMargin
         });
-        
+
         var eastWall = gosuArena.factories.createTerrain({
             x: gosuArena.arenaWidth,
             y: -wallMargin,
@@ -86,7 +86,7 @@ gosuArena.engine = (function () {
             width: gosuArena.arenaWidth + 2 * wallMargin,
             height: wallMargin
         });
-        
+
         arenaState.addTerrain(eastWall);
         arenaState.addTerrain(westWall);
         arenaState.addTerrain(northWall);
@@ -138,6 +138,30 @@ gosuArena.engine = (function () {
 
     function startGameLoop(gameClock) {
         gameClock.tick(tick);
+    }
+
+    var hasStartedBenchmark = false;
+
+    // 1000 iterations: 8500 ms @ 2014-01-06
+    function benchmark() {
+
+        if (hasStartedBenchmark) {
+            return;
+        }
+
+        hasStartedBenchmark = true;
+
+        var startTime = new Date().getTime();
+
+        for (var i = 0; i < 1000; i++) {
+            updateBots();
+            updateBullets();
+        }
+
+        var endTime = new Date().getTime();
+        console.log("Time (ms): "  + (endTime - startTime));
+
+        visualizer.render(arenaState);
     }
 
     function tick() {

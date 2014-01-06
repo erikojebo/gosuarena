@@ -49,7 +49,7 @@ gosuArena.factories.createCollisionDetector = function(arenaState) {
     function canPerformMoveAction(bot, moveAction) {
         var canPerformAction = false;
 
-        bot.snapshot();
+        bot.snapshotPosition();
 
         moveAction();
 

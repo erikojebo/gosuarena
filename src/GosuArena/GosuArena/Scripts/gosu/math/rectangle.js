@@ -8,25 +8,44 @@ gosu.math.rectangle = gosu.math.rectangle || {};
 
         var corners = clockwiseCorners;
 
-        function sortNumber(a, b) {
-            return a - b;
+        // This was previously written as corners.map(...)
+        // but was re-written for performance.
+        var cornerXValues = new Array(4);
+        var cornerYValues = new Array(4);
+
+        for (var i = 0; i < 4; i++) {
+            cornerXValues[i] = corners[i].x;
+            cornerYValues[i] = corners[i].y;
         }
 
-        var sortedCornerXValues = corners.map(function (corner) {
-            return corner.x;
-        }).sort(sortNumber);
+        // This was previously written as Math.min/max
+        // but was rewritten inline to improve performance
+        var minX = cornerXValues[0];
+        var maxX = cornerXValues[0];
+        var minY = cornerYValues[0];
+        var maxY = cornerYValues[0];
 
-        var sortedCornerYValues = corners.map(function (corner) {
-            return corner.y;
-        }).sort(sortNumber);
-        
-        var minX = sortedCornerXValues[0];
-        var maxX = sortedCornerXValues[corners.length - 1];
-        var minY = sortedCornerYValues[0];
-        var maxY = sortedCornerYValues[corners.length - 1];
+        // Since all values are initialized with the first value,
+        // skip the first value when comparing
+        for (var i = 1; i < 4; i++) {
+
+            if (cornerXValues[i] < minX) {
+                minX = cornerXValues[i];
+            } else if (cornerXValues[i] > maxX) {
+                maxX = cornerXValues[i];
+            }
+
+            if (cornerYValues[i] < minY) {
+                minY = cornerYValues[i];
+            } else if (cornerYValues[i] > maxY) {
+                maxY = cornerYValues[i];
+            }
+        }
 
         var center = { x: (maxX - minX) / 2 + minX, y: (maxY - minY) / 2 + minY };
 
+        // This was previously extracted to a separate function, but was
+        // inlined for performance
         var edges = [];
 
         for (var i = 0; i < 4; i++) {
@@ -58,31 +77,19 @@ gosu.math.rectangle = gosu.math.rectangle || {};
                         otherRectangle.edges[j])) {
 
                         intersectingLineCount++;
+
+                        if (intersectingLineCount >= 2) {
+                            return true;
+                        }
                     }
                 }
             }
 
-            // Credit: http://stackoverflow.com/questions/2752725/finding-whether-a-point-lies-inside-a-rectangle-or-not
-            function isPointInsideEdges(point, edges) {
-                var edgesWithPointToRight = edges.filter(function (edge) {
-
-                    var a = -(edge.y2 - edge.y1);
-                    var b = edge.x2 - edge.x1;
-                    var c = -(a * edge.x1 + b * edge.y1);
-                    var d = a * point.x + b * point.y + c;
-
-                    return d < 0;
-                });
-
-                return edgesWithPointToRight.length == 4;
-            }
-
-
             var isOtherRectangleInsideThisOne =
-                isPointInsideEdges(otherRectangle.corners[0], edges);
-            
+                gosu.math.isPointInsideEdges(otherRectangle.corners[0], edges);
+
             var isThisRectangleInsideOther =
-                isPointInsideEdges(corners[0], otherRectangle.edges);
+                gosu.math.isPointInsideEdges(corners[0], otherRectangle.edges);
 
             // If only one line is intersecting then one of the corners
             // of one rectangle is exactly on one edge of the other rectangle
@@ -93,7 +100,7 @@ gosu.math.rectangle = gosu.math.rectangle || {};
         }
 
         function rotateAroundCenter(degrees) {
-             return rotate(degrees, center);
+            return rotate(degrees, center);
         }
 
         function rotate(degrees, rotationCenter) {
@@ -115,7 +122,7 @@ gosu.math.rectangle = gosu.math.rectangle || {};
             maxX: maxX,
             minY: minY,
             maxY: maxY
-        };        
+        };
     }
 
     gosu.math.rectangle.createFromPoints = function (points) {

@@ -114,8 +114,9 @@ gosuArena.factories.createActionQueue = function (collisionDetector) {
     }
 
     function changePosition(bot, modifierFunction) {
-        bot.snapshot();
 
+        bot.snapshotPosition();
+        
         modifierFunction(bot);
 
         if (collisionDetector.hasCollided(bot)) {
