@@ -1,28 +1,52 @@
 ﻿@import "../GosuArenaVariables.less";
 
-ul#bots {
-    margin: 20px 0;
+@itemFontSize: 20px;
+
+#bot-lists-container {
+    margin-top: @itemFontSize;
+}
+
+#selected-bots-container {
     padding: 0;
+}
 
-    li.bot {
-        list-style: none;
-        font-size: 20px;
-        cursor: pointer;
+li.bot {
+    list-style: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 0 10px 0;
 
-        margin: 10px 0;
-
-        .author {
-            color: @backgroundInfoColor;
-            float: right;
-        }
-
-        &.selected-bot {
-            background-color: #dff0d8;
-        }
+    .author {
+        color: @backgroundInfoColor;
+        float: right;
     }
+}
 
-    li.preselected-bot {
+ul {
+    padding: 0;
+}
+
+ul#bots {
+    padding-right: 10px;
+
+    .selected {
         display: none;
+    }
+}
+
+.no-selection-message {
+	font-style: italic;
+    color: #ccc;
+    background-color: #fdfdfd;
+    border-style: dotted;
+    font-size: 16px;
+    display: block;
+    font-size: @itemFontSize;
+}
+
+ul#selected-bots {
+    li.bot {
+        background-color: #dff0d8;
     }
 }
 

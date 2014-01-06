@@ -181,8 +181,9 @@
     <Content Include="Scripts\game\terrain.js" />
     <Content Include="Scripts\game\worldObject.js" />
     <Content Include="Scripts\gosu\meta.js" />
-    <Content Include="Scripts\Pages\Match\botViewModel.js" />
-    <Content Include="Scripts\Pages\Match\matchViewModel.js" />
+    <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\Pages\Match\Play\botViewModel.js" />
+    <Content Include="Scripts\Pages\Match\Play\matchViewModel.js" />
     <Compile Include="Services\FileBotRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -387,7 +388,7 @@
     <Content Include="Scripts\lib\jquery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\lib\knockout\knockout-3.0.0.js" />
     <Content Include="Scripts\lib\knockout\knockout.protected-observable.js" />
-    <Content Include="Scripts\Pages\Match\match.js" />
+    <Content Include="Scripts\Pages\Match\Play\match.js" />
     <Content Include="Scripts\gosu\math\collissions.js" />
     <Content Include="Scripts\gosu\math\specs\collissionsSpecs.js" />
     <Content Include="Scripts\gosu\math\line.js" />
@@ -403,10 +404,12 @@
     <Content Include="Scripts\gosu\math\specs\vectorSpecs.js" />
     <Content Include="Scripts\Pages\Bot\Edit.js" />
     <Content Include="Scripts\Pages\changetracking.js" />
-    <Content Include="Scripts\Pages\Match\Setup.js" />
+    <Content Include="Scripts\Pages\Match\Setup\botSelectionViewModel.js" />
+    <Content Include="Scripts\Pages\Match\Setup\Setup.js" />
     <Content Include="Scripts\Pages\confirmation.js" />
     <Content Include="Scripts\game\rectangleCache.js" />
     <Content Include="Scripts\game\gameSettings.js" />
+    <Content Include="Scripts\Pages\Match\Setup\setupViewModel.js" />
     <Content Include="Scripts\SpecRunner.html" />
     <Content Include="Scripts\game\userActionQueue.js" />
     <Content Include="Web.config" />

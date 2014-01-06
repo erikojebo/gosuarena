@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Entities;
-using GosuArena.Services;
 
 namespace GosuArena.Controllers
 {
@@ -27,7 +26,7 @@ namespace GosuArena.Controllers
                 .OrderBy(x => x.Name)
                 .ExecuteList();
 
-            return View("Setup", bots);
+            return View(bots);
         }
 
         [Authorize]
