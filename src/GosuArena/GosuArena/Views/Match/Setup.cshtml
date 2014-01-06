@@ -3,8 +3,7 @@
 @model IList<GosuArena.Entities.Bot>
 
 @section styles {
-    <link rel="stylesheet" href="@Url.Content("~/Content/GosuArena.less")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/Match/Setup.less")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Match/SetupMatch.less")" />
 }
 
 @section scripts {
@@ -17,48 +16,8 @@
     ViewBag.Title = "Play match!";
 }
 
-<h2>Which bots should face each other in combat?</h2>
-
-<section id="bot-lists-container" class="row">
-    <ul id="bots" data-bind="foreach: visibleBots" class="col-md-7">
-        <li class="bot well" data-bind="click: $parent.toggleSelection, css: { selected: isSelected }">
-            <span class="name" data-bind="text: name"></span>
-            <span class="author" data-bind="text: authorDescription"></span>
-        </li>
-    </ul>
-    
-    <div id="selected-bots-container" class="col-md-5">
-        <span class="no-selection-message well" data-bind="visible: isSelectionEmpty()">No bots have been selected</span>
-        <ul id="selected-bots" data-bind="foreach: selectedBots">
-            <li class="bot well" data-bind="click: $parent.toggleSelection">
-                <span class="name" data-bind="text: name"></span>
-                <span class="author" data-bind="text: authorDescription"></span>
-            </li>
-        </ul>
-    </div>
-</section>
-
-<form method="GET" action="@Url.Action("Play", "Match")" class="row">
-    <input type="hidden" name="names" id="names" data-bind="value: selectedBotNames" />
-    <button type="submit" id="play-button" class="btn btn-lg btn-primary">Play!</button>
-</form>
-
-<script type="text/javascript">
-    $(function() {
-        var bots = [
-            @foreach(var bot in Model)
-            {
-                @:{ id: @bot.Id, name: '@bot.Name', authorUsername: '@bot.AuthorUsername' },
-            }
-        ];
-
-        var setupViewModel = gosuArena.factories.createSetupViewModel(bots);
-        ko.applyBindings(setupViewModel);
-    });
-</script>
-
-@*@Html.MatchSetup(new MatchSetupModel
+@Html.MatchSetup(new MatchSetupModel
 {
     Title = "Which bots should face each other in combat?",
-    Bots = Model
-})*@
+    Bots = Model,
+})

@@ -377,6 +377,8 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Content\Match\SetupMatch.less" />
+    <Content Include="Content\Match\SetupTrainingMatch.less" />
     <None Include="Scripts\lib\jquery\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.js" />
@@ -405,7 +407,6 @@
     <Content Include="Scripts\Pages\Bot\Edit.js" />
     <Content Include="Scripts\Pages\changetracking.js" />
     <Content Include="Scripts\Pages\Match\Setup\botSelectionViewModel.js" />
-    <Content Include="Scripts\Pages\Match\Setup\Setup.js" />
     <Content Include="Scripts\Pages\confirmation.js" />
     <Content Include="Scripts\game\rectangleCache.js" />
     <Content Include="Scripts\game\gameSettings.js" />

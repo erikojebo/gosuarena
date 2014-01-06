@@ -1,0 +1,24 @@
+﻿@import "Setup.less";
+
+#selected-bots-container {
+    .make-md-column(5);
+}
+
+ul#bots {
+    .make-md-column(7);
+    padding-right: 10px;
+
+    .selected {
+        display: none;
+    }
+}
+
+.no-selection-message {
+	font-style: italic;
+    color: #ccc;
+    background-color: #fdfdfd;
+    border-style: dotted;
+    font-size: 16px;
+    display: block;
+    font-size: @itemFontSize;
+}

@@ -1,7 +1,7 @@
 ﻿var gosuArena = gosuArena || {};
 gosuArena.factories = gosuArena.factories || {};
 
-gosuArena.factories.createSetupViewModel = function (bots) {
+gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
     var selectedBots = ko.observableArray();
     var filterString = ko.observable();
 
@@ -35,11 +35,22 @@ gosuArena.factories.createSetupViewModel = function (bots) {
     });
 
     var selectedBotNames = ko.computed(function () {
-       return selectedBots().map(function (bot) {
-           return bot.name;
-       });
+
+        var allSelectedBots = [];
+
+        selectedBots().forEach(function (bot) {
+            allSelectedBots.push(bot);
+        });
+
+        preselectedBots.forEach(function (bot) {
+           allSelectedBots.push(bot);
+        });
+
+        return allSelectedBots.map(function (bot) {
+            return bot.name;
+        });
     });
-    
+
     function select(bot) {
         bot.isSelected(true);
 

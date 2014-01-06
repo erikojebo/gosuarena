@@ -1,9 +1,14 @@
-﻿@import "../GosuArenaVariables.less";
+﻿@import "../GosuArena.less";
 
 @itemFontSize: 20px;
 
 #bot-lists-container {
-    margin-top: @itemFontSize;
+    .make-row();
+    margin-top: 20px;
+}
+
+form#start-match {
+    .make-row();
 }
 
 #selected-bots-container {
@@ -12,7 +17,7 @@
 
 li.bot {
     list-style: none;
-    font-size: 20px;
+    font-size: @itemFontSize;
     cursor: pointer;
     margin: 0 0 10px 0;
 
@@ -28,10 +33,6 @@ ul {
 
 ul#bots {
     padding-right: 10px;
-
-    .selected {
-        display: none;
-    }
 }
 
 .no-selection-message {

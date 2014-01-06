@@ -20,6 +20,7 @@ namespace GosuArena.Controllers
 
             var trainingBots = Repository.Find<Bot>()
                 .Where(x => !x.IsDemoBot && (x.IsTrainer || x.UserId == bot.UserId))
+                .Join(x => x.User)
                 .ExecuteList();
 
             ViewBag.TrainingBots = trainingBots;
