@@ -140,29 +140,33 @@ gosuArena.engine = (function () {
         gameClock.tick(tick);
     }
 
-    var hasTicked = false;
+    var hasStartedBenchmark = false;
 
+    // 1000 iterations: 8500 ms @ 2014-01-06
+    function benchmark() {
 
-    // 1000 iterationer: 11435 
-    function tick() {
-
-        if (hasTicked) {
+        if (hasStartedBenchmark) {
             return;
         }
 
-        hasTicked = true;
+        hasStartedBenchmark = true;
 
         var startTime = new Date().getTime();
 
         for (var i = 0; i < 1000; i++) {
-
             updateBots();
             updateBullets();
-
         }
 
         var endTime = new Date().getTime();
         console.log("Time (ms): "  + (endTime - startTime));
+
+        visualizer.render(arenaState);
+    }
+
+    function tick() {
+        updateBots();
+        updateBullets();
 
         visualizer.render(arenaState);
     }
