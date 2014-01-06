@@ -178,6 +178,9 @@
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\game\terrain.js" />
+    <Content Include="Scripts\game\worldObject.js" />
+    <Content Include="Scripts\gosu\meta.js" />
     <Content Include="Scripts\Pages\Match\botViewModel.js" />
     <Content Include="Scripts\Pages\Match\matchViewModel.js" />
     <Compile Include="Services\FileBotRepository.cs" />
