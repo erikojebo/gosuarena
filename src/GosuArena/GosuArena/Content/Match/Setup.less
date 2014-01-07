@@ -11,7 +11,7 @@ form#start-match {
     .make-row();
 }
 
-#selected-bots-container {
+#selected-bots-container, #available-bots-container {
     padding: 0;
 }
 
@@ -31,10 +31,6 @@ ul {
     padding: 0;
 }
 
-ul#bots {
-    padding-right: 10px;
-}
-
 .no-selection-message {
 	font-style: italic;
     color: #ccc;
@@ -43,6 +39,13 @@ ul#bots {
     font-size: 16px;
     display: block;
     font-size: @itemFontSize;
+}
+
+#result-filtered-message {
+	font-style: italic;
+    width: 100%;
+    text-align: right;
+    display: block;
 }
 
 ul#selected-bots {
