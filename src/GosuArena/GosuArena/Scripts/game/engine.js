@@ -165,6 +165,7 @@ gosuArena.engine = (function () {
     }
 
     function tick() {
+
         updateBots();
         updateBullets();
 

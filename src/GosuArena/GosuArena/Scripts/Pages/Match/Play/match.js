@@ -1,6 +1,5 @@
 ﻿(function () {
     
-    var fps = 60;
     var gameClock = null;
 
     gosuArena.events.matchEnded(function (result) {
@@ -15,7 +14,7 @@
             gameClock.stop();
         }
         
-        gameClock = gosuArena.gameClock.create(fps);
+        gameClock = gosuArena.gameClock.create();
 
         var canvas = document.getElementById("gameCanvas");
         var gameVisualizer = gosuArena.factories.createGameVisualizer(canvas);

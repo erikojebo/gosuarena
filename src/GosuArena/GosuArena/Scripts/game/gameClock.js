@@ -1,32 +1,36 @@
 gosuArena = gosuArena || {};
 gosuArena.gameClock = gosuArena.gameClock || {};
 
-gosuArena.gameClock.create = function (desiredFramesPerSecond) {
+gosuArena.gameClock.create = function () {
     var callbacks = [];
-    var tickIntervalInMilliseconds = 1000 / desiredFramesPerSecond;
-    var intervalCallbackId = null;
+    var isRunning = false;
+    var hasStarted = false;
 
     function tick(callback) {
         callbacks.push(callback);
     }
 
-    function start() {
-        if (intervalCallbackId) {
-            stop();
-        }
-
-        intervalCallbackId = setInterval(function () {
+    function callTickCallbacks(timestamp) {
+        if (isRunning) {
             callbacks.forEach(function (callback) {
                 callback();
             });
-        }, tickIntervalInMilliseconds);
+        }
+
+        requestAnimationFrame(callTickCallbacks);
+    }
+
+    function start() {
+        isRunning = true;
+
+        if (!hasStarted) {
+            hasStarted = true;
+            requestAnimationFrame(callTickCallbacks);
+        }
     }
 
     function stop() {
-        if (intervalCallbackId) {
-            clearInterval(intervalCallbackId);
-            intervalCallbackId = null;
-        }
+        isRunning = false;
     }
 
     return {
@@ -35,6 +39,3 @@ gosuArena.gameClock.create = function (desiredFramesPerSecond) {
         tick: tick
     }
 };
-
-
-
