@@ -1,4 +1,8 @@
-﻿$(function() {
+﻿var gosuArena = gosuArena || {};
+gosuArena.changeTracking = gosuArena.changeTracking || {};
+
+
+$(function () {
 
     function flagAsDirty($element) {
         $element.attr("data-changed", "true");
@@ -23,12 +27,20 @@
             flagAsDirty($(this));
         });
 
+    gosuArena.changeTracking.clearDirtyFlags = function() {
+        $("[data-changed]").removeAttr("data-changed");
+    };
+
     $(document).on("click", ".clear-dirty-flags", function () {
-       $("[data-changed]").removeAttr("data-changed");
+        gosuArena.changeTracking.clearDirtyFlags();
     });
+    
+    gosuArena.changeTracking.hasChangedElements = function() {
+        return $(".change-tracked").has("[data-changed]").length > 0;
+    };
 
     window.onbeforeunload = function () {
-        var hasChangedElements = $(".change-tracked").has("[data-changed]").length > 0;
+        var hasChangedElements = gosuArena.changeTracking.hasChangedElements();
 
         if (hasChangedElements) {
             // There is an issue here with displaying special characters, such as å, ä and ö
