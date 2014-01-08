@@ -142,7 +142,7 @@ gosuArena.engine = (function () {
 
     var hasStartedBenchmark = false;
 
-    // 1000 iterations: 8500 ms @ 2014-01-06
+    // 1000 iterations: 4800 ms @ 2014-01-08
     function benchmark() {
 
         if (hasStartedBenchmark) {
