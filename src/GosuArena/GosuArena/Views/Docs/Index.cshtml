@@ -163,18 +163,18 @@ Your bot interacts with gosuArena through a couple of different events, and thos
         }
         angle, // The angle of your bot. A value between 0 and 360 degrees where 0 degrees is south.
         seenBots, // An array of <a href="#bot-status">bot status</a> objects representing the bots your bots currently can see
-        canFire,  // True if the weapon is ready for firing, false if the weapon is still cooling down
+        canFire: function () { ... },  // True if the weapon is ready for firing, false if the weapon is still cooling down
         roundsUntilWeaponIsReady, // The number of rounds remaining until the weapon is ready to fire
 
-        // The following properties are true if the bot is able to perform the
-        // corresponding movement action. If they are false that means that the bot
+        // The following functions return true if the bot is able to perform the
+        // corresponding movement action. If they return false that means that the bot
         // is blocked by something, such as another bot or a wall.
-        canMoveForward,
-        canMoveBack,
-        canMoveNorth,
-        canMoveSouth,
-        canMoveEast,
-        canMoveWest,
+        canMoveForward: function () { ... },
+        canMoveBack: function () { ... },
+        canMoveNorth: function () { ... },
+        canMoveSouth: function () { ... },
+        canMoveEast: function () { ... },
+        canMoveWest: function () { ... },
 
         // Note that since the bot is rectangular and turns around its own center
         // it is unable to turn if it is very close to any of the walls.
