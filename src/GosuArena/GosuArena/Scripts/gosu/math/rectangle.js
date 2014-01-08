@@ -113,15 +113,13 @@ gosu.math.rectangle = gosu.math.rectangle || {};
 
         var rectangle = Object.create(rectanglePrototype);
 
-        gosuArena.extend(rectangle, {
-            center: center,
-            corners: corners,
-            edges: edges,
-            minX: minX,
-            maxX: maxX,
-            minY: minY,
-            maxY: maxY
-        });
+        rectangle.center = center;
+        rectangle.corners = corners;
+        rectangle.edges = edges;
+        rectangle.minX = minX;
+        rectangle.maxX = maxX;
+        rectangle.minY = minY;
+        rectangle.maxY = maxY;
 
         return rectangle;
     }
