@@ -101,11 +101,11 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     };
 
     bot.moveLeft = function () {
-        moveRelativeToBot({ x: -1, y: 0 });
+        moveRelativeToBot({ x: 1, y: 0 });
     };
 
     bot.moveRight = function () {
-        moveRelativeToBot({ x: 1, y: 0 });
+        moveRelativeToBot({ x: -1, y: 0 });
     };
 
     function moveRelativeToBot(vector) {
@@ -184,20 +184,44 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             },
             angle: bot.angle,
             roundsUntilWeaponIsReady: bot.weapon.cooldownTimeLeft,
-            canFire: bot.weapon.cooldownTimeLeft <= 0,
+            canFire: function () {
+                return bot.weapon.cooldownTimeLeft <= 0
+            },
             seenBots: seenBots,
-            canMoveForward: collisionDetector.canPerformMoveAction(bot, bot.moveForward),
-            canMoveBack: collisionDetector.canPerformMoveAction(bot, bot.moveBack),
-            canMoveNorth: collisionDetector.canPerformMoveAction(bot, bot.moveNorth),
-            canMoveSouth: collisionDetector.canPerformMoveAction(bot, bot.moveSouth),
-            canMoveEast: collisionDetector.canPerformMoveAction(bot, bot.moveEast),
-            canMoveWest: collisionDetector.canPerformMoveAction(bot, bot.moveWest),
-            canTurnLeft: collisionDetector.canPerformMoveAction(bot, function () {
-                bot.turn(-1);
-            }),
-            canTurnRight: collisionDetector.canPerformMoveAction(bot, function () {
-                bot.turn(1);
-            })
+            canMoveForward: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveForward)
+            },
+            canMoveBack: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveBack)
+            },
+            canMoveNorth: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveNorth)
+            },
+            canMoveSouth: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveSouth)
+            },
+            canMoveEast: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveEast)
+            },
+            canMoveWest: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveWest)
+            },
+            canMoveLeft: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveLeft)
+            },
+            canMoveRight: function () {
+                return collisionDetector.canPerformMoveAction(bot, bot.moveRight)
+            },
+            canTurnLeft: function () {
+                return collisionDetector.canPerformMoveAction(bot, function () {
+                    bot.turn(-1);
+                })
+            },
+            canTurnRight: function () {
+                return collisionDetector.canPerformMoveAction(bot, function () {
+                    bot.turn(1);
+                });
+            }
         };
     }
 

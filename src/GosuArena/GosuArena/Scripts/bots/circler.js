@@ -16,13 +16,13 @@ function moveTowardsCenter(actionQueue, status) {
 gosuArena.register({
     tick: function (actionQueue, status) {
 
-        if (!status.canMoveForward || !status.canTurnRight) {
+        if (!status.canMoveForward() || !status.canTurnRight()) {
             actionQueue.clear();
             moveTowardsCenter(actionQueue, status);
             return;
         }
 
-        if (status.canFire) {
+        if (status.canFire()) {
             actionQueue.fire();
         }
 
@@ -32,7 +32,7 @@ gosuArena.register({
     onHitByBullet: function (actionQueue, status, eventArgs) {
         actionQueue.clear();
 
-        if (status.canMoveLeft) {
+        if (status.canMoveLeft()) {
             actionQueue.left(10);            
         } else {
             actionQueue.right(10);

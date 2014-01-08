@@ -41,12 +41,14 @@ describe("Game", function () {
         it("can move forward, back, east, west and north when facing west next to south wall", function () {
             gosuArena.register({
                 tick: function (actionQueue, status) {
-                    expect(status.canMoveForward).toEqual(true);
-                    expect(status.canMoveBack).toEqual(true);
-                    expect(status.canMoveNorth).toEqual(true);
-                    expect(status.canMoveEast).toEqual(true);
-                    expect(status.canMoveWest).toEqual(true);
-                    expect(status.canMoveSouth).toEqual(false);
+                    expect(status.canMoveForward()).toEqual(true);
+                    expect(status.canMoveBack()).toEqual(true);
+                    expect(status.canMoveNorth()).toEqual(true);
+                    expect(status.canMoveEast()).toEqual(true);
+                    expect(status.canMoveWest()).toEqual(true);
+                    expect(status.canMoveSouth()).toEqual(false);
+                    expect(status.canMoveLeft()).toEqual(false);
+                    expect(status.canMoveRight()).toEqual(true);
                 }, options: {
                     startPosition: {
                         x: arenaWidth / 2,
@@ -62,12 +64,14 @@ describe("Game", function () {
         it("can move back, east and south when facing west in north west corner", function () {
             gosuArena.register({
                 tick: function (actionQueue, status) {
-                    expect(status.canMoveForward).toEqual(false);
-                    expect(status.canMoveBack).toEqual(true);
-                    expect(status.canMoveNorth).toEqual(false);
-                    expect(status.canMoveEast).toEqual(true);
-                    expect(status.canMoveWest).toEqual(false);
-                    expect(status.canMoveSouth).toEqual(true);
+                    expect(status.canMoveForward()).toEqual(false);
+                    expect(status.canMoveBack()).toEqual(true);
+                    expect(status.canMoveNorth()).toEqual(false);
+                    expect(status.canMoveEast()).toEqual(true);
+                    expect(status.canMoveWest()).toEqual(false);
+                    expect(status.canMoveSouth()).toEqual(true);
+                    expect(status.canMoveLeft()).toEqual(true);
+                    expect(status.canMoveRight()).toEqual(false);
                 },
                 options: {
                     startPosition: {
@@ -84,12 +88,14 @@ describe("Game", function () {
         it("can move forward, west and north when facing north in south east corner", function () {
             gosuArena.register({
                 tick: function (actionQueue, status) {
-                    expect(status.canMoveForward).toEqual(true);
-                    expect(status.canMoveBack).toEqual(false);
-                    expect(status.canMoveNorth).toEqual(true);
-                    expect(status.canMoveEast).toEqual(false);
-                    expect(status.canMoveWest).toEqual(true);
-                    expect(status.canMoveSouth).toEqual(false);
+                    expect(status.canMoveForward()).toEqual(true);
+                    expect(status.canMoveBack()).toEqual(false);
+                    expect(status.canMoveNorth()).toEqual(true);
+                    expect(status.canMoveEast()).toEqual(false);
+                    expect(status.canMoveWest()).toEqual(true);
+                    expect(status.canMoveSouth()).toEqual(false);
+                    expect(status.canMoveLeft()).toEqual(true);
+                    expect(status.canMoveRight()).toEqual(false);
                 },
                 options: {
                     startPosition: {
@@ -106,8 +112,8 @@ describe("Game", function () {
         it("can turn both ways when in the middle of the field", function () {
             gosuArena.register({
                 tick: function (actionQueue, status) {
-                    expect(status.canTurnLeft).toEqual(true);
-                    expect(status.canTurnRight).toEqual(true);
+                    expect(status.canTurnLeft()).toEqual(true);
+                    expect(status.canTurnRight()).toEqual(true);
                 },
                 options: {
                     startPosition: {
@@ -124,8 +130,8 @@ describe("Game", function () {
         it("can not turn at all when in a corner", function () {
             gosuArena.register({
                 tick: function (actionQueue, status) {
-                    expect(status.canTurnLeft).toEqual(false);
-                    expect(status.canTurnRight).toEqual(false);
+                    expect(status.canTurnLeft()).toEqual(false);
+                    expect(status.canTurnRight()).toEqual(false);
                 },
                 options: {
                     startPosition: {
