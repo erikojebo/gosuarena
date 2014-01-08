@@ -36,9 +36,10 @@
 </div>
 
 <ul id="botLegends" data-bind="foreach: botLegends">
-    <li>
+    <li data-bind="css: { killed: !isAlive() }">
+        <div class="health" data-bind="style: { height: health() + '%' }"></div>
         <div class="color" data-bind='style: { backgroundColor : color }'></div>
-        <span class="name" data-bind="text: name, css: { killed: !isAlive() }"></span>
+        <span class="name" data-bind="text: name"></span>
     </li>
 </ul>
 

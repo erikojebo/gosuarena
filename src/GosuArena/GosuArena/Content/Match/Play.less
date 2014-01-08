@@ -5,15 +5,26 @@
     position: relative;
     top: -50px;
 
-    div {
+    .health {
+        background-color: #db1818;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        width: 4px;
+        display: inline-block;
+        line-height: 20px;
+        vertical-align: bottom;
+    }
+
+    .color {
         width: 20px;
         height: 20px;
         display: inline-block;
         margin-right: 5px;
         vertical-align: middle;
     }
-    
-    span {
+
+    .name {
         display: inline;
         line-height: 20px;
         vertical-align: middle;
@@ -25,9 +36,16 @@
         display: block;
         vertical-align: top;
         font-size: 12px;
+        height: 20px;
 
-        .killed {
-            color: #cecece;
+        &.killed {
+            .name {
+                color: #cecece;
+            }
+
+            .health {
+                visibility: hidden;
+            }
         }
     }
 }
