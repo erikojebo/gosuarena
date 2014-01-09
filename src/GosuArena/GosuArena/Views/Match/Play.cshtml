@@ -88,4 +88,12 @@
     };
 
     background.src = '@Url.Content("~/Content/images/map.jpg")';
+
+    var wall = new Image();
+    
+    wall.onload = function() {
+        gosuArena.sprites.wall = wall;
+    };
+
+    wall.src = '@Url.Content("~/Content/images/wall.png")';
 </script>

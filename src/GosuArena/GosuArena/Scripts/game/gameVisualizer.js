@@ -67,19 +67,48 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
 
         arenaState.terrain.forEach(function(terrain) {
 
+            context.save();
+            
             var terrainRectangle = terrain.rectangle();
 
             context.beginPath();
-            var startPoint = adjustToCanvasCoordinates(terrainRectangle.corners[0]);
+            var startPoint = terrainRectangle.corners[0];
             context.moveTo(startPoint.x, startPoint.y);
 
             for(var i = 1; i < terrainRectangle.corners.length; i++) {
-                var point = adjustToCanvasCoordinates(terrainRectangle.corners[i]);
+                var point = terrainRectangle.corners[i];
                 context.lineTo(point.x, point.y);
             }
 
             context.closePath();
             context.fill();
+
+            context.restore();
+            context.save();
+            
+            var tileSize = 53;
+            var tileCount = Math.ceil(terrain.width / tileSize);
+
+            var center = terrainRectangle.center;
+            
+            context.translate(center.x, center.y);
+
+            var angleInRadians = gosu.math.degreesToRadians(terrain.angle);
+
+            context.rotate(angleInRadians);
+            context.translate(-terrain.width / 2, 0);
+            
+            for (var i = 0; i <= tileCount; i++) {
+                context.drawImage(
+                    gosuArena.sprites.wall,
+                     i * tileSize,
+                    0,
+                    tileSize,
+                    tileSize
+                );
+            }
+
+            context.restore();
         });
 
         // For some reason the fill of the last shape gets filled
@@ -96,7 +125,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             return;
         }
 
-        context.fillStyle = "black";
+        context.fillStyle = "white";
         context.font = "bold 12px sans-serif";
 
         var nameTextMeasurement = context.measureText(bot.name);
@@ -171,7 +200,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
 
         context.save();
 
-        context.fillStyle = "rgba(255, 0, 0, 0.3)";
+        context.fillStyle = "rgba(255, 0, 0, 0.7)";
 
         var relativeWeaponMuzzlePoint = bot.weapon.botRelativeMuzzlePosition();
 
@@ -209,7 +238,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     function drawWinnerName() {
         context.save();
 
-        context.fillStyle = "black";
+        context.fillStyle = "white";
         context.font = "bold 30px verdana";
 
         var message = "The winner is " + winnerName + "!";
@@ -254,6 +283,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     return {
         arenaWidth: arena.right - arena.left,
         arenaHeight: arena.bottom - arena.top,
+        wallThickness: wallThickness,
         render: render
     };
 };

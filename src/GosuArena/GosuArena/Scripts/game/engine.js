@@ -57,34 +57,43 @@ gosuArena.engine = (function () {
     };
 
     function initializeTerrain() {
-        var wallMargin = 10;
+        var wallThickness = visualizer.wallThickness;
 
+        var westWallWidth = gosuArena.arenaHeight + 2 * wallThickness;
+        var westWallHeight = wallThickness;
         var westWall = gosuArena.factories.createTerrain({
-            x: -wallMargin,
-            y: -wallMargin,
-            width: wallMargin,
-            height: gosuArena.arenaHeight + 2 * wallMargin
+            x: -westWallWidth / 2 + westWallHeight / 2,
+            y: westWallWidth / 2 - westWallHeight / 2,
+            width: westWallWidth,
+            height: westWallHeight,
+            angle: 270
         });
 
+        var eastWallWidth = gosuArena.arenaHeight + 2 * wallThickness;
+        var eastWallHeight = wallThickness;
+        
         var eastWall = gosuArena.factories.createTerrain({
-            x: gosuArena.arenaWidth,
-            y: -wallMargin,
-            width: wallMargin,
-            height: gosuArena.arenaHeight + 2 * wallMargin
+            x: -eastWallWidth / 2 + gosuArena.arenaWidth + wallThickness + wallThickness / 2,
+            y: (gosuArena.arenaHeight + 2 * wallThickness) / 2 - wallThickness / 2,
+            width: eastWallWidth,
+            height: eastWallHeight,
+            angle: 90
         });
 
         var northWall = gosuArena.factories.createTerrain({
-            x: -wallMargin,
-            y: -wallMargin,
-            width: gosuArena.arenaWidth + 2 * wallMargin,
-            height: wallMargin
+            x: -wallThickness,
+            y: 0,
+            width: gosuArena.arenaWidth + 2 * wallThickness,
+            height: wallThickness,
+            angle: 0
         });
 
         var southWall = gosuArena.factories.createTerrain({
-            x: -wallMargin,
-            y: gosuArena.arenaHeight,
-            width: gosuArena.arenaWidth + 2 * wallMargin,
-            height: wallMargin
+            x: -wallThickness,
+            y: gosuArena.arenaHeight + wallThickness,
+            width: gosuArena.arenaWidth + 2 * wallThickness,
+            height: wallThickness,
+            angle: 180
         });
 
         arenaState.addTerrain(eastWall);

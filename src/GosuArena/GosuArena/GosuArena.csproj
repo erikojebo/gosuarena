@@ -179,6 +179,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\images\map.jpg" />
+    <Content Include="Content\images\wall.png" />
     <Content Include="Content\images\walls.png" />
     <Content Include="Scripts\game\terrain.js" />
     <Content Include="Scripts\game\worldObject.js" />
