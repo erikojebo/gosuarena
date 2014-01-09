@@ -3,27 +3,59 @@ gosu.math = gosu.math || {};
 
 (function () {
     gosu.math.createVector = function(x, y) {
-        var self = {};
-
-        self.x = x;
-        self.y = y;
-
-        self.length = function() {
+        function length () {
             return Math.sqrt(x * x + y * y);
         };
 
-        self.scalarProduct = function(other) {
-            return self.x * other.x + self.y * other.y;
+        function scalarProduct (other) {
+            return x * other.x + y * other.y;
         };
 
-        self.angleTo = function(other) {
-            var dotProduct = self.scalarProduct(other);
-            var cosAngle = dotProduct / self.length() / other.length();
+        function angleTo (other) {
+            var dotProduct = scalarProduct(other);
+            var cosAngle = dotProduct / length() / other.length();
 
             var angleInRadians = Math.acos(cosAngle);
             return angleInRadians / (2 * Math.PI) * 360;
         };
 
-        return self;
+        function divide(factor) {
+            return gosu.math.createVector(x / factor, y / factor);
+        };
+
+        function multiply(factor) {
+            return gosu.math.createVector(x * factor, y * factor);
+        };
+
+        function add(other) {
+            return gosu.math.createVector(
+                x + other.x,
+                y + other.y
+            );
+        }
+
+        function subtract(other) {
+            return gosu.math.createVector(
+                x - other.x,
+                y - other.y
+            );
+        }
+        
+        function normalize() {
+            return divide(length());
+        };
+        
+        return {
+            x: x,
+            y: y,
+            normalize: normalize,
+            length: length,
+            scalarProduct: scalarProduct,
+            angleTo: angleTo,
+            divide: divide,
+            multiply: multiply,
+            add: add,
+            subtract: subtract
+        };
     };
 })();

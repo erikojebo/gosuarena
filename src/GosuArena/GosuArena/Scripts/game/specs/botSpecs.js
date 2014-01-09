@@ -6,7 +6,7 @@ describe("bot", function () {
     var tick = function () {
         nextTickAction();
     };
-    
+
     // Performs a tick for the given bot where the bot
     // will execute the given action during the tick,
     // if the default tick function is used
@@ -14,10 +14,10 @@ describe("bot", function () {
         nextTickAction = action;
 
         bot.tick();
-        
+
         nextTickAction = function () { };
     }
-    
+
     beforeEach(function () {
         collisionDetector = {
             seenBots: function () {
@@ -415,7 +415,7 @@ describe("bot", function () {
         }, collisionDetector);
 
         // Facing north
-        
+
         expect(bot.direction).toEqualVector({ x: 0, y: 0 });
 
         tickWith(bot, function () { bot.moveForward(); }); // south
@@ -423,7 +423,7 @@ describe("bot", function () {
         expect(bot.direction).toEqualVector({ x: 0, y: 1 });
 
         tickWith(bot, function () { bot.moveBack(); }); // north
-        
+
         expect(bot.direction).toEqualVector({ x: 0, y: -1 });
 
         tickWith(bot, function () { bot.moveLeft(); }); // east
@@ -437,11 +437,11 @@ describe("bot", function () {
         tickWith(bot, function () { bot.turn(90); }); // Facing west
 
         tickWith(bot, function () { bot.moveLeft(); }); // South
-        
+
         expect(bot.direction).toEqualVector({ x: 0, y: 1 });
 
         tickWith(bot, function () { bot.moveRight(); }); // north
-        
+
         expect(bot.direction).toEqualVector({ x: 0, y: -1 });
 
         tickWith(bot, function () { bot.moveBack(); }); // east
@@ -451,5 +451,20 @@ describe("bot", function () {
         tickWith(bot, function () { bot.moveForward(); }); // west
 
         expect(bot.direction).toEqualVector({ x: -1, y: 0 });
+    });
+
+    it("combines all movement actions during a round to calculate normalized direction vector", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            x: 0,
+            y: 0,
+            angle: 0
+        }, collisionDetector);
+
+        tickWith(bot, function () {
+            bot.moveNorth();
+            bot.moveEast();
+        });
+
+        expect(bot.direction).toEqualVector({ x: 1 / Math.sqrt(2), y: -1 / Math.sqrt(2) });
     });
 });

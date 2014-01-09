@@ -70,5 +70,57 @@ describe("math", function () {
                 expect(vector3.angleTo(gosu.math.createVector(-2, -2))).toBeCloseTo(180);
             });
         });
+
+        describe("normalizing", function () {
+            it("has length 1 after normalizing", function () {
+                var v = gosu.math.createVector(1, 1);
+
+                var actual = v.normalize();
+
+                expect(actual.length()).toBeCloseTo(1);
+            });
+
+            it("has same direction after normalizing", function () {
+                var v = gosu.math.createVector(-1, -1);
+
+                var actual = v.normalize();
+
+                expect(actual).toEqualVector({ x: -1 / Math.sqrt(2), y: -1 / Math.sqrt(2) });
+            });
+        });
+
+        describe("arithmetic", function () {
+            it("yields vector with same direction but multiplied length when multiplying", function () {
+                var v = gosu.math.createVector(-0.5, -1);
+
+                var actual = v.multiply(2);
+
+                expect(actual).toEqualVector({ x: -1, y: -2 });
+            });
+
+            it("yields vector with same direction but divided length when dividing", function () {
+                var v = gosu.math.createVector(-1, -1);
+
+                var actual = v.divide(2);
+
+                expect(actual).toEqualVector({ x: -0.5, y: -0.5 });
+            });
+
+            it("yields resulting vector when subtracting other vector", function () {
+                var v = gosu.math.createVector(1, -1);
+
+                var actual = v.subtract({ x: -2, y: 3 });
+
+                expect(actual).toEqualVector({ x: 3, y: -4 });
+            });
+
+            it("yields resulting vector when adding other vector", function () {
+                var v = gosu.math.createVector(-1, 1);
+
+                var actual = v.add({ x: -2, y: 3 });
+
+                expect(actual).toEqualVector({ x: -3, y: 4 });
+            });            
+        });
     });
 });
