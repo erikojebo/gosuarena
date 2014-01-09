@@ -8,7 +8,7 @@ function moveTowardsCenter(actionQueue, status) {
 
     if (status.position.y < gosuArena.arenaHeight * 0.25) {
         actionQueue.south(10);
-    } else if (status.position.x > gosuArena.arenaHeight * 0.75) {
+    } else if (status.position.y > gosuArena.arenaHeight * 0.75) {
         actionQueue.north(10);
     }
 }
@@ -16,16 +16,39 @@ function moveTowardsCenter(actionQueue, status) {
 gosuArena.register({
     tick: function (actionQueue, status) {
 
+        function tryFire() {
+            if (status.canFire()) {
+                actionQueue.fire();
+            }
+        }
+
+        if (status.seenBots.length > 0) {
+            actionQueue.clear();
+            
+            var other = status.seenBots[0];
+            
+            if (other.direction.x > 0) {
+                actionQueue.east();
+            } else if (other.direction.x < 0) {
+                actionQueue.west();
+            }
+            
+            if (other.direction.y > 0) {
+                actionQueue.south();
+            } else if (other.direction.y < 0) {
+                actionQueue.north();
+            }
+
+            return;
+        }
+
         if (!status.canMoveForward() || !status.canTurnRight()) {
             actionQueue.clear();
             moveTowardsCenter(actionQueue, status);
             return;
         }
-
-        if (status.canFire()) {
-            actionQueue.fire();
-        }
-
+        
+        tryFire();
         actionQueue.turn(1);
         actionQueue.forward(2);
     },
