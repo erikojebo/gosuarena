@@ -57,7 +57,7 @@ gosuArena.engine = (function () {
     };
 
     function initializeTerrain() {
-        var wallMargin = 100;
+        var wallMargin = 10;
 
         var westWall = gosuArena.factories.createTerrain({
             x: -wallMargin,

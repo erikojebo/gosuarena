@@ -77,3 +77,15 @@
         });
     </script>
 }
+
+<script type="text/javascript">
+    gosuArena.sprites = gosuArena.sprites || {};
+
+    var background = new Image();
+    
+    background.onload = function() {
+        gosuArena.sprites.background = background;
+    };
+
+    background.src = '@Url.Content("~/Content/images/map.jpg")';
+</script>

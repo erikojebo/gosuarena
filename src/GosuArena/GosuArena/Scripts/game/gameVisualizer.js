@@ -6,7 +6,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     var hasMatchEnded = false;
     var hasDrawnWinnerName = false;
     var winnerName = null;
-    
+
     var wallColor = "#000";
     var fieldColor = "#fff";
 
@@ -35,14 +35,24 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     });
 
     function clearField() {
-        context.fillStyle = fieldColor;
 
-        // Clear playing field within walls
-        context.clearRect(
-            arena.left,
-            arena.top,
-            arena.width,
-            arena.height);
+        if (gosuArena.sprites.background) {
+            context.drawImage(
+                gosuArena.sprites.background,
+                wallThickness,
+                wallThickness,
+                arena.width,
+                arena.height);
+        } else {
+            context.fillStyle = fieldColor;
+
+            // Clear playing field within walls
+            context.clearRect(
+                arena.left,
+                arena.top,
+                arena.width,
+                arena.height);
+        }
     }
 
     function adjustToCanvasCoordinates(point) {
@@ -58,7 +68,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         arenaState.terrain.forEach(function(terrain) {
 
             var terrainRectangle = terrain.rectangle();
-            
+
             context.beginPath();
             var startPoint = adjustToCanvasCoordinates(terrainRectangle.corners[0]);
             context.moveTo(startPoint.x, startPoint.y);
@@ -211,10 +221,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         context.fillText(
             message,
             (-textMeasurement.width / 2),
-            -100);
+                -100);
 
         hasDrawnWinnerName = true;
-        
+
         context.restore();
     }
 
@@ -225,7 +235,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         if (hasMatchEnded && hasDrawnWinnerName) {
             return;
         }
-        
+
         context.save();
 
         clearField();
@@ -237,7 +247,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         if (hasMatchEnded && !hasDrawnWinnerName) {
             drawWinnerName();
         }
-        
+
         context.restore();
     }
 
