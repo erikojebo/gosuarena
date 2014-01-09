@@ -1,8 +1,23 @@
 describe("bot", function () {
-    var tick = function () {};
+    var nextTickAction = function () { };
     var collisionDetector = null;
     var actionQueue = null;
 
+    var tick = function () {
+        nextTickAction();
+    };
+    
+    // Performs a tick for the given bot where the bot
+    // will execute the given action during the tick,
+    // if the default tick function is used
+    function tickWith(bot, action) {
+        nextTickAction = action;
+
+        bot.tick();
+        
+        nextTickAction = function () { };
+    }
+    
     beforeEach(function () {
         collisionDetector = {
             seenBots: function () {
@@ -352,16 +367,16 @@ describe("bot", function () {
         expect(bot.color).toEqual(defaultOptions.color);
     });
 
-    it("has no direction when standing still", function () {
+    it("has no direction after standing still during a round", function () {
         var bot = gosuArena.factories.createBot(tick, {
             x: 0,
             y: 0,
             angle: 0
         }, collisionDetector);
 
-        bot.moveForward();
+        tickWith(bot, function () { bot.moveForward(); });
 
-        bot.tick();
+        tickWith(bot, function () { }); // Do nothing for one turn
 
         expect(bot.direction).toEqualVector({ x: 0, y: 0 });
     });
@@ -375,19 +390,19 @@ describe("bot", function () {
 
         expect(bot.direction).toEqualVector({ x: 0, y: 0 });
 
-        bot.moveSouth();
+        tickWith(bot, function () { bot.moveSouth(); });
 
         expect(bot.direction).toEqualVector({ x: 0, y: 1 });
 
-        bot.moveNorth();
+        tickWith(bot, function () { bot.moveNorth(); });
 
         expect(bot.direction).toEqualVector({ x: 0, y: -1 });
 
-        bot.moveWest();
+        tickWith(bot, function () { bot.moveWest(); });
 
         expect(bot.direction).toEqualVector({ x: -1, y: 0 });
 
-        bot.moveEast();
+        tickWith(bot, function () { bot.moveEast(); });
 
         expect(bot.direction).toEqualVector({ x: 1, y: 0 });
     });
@@ -403,37 +418,37 @@ describe("bot", function () {
         
         expect(bot.direction).toEqualVector({ x: 0, y: 0 });
 
-        bot.moveForward(); // south
+        tickWith(bot, function () { bot.moveForward(); }); // south
 
         expect(bot.direction).toEqualVector({ x: 0, y: 1 });
 
-        bot.moveBack(); // north
+        tickWith(bot, function () { bot.moveBack(); }); // north
         
         expect(bot.direction).toEqualVector({ x: 0, y: -1 });
 
-        bot.moveLeft(); // east
+        tickWith(bot, function () { bot.moveLeft(); }); // east
 
         expect(bot.direction).toEqualVector({ x: 1, y: 0 });
 
-        bot.moveRight(); // west
+        tickWith(bot, function () { bot.moveRight(); }); // west
 
         expect(bot.direction).toEqualVector({ x: -1, y: 0 });
 
-        bot.turn(90); // Facing west
+        tickWith(bot, function () { bot.turn(90); }); // Facing west
 
-        bot.moveLeft(); // South
+        tickWith(bot, function () { bot.moveLeft(); }); // South
         
         expect(bot.direction).toEqualVector({ x: 0, y: 1 });
 
-        bot.moveRight(); // north
+        tickWith(bot, function () { bot.moveRight(); }); // north
         
         expect(bot.direction).toEqualVector({ x: 0, y: -1 });
 
-        bot.moveBack(); // east
+        tickWith(bot, function () { bot.moveBack(); }); // east
 
         expect(bot.direction).toEqualVector({ x: 1, y: 0 });
 
-        bot.moveForward(); // west
+        tickWith(bot, function () { bot.moveForward(); }); // west
 
         expect(bot.direction).toEqualVector({ x: -1, y: 0 });
     });
