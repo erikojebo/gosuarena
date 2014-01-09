@@ -2,7 +2,7 @@ describe("bot", function () {
     var tick = function () {};
     var collisionDetector = null;
     var actionQueue = null;
-    
+
     beforeEach(function () {
         collisionDetector = {
             seenBots: function () {
@@ -301,13 +301,13 @@ describe("bot", function () {
     it("only exposes performNext on the action queue of the bot, not on the queue sent to the tick callback", function () {
 
         var wasTickCalled = false;
-        
+
         var bot = gosuArena.factories.createBot(function (actionQueue, status) {
-        
+
             expect(actionQueue.performNext).toBe(undefined);
 
             wasTickCalled = true;
-    
+
         }, { }, collisionDetector);
 
         bot.tick();
@@ -327,7 +327,7 @@ describe("bot", function () {
         var wasCallbackCalled = false;
 
         bot.onHitByBullet(function (actionQueue, status, eventArgs) {
-            
+
             expect(actionQueue.performNext).toBe(undefined);
 
             wasCallbackCalled = true;
@@ -342,13 +342,99 @@ describe("bot", function () {
     it("uses default color if user supplies non-hex value as color", function () {
 
         var safeOptions = gosuArena.factories.createSafeBotOptions({
-                    color: "function () { }" // invalid color value
+            color: "function () { }" // invalid color value
         });
-        
+
         var bot = gosuArena.factories.createBot(tick, safeOptions, collisionDetector);
-        
+
         var defaultOptions = gosuArena.factories.createSafeBotOptions({});
 
         expect(bot.color).toEqual(defaultOptions.color);
+    });
+
+    it("has no direction when standing still", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            x: 0,
+            y: 0,
+            angle: 0
+        }, collisionDetector);
+
+        bot.moveForward();
+
+        bot.tick();
+
+        expect(bot.direction).toEqualVector({ x: 0, y: 0 });
+    });
+
+    it("has direction south when moving south, north when moving north, etc.", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            x: 0,
+            y: 0,
+            angle: 0
+        }, collisionDetector);
+
+        expect(bot.direction).toEqualVector({ x: 0, y: 0 });
+
+        bot.moveSouth();
+
+        expect(bot.direction).toEqualVector({ x: 0, y: 1 });
+
+        bot.moveNorth();
+
+        expect(bot.direction).toEqualVector({ x: 0, y: -1 });
+
+        bot.moveWest();
+
+        expect(bot.direction).toEqualVector({ x: -1, y: 0 });
+
+        bot.moveEast();
+
+        expect(bot.direction).toEqualVector({ x: 1, y: 0 });
+    });
+
+    it("has direction which is absolute, even when moving relative to bot", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            x: 0,
+            y: 0,
+            angle: 0
+        }, collisionDetector);
+
+        // Facing north
+        
+        expect(bot.direction).toEqualVector({ x: 0, y: 0 });
+
+        bot.moveForward(); // south
+
+        expect(bot.direction).toEqualVector({ x: 0, y: 1 });
+
+        bot.moveBack(); // north
+        
+        expect(bot.direction).toEqualVector({ x: 0, y: -1 });
+
+        bot.moveLeft(); // east
+
+        expect(bot.direction).toEqualVector({ x: 1, y: 0 });
+
+        bot.moveRight(); // west
+
+        expect(bot.direction).toEqualVector({ x: -1, y: 0 });
+
+        bot.turn(90); // Facing west
+
+        bot.moveLeft(); // South
+        
+        expect(bot.direction).toEqualVector({ x: 0, y: 1 });
+
+        bot.moveRight(); // north
+        
+        expect(bot.direction).toEqualVector({ x: 0, y: -1 });
+
+        bot.moveBack(); // east
+
+        expect(bot.direction).toEqualVector({ x: 1, y: 0 });
+
+        bot.moveForward(); // west
+
+        expect(bot.direction).toEqualVector({ x: -1, y: 0 });
     });
 });

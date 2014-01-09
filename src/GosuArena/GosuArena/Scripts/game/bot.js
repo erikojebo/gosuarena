@@ -8,7 +8,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     var hitByBulletCallbacks = [];
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
     var userActionQueue = gosuArena.factories.createUserActionQueue(actionQueue);
-
+    
     var properties = {
         id: options.id,
         x: options.x,
@@ -16,6 +16,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         width: options.width,
         height: options.height,
         angle: options.angle,
+        direction: { x: 0, y: 0},
         color: options.color,
         name: options.name,
         health: options.initialHealthPoints,
@@ -107,28 +108,33 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     bot.moveRight = function () {
         moveRelativeToBot({ x: -1, y: 0 });
     };
+    
+    bot.moveNorth = function () {
+        moveAbsolute({ x : 0, y: -1 });
+    };
+
+    bot.moveSouth = function () {
+        moveAbsolute({ x : 0, y: 1 });
+    };
+
+    bot.moveWest = function () {
+        moveAbsolute({ x : -1, y: 0 });
+    };
+
+    bot.moveEast = function () {
+        moveAbsolute({ x : 1, y: 0 });
+    };
 
     function moveRelativeToBot(vector) {
         var movementVector = gosu.math.point.rotate(vector, bot.angle);
 
-        bot.translate(movementVector);
+        moveAbsolute(movementVector);
     }
 
-    bot.moveNorth = function () {
-        bot.y--;
-    };
-
-    bot.moveSouth = function () {
-        bot.y++;
-    };
-
-    bot.moveWest = function () {
-        bot.x--;
-    };
-
-    bot.moveEast = function () {
-        bot.x++;
-    };
+    function moveAbsolute(vector) {
+        bot.translate(vector);
+        bot.direction = vector;
+    }
 
     bot.fire = function () {
 
@@ -226,7 +232,12 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     }
 
     bot.tick = function() {
-
+        // Reset the direction so that the bot direction will be
+        // determined by the actions during this tick rather than remembering
+        // a previous direction if this tick turns out to be one where
+        // the bot is standing still
+        bot.direction = { x: 0, y: 0 };
+        
         if (bot.weapon.cooldownTimeLeft > 0) {
             bot.weapon.cooldownTimeLeft--;
         }

@@ -1,15 +1,18 @@
 beforeEach(function () {
 
+    function toEqualPoint (expectedPoint) {
+        var actualPoint = this.actual;
+        return gosu.math.areWithinDelta(actualPoint.x, expectedPoint.x, 0.00001) &&
+            gosu.math.areWithinDelta(actualPoint.y, expectedPoint.y, 0.00001);
+    }
+
     this.addMatchers({
         toBeCloseTo: function(expectedValue) {
             var actualValue = this.actual;
             return gosu.math.areWithinDelta(actualValue, expectedValue, 0.00001);
         },
-        toEqualPoint: function (expectedPoint) {
-            var actualPoint = this.actual;
-            return gosu.math.areWithinDelta(actualPoint.x, expectedPoint.x, 0.00001) &&
-                gosu.math.areWithinDelta(actualPoint.y, expectedPoint.y, 0.00001);
-        },
+        toEqualPoint: toEqualPoint,
+        toEqualVector: toEqualPoint,        
         toEqualLineSegment: function (expectedLineSegment) {
             var actualLineSegment = this.actual;
             return gosu.math.areWithinDelta(expectedLineSegment.x1, actualLineSegment.x1) &&
