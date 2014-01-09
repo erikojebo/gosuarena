@@ -331,6 +331,55 @@ describe("Game", function () {
 
             expect(wasTickCalled).toBe(true);
         });
+
+        it("status for seen bots contain direction information", function () {
+
+            var bot1Position = { x: 1, y: 2 };
+
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    actionQueue.east();
+                },
+                options: {
+                    startPosition: {
+                        x: bot1Position.x,
+                        y: bot1Position.y,
+                        angle: 0
+                    }
+                }
+            });
+
+            var wasTickCalled = false;
+            var round = 0;
+            
+            // This bot spawns aiming directly at the other bot, which is
+            // to the west
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+
+                    expect(status.seenBots.length).toEqual(1);
+                    
+                    if (round > 0) {
+                        expect(status.seenBots[0].direction).toEqualVector({ x: 1, y: 0 });
+                    }
+                    
+                    wasTickCalled = true;
+                    round++;
+                },
+                options: {
+                    startPosition: {
+                        x: 100,
+                        y: 0,
+                        angle: 90
+                    }
+                }
+            });
+
+            clock.doTick();
+            clock.doTick();
+
+            expect(wasTickCalled).toBe(true);
+        });        
     });
 
     it("raises gameEnded event when there is only one bot left", function () {
@@ -477,5 +526,4 @@ describe("Game", function () {
         // so that there is a defined ordering of the bots by their ids
         expect(arenaState.bots[0].id < arenaState.bots[1].id).toBe(true);
     });
-
 });

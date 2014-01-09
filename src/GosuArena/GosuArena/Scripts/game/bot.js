@@ -193,6 +193,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
                 height: gosuArena.arenaHeight
             },
             angle: bot.angle,
+            direction: bot.direction,
             roundsUntilWeaponIsReady: bot.weapon.cooldownTimeLeft,
             canFire: function () {
                 return bot.weapon.cooldownTimeLeft <= 0
