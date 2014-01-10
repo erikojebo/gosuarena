@@ -14,6 +14,8 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
     var wallThickness = 25;
+    var tileWidth = 53;
+    var tileHeight = 53;
     var healthIndicatorWidth = 30;
     var healthIndicatorHeight = 5;
     var healthIndicatorTopMargin = 8;
@@ -68,44 +70,52 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         arenaState.terrain.forEach(function(terrain) {
 
             context.save();
-            
+
             var terrainRectangle = terrain.rectangle();
 
-            context.beginPath();
-            var startPoint = adjustToCanvasCoordinates(terrainRectangle.corners[0]);
-            context.moveTo(startPoint.x, startPoint.y);
-
-            for(var i = 1; i < terrainRectangle.corners.length; i++) {
-                var point = adjustToCanvasCoordinates(terrainRectangle.corners[i]);
-                context.lineTo(point.x, point.y);
-            }
-
-            context.closePath();
-            context.fill();
-
-            context.restore();
-            context.save();
-            
-            var tileSize = 53;
-            var tileCount = Math.ceil(terrain.width / tileSize);
+            var tileCount = Math.ceil(terrain.width / tileWidth);
 
             var center = adjustToCanvasCoordinates(terrainRectangle.center);
-            
+
             context.translate(center.x, center.y);
 
             var angleInRadians = gosu.math.degreesToRadians(terrain.angle);
 
             context.rotate(angleInRadians);
             context.translate(-terrain.width / 2, -terrain.height / 2);
-            
+
+            var image = gosuArena.sprites.wallNorth;
+
+            if (terrain.angle > 45 && terrain.angle <= 135) {
+                image = gosuArena.sprites.wallEast;
+            } else if (terrain.angle > 135 && terrain.angle <= 225) {
+                image = gosuArena.sprites.wallSouth;
+            } else if (terrain.angle > 225 && terrain.angle <= 315) {
+                image = gosuArena.sprites.wallWest;
+            }
+
             for (var i = 0; i <= tileCount; i++) {
-                context.drawImage(
-                    gosuArena.sprites.wall,
-                     i * tileSize,
-                    0,
-                    tileSize,
-                    tileSize
+                context.save();
+
+                // Translate to center of image to draw
+                context.translate(
+                    i * image.width + image.width / 2,
+                    image.height / 2
                 );
+
+                // Rotate back to neutral since the images are
+                // already rotated
+                context.rotate(-angleInRadians);
+                
+                context.drawImage(
+                    image,
+                    -image.width / 2,
+                    -image.height / 2,
+                    image.width,
+                    image.height
+                );
+
+                context.restore();
             }
 
             context.restore();

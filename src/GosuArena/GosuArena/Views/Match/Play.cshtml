@@ -79,21 +79,22 @@
 }
 
 <script type="text/javascript">
+    
     gosuArena.sprites = gosuArena.sprites || {};
 
-    var background = new Image();
-    
-    background.onload = function() {
-        gosuArena.sprites.background = background;
-    };
+    function loadSprite(name, url) {
+        var img = new Image();
 
-    background.src = '@Url.Content("~/Content/images/map.jpg")';
+        img.onload = function () {
+            gosuArena.sprites[name] = img;
+        };
 
-    var wall = new Image();
-    
-    wall.onload = function() {
-        gosuArena.sprites.wall = wall;
-    };
+        img.src = url;
+    }
 
-    wall.src = '@Url.Content("~/Content/images/wall.png")';
+    loadSprite('background', '@Url.Content("~/Content/images/map.jpg")');
+    loadSprite('wallNorth', '@Url.Content("~/Content/images/wall_north.png")');
+    loadSprite('wallSouth', '@Url.Content("~/Content/images/wall_south.png")');
+    loadSprite('wallEast', '@Url.Content("~/Content/images/wall_east.png")');
+    loadSprite('wallWest', '@Url.Content("~/Content/images/wall_west.png")');
 </script>
