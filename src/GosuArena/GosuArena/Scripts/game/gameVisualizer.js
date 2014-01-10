@@ -183,7 +183,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             context.rotate(angleInRadians);
 
             drawBotBody(bot);
-            drawWeapon(bot);
+            //drawWeapon(bot);
             drawSight(bot);
 
             context.rotate(-angleInRadians);
@@ -198,7 +198,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     function drawBotBody(bot) {
         // The context is translated to the center of the bot, so the
         // position is relative to that
-        context.fillRect(-bot.width / 2, -bot.height / 2, bot.width, bot.height);
+        //context.fillRect(-bot.width / 2, -bot.height / 2, bot.width, bot.height);
+        var image = gosuArena.sprites.bot;
+        context.drawImage(
+            image, -image.width / 2, -image.height / 2, image.width, image.height);
     }
 
     function drawWeapon(bot) {

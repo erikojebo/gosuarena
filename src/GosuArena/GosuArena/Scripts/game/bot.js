@@ -74,7 +74,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     bot.weapon.botRelativeMuzzlePosition = function () {
         return gosu.math.point.add(
             bot.weapon.botRelativeMountingPoint(),
-            { x: 0, y: bot.weapon.height });
+            { x: 8, y: bot.weapon.height });
     };
 
     bot.weapon.muzzlePosition = function () {
