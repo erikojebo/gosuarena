@@ -118,6 +118,15 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
                 context.restore();
             }
 
+            image = gosuArena.sprites.wallCornerLeft;
+
+            context.drawImage(image, 0, 0, image.width, image.height);
+
+            image = gosuArena.sprites.wallCornerRight;
+            
+            context.drawImage(
+                image, terrain.width - image.width, 0, image.width, image.height);
+            
             context.restore();
         });
 
