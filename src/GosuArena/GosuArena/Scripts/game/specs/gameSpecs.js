@@ -5,7 +5,7 @@ describe("Game", function () {
 
     var arenaHeight = 400;
     var arenaWidth = 400;
-
+    var wallThickness = 10;
     var botWidth = null;
     var botHeight = null;
 
@@ -21,7 +21,8 @@ describe("Game", function () {
         visualizer = {
             render: function() { },
             arenaHeight: arenaHeight,
-            arenaWidth: arenaWidth
+            arenaWidth: arenaWidth,
+            wallThickness: wallThickness
         };
 
         botOptions = gosuArena.factories.createSafeBotOptions({}, true);

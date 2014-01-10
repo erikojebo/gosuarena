@@ -4,7 +4,7 @@ gosuArena.engine = (function () {
     var arenaState = gosuArena.arenaState.create();
     var readyCallbacks = [];
     var matchStartedCallbacks = [];
-    var actionsPerRound = 2;
+    var actionsPerRound = 4;
     var isTraining = true;
     var gameListeners = [];
     var visualizer = null;
@@ -63,8 +63,8 @@ gosuArena.engine = (function () {
         // The coordinates will be transformed to the canvas coordinate
         // system at render time
 
-        var arenaHeight = gosuArena.arenaHeight;
-        var arenaWidth = gosuArena.arenaWidth;
+        var arenaHeight = visualizer.arenaHeight;
+        var arenaWidth = visualizer.arenaWidth;
         var wallThickness = visualizer.wallThickness;
 
         var horizontalWallWidth = arenaWidth + 2 * wallThickness;
