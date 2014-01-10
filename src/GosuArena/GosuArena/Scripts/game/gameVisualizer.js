@@ -13,7 +13,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     var context = canvas.getContext("2d");
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
-    var wallThickness = 10;
+    var wallThickness = 25;
     var healthIndicatorWidth = 30;
     var healthIndicatorHeight = 5;
     var healthIndicatorTopMargin = 8;
@@ -72,11 +72,11 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             var terrainRectangle = terrain.rectangle();
 
             context.beginPath();
-            var startPoint = terrainRectangle.corners[0];
+            var startPoint = adjustToCanvasCoordinates(terrainRectangle.corners[0]);
             context.moveTo(startPoint.x, startPoint.y);
 
             for(var i = 1; i < terrainRectangle.corners.length; i++) {
-                var point = terrainRectangle.corners[i];
+                var point = adjustToCanvasCoordinates(terrainRectangle.corners[i]);
                 context.lineTo(point.x, point.y);
             }
 
@@ -89,14 +89,14 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             var tileSize = 53;
             var tileCount = Math.ceil(terrain.width / tileSize);
 
-            var center = terrainRectangle.center;
+            var center = adjustToCanvasCoordinates(terrainRectangle.center);
             
             context.translate(center.x, center.y);
 
             var angleInRadians = gosu.math.degreesToRadians(terrain.angle);
 
             context.rotate(angleInRadians);
-            context.translate(-terrain.width / 2, 0);
+            context.translate(-terrain.width / 2, -terrain.height / 2);
             
             for (var i = 0; i <= tileCount; i++) {
                 context.drawImage(

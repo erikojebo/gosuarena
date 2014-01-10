@@ -57,41 +57,67 @@ gosuArena.engine = (function () {
     };
 
     function initializeTerrain() {
+
+        // Coordinates here need to be given in the game coordinate
+        // system to make the collission detection work properly.
+        // The coordinates will be transformed to the canvas coordinate
+        // system at render time
+
+        var arenaHeight = gosuArena.arenaHeight;
+        var arenaWidth = gosuArena.arenaWidth;
         var wallThickness = visualizer.wallThickness;
 
-        var westWallWidth = gosuArena.arenaHeight + 2 * wallThickness;
-        var westWallHeight = wallThickness;
+        var horizontalWallWidth = arenaWidth + 2 * wallThickness;
+        var verticalWallWidth = arenaHeight + 2 * wallThickness;
+
+        var westWallCenter = {
+            x: -wallThickness / 2,
+            y: arenaHeight / 2
+        };
+
         var westWall = gosuArena.factories.createTerrain({
-            x: -westWallWidth / 2 + westWallHeight / 2,
-            y: westWallWidth / 2 - westWallHeight / 2,
-            width: westWallWidth,
-            height: westWallHeight,
+            x: westWallCenter.x - verticalWallWidth / 2,
+            y: westWallCenter.y - wallThickness / 2,
+            width: verticalWallWidth,
+            height: wallThickness,
             angle: 270
         });
 
-        var eastWallWidth = gosuArena.arenaHeight + 2 * wallThickness;
-        var eastWallHeight = wallThickness;
-        
+        var eastWallCenter = {
+            x: arenaWidth + wallThickness / 2,
+            y: arenaHeight / 2
+        };
+
         var eastWall = gosuArena.factories.createTerrain({
-            x: -eastWallWidth / 2 + gosuArena.arenaWidth + wallThickness + wallThickness / 2,
-            y: (gosuArena.arenaHeight + 2 * wallThickness) / 2 - wallThickness / 2,
-            width: eastWallWidth,
-            height: eastWallHeight,
+            x: eastWallCenter.x - verticalWallWidth / 2,
+            y: eastWallCenter.y - wallThickness / 2,
+            width: verticalWallWidth,
+            height: wallThickness,
             angle: 90
         });
 
+        var northWallCenter = {
+            x: arenaWidth / 2,
+            y: -wallThickness / 2
+        };
+
         var northWall = gosuArena.factories.createTerrain({
-            x: -wallThickness,
-            y: 0,
-            width: gosuArena.arenaWidth + 2 * wallThickness,
+            x: northWallCenter.x - horizontalWallWidth / 2,
+            y: northWallCenter.y - wallThickness / 2,
+            width: horizontalWallWidth,
             height: wallThickness,
             angle: 0
         });
 
+        var southWallCenter = {
+            x: arenaWidth / 2,
+            y: arenaHeight + wallThickness / 2
+        };
+        
         var southWall = gosuArena.factories.createTerrain({
-            x: -wallThickness,
-            y: gosuArena.arenaHeight + wallThickness,
-            width: gosuArena.arenaWidth + 2 * wallThickness,
+            x: southWallCenter.x - horizontalWallWidth / 2,
+            y: southWallCenter.y - wallThickness / 2,
+            width: horizontalWallWidth,
             height: wallThickness,
             angle: 180
         });
