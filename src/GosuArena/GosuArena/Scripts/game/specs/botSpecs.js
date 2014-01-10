@@ -147,16 +147,17 @@ describe("bot", function () {
         expect(bot.bottom()).toBeCloseTo(3 - Math.sqrt(2));
     });
 
-    it("has weapong mounting point is in the middle of the top side", function () {
+    it("has weapong mounting point is at the top side of the bot, offset from middle", function () {
         var bot = gosuArena.factories.createBot(tick, {
             x: 1,
             y: 2,
             width: 3,
             height: 5,
-            angle: 0
+            angle: 0,
+            weaponOffsetDistanceFromCenter: 0.1
         });
 
-        expect(bot.weapon.mountingPoint()).toEqualPoint({ x: 2.5, y: 7 });
+        expect(bot.weapon.mountingPoint()).toEqualPoint({ x: 2.6, y: 7 });
     });
 
     it("takes rotation into account when determining weapon mounting point", function () {
@@ -165,7 +166,8 @@ describe("bot", function () {
             y: -1,
             width: 2,
             height: 2,
-            angle: 45
+            angle: 45,
+            weaponOffsetDistanceFromCenter: 0
         });
 
         expect(bot.weapon.mountingPoint()).toEqualPoint({
@@ -180,10 +182,11 @@ describe("bot", function () {
             y: -1,
             width: 2,
             height: 3,
-            angle: 45
+            angle: 45,
+            weaponOffsetDistanceFromCenter: -0.2
         });
 
-        expect(bot.weapon.botRelativeMountingPoint()).toEqualPoint({ x: 0, y: 1.5 });
+        expect(bot.weapon.botRelativeMountingPoint()).toEqualPoint({ x: -0.2, y: 1.5 });
     });
 
     it("weapon muzzle is at the forward end of the weapon", function () {
@@ -192,27 +195,26 @@ describe("bot", function () {
             y: -1,
             width: 2,
             height: 2,
-            angle: 45,
-            weaponHeight: 1
+            angle: 90,
+            weaponHeight: 1,
+            weaponOffsetDistanceFromCenter: 0.1
         });
 
-        expect(bot.weapon.muzzlePosition()).toEqualPoint({
-            x: -Math.sqrt(2),
-            y: Math.sqrt(2)
-        });
+        expect(bot.weapon.muzzlePosition()).toEqualPoint({ x: -2, y: 0.1 })
     });
 
     it("weapon muzzle point in bot coordinate system is the vector from center to the farthest point of the weapon relative to bot", function () {
         var bot = gosuArena.factories.createBot(tick, {
-            x: -1,
+            x: -1.1,
             y: -1,
             width: 2,
-            height: 3,
-            angle: 45,
-            weaponHeight: 1.3
+            height: 4,
+            angle: 270,
+            weaponHeight: 1.3,
+            weaponOffsetDistanceFromCenter: 0.1            
         });
 
-        expect(bot.weapon.botRelativeMuzzlePosition()).toEqualPoint({ x: 0, y: 2.8 });
+        expect(bot.weapon.botRelativeMuzzlePosition()).toEqualPoint({ x: 0.1, y: 3.3 });
     });
 
     it("raises event when killed", function () {

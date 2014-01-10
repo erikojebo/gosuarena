@@ -19,6 +19,9 @@ beforeEach(function () {
                 gosu.math.areWithinDelta(expectedLineSegment.x2, actualLineSegment.x2) &&
                 gosu.math.areWithinDelta(expectedLineSegment.y1, actualLineSegment.y1) &&
                 gosu.math.areWithinDelta(expectedLineSegment.y2, actualLineSegment.y2);
+        },
+        toBeInInterval: function (expectedMin, expectedMax) {
+            return this.actual >= expectedMin && this.actual <= expectedMax;
         }
     });
 })

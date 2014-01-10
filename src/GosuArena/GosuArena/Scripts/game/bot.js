@@ -25,7 +25,8 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             height: options.weaponHeight,
             cooldownTime: options.weaponCooldownTime,
             cooldownTimeLeft: 0,
-            damage: options.weaponDamage
+            damage: options.weaponDamage,
+            offsetDistanceFromCenter: options.weaponOffsetDistanceFromCenter
         },
         sight: {
             width: options.sightWidth,
@@ -68,13 +69,13 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     };
 
     bot.weapon.botRelativeMountingPoint = function () {
-        return { x: 0, y: bot.height / 2 };
+        return { x: bot.weapon.offsetDistanceFromCenter, y: bot.height / 2 };
     };
 
     bot.weapon.botRelativeMuzzlePosition = function () {
         return gosu.math.point.add(
             bot.weapon.botRelativeMountingPoint(),
-            { x: 8, y: bot.weapon.height });
+            { x: 0, y: bot.weapon.height });
     };
 
     bot.weapon.muzzlePosition = function () {
@@ -282,11 +283,20 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     }
 
     function calculateSightRectangle() {
+
+        // Get the rectangle without rotation first
+        // and then rotate it, since that is the easiest
+        // way to think about the rectangle coordinates
+        var muzzlePosition = gosu.math.point.translate(
+            bot.center(),
+            bot.weapon.botRelativeMuzzlePosition()
+        );
+        
         var sightArea = gosu.math.rectangle.createFromPoints({
-            x1: bot.x + bot.width / 2 - bot.sight.width / 2,
-            y1: bot.y,
-            x2: bot.x + bot.width / 2 + bot.sight.width / 2,
-            y2: bot.y + bot.sight.length
+            x1: muzzlePosition.x - bot.sight.width / 2,
+            y1: muzzlePosition.y,
+            x2: muzzlePosition.x + bot.sight.width / 2,
+            y2: muzzlePosition.y + bot.sight.length
         });
 
         return sightArea.rotate(bot.angle, bot.center());

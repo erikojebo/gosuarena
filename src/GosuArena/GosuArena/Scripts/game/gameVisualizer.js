@@ -3,6 +3,8 @@ gosuArena.factories = gosuArena.factories || {};
 
 gosuArena.factories.createGameVisualizer = function (canvas) {
 
+    var tintingCanvas = document.createElement('canvas');
+
     var hasMatchEnded = false;
     var hasDrawnWinnerName = false;
     var winnerName = null;
@@ -198,8 +200,27 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         // The context is translated to the center of the bot, so the
         // position is relative to that
         var image = gosuArena.sprites.bot;
-        context.drawImage(
-            image, -image.width / 2, -image.height / 2, image.width, image.height);
+
+        // var tintingContext = tintingCanvas.getContext('2d');
+
+        // var botCenter = bot.center();
+        
+        // tintingContext.clearRect(0, 0, arena.Width, arena.Height);
+        // tintingContext.translate(botCenter.x, botCenter.y);
+        // tintingContext.rotate(bot.angle);
+        // tintingContext.drawImage(image, -image.width / 2, -image.height / 2);
+
+        // var botRectangle = bot.rectangle();
+        // var imageData = tintingContext.getImageData(
+        //     botRectangle.minX,
+        //     botRectangle.minY,
+        //     botRectangle.maxX - botRectangle.minX,
+        //     botRectangle.maxY - botRectangle.minY);
+
+        // context.putImageData(imageData, botRectangle.minX, botRectangle.minY);
+        
+         context.drawImage(
+             image, -image.width / 2, -image.height / 2, image.width, image.height);
     }
 
     function drawSight(bot) {

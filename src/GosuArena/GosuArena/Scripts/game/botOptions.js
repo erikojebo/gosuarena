@@ -9,6 +9,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     var weaponWidth = width * 0.2;
     var weaponLength = height * 0.3;
     var weaponDamage = 10;
+    var weaponOffsetDistanceFromCenter = 8;
     var initialHealthPoints = 100;
     var sightWidth = 1;
     var sightLength = 1000;
@@ -60,6 +61,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
         weaponWidth: weaponWidth,
         weaponHeight: weaponLength,
         weaponDamage: weaponDamage,
+        weaponOffsetDistanceFromCenter: weaponOffsetDistanceFromCenter,
         sightWidth: sightWidth,
         sightLength: sightLength,
         initialHealthPoints: initialHealthPoints
