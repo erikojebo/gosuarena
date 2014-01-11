@@ -242,10 +242,20 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             // Step by 4 since there are 4 values for each pixel (rgba)
             for (var px = 0; px < rgba.length - 4; px += 4) {
 
+                var r = rgba[px];
+                var g = rgba[px+1];
+                var b = rgba[px+2];
+
+                // Color distance allowed for pixel to be kept at
+                // original color (not tinted)
+                var tintTolerance = 20;
+                
                 // If the rgb values are on the same level (i.e 12,12,12)
                 // then the pixel is considered to be gray scale and should
                 // not be tinted
-                var isGrayScale = rgba[px] == rgba[px+1] && rgba[px+1] == rgba[px+2];
+                var isGrayScale = Math.abs(r - b) < tintTolerance &&
+                    Math.abs(r - g) < tintTolerance &&
+                    Math.abs(g - b) < tintTolerance;
 
                 if (isGrayScale) {
                     continue;
