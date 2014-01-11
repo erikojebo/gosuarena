@@ -48,8 +48,11 @@ gosuArena.engine = (function () {
 
         bot.onShotFired(onShotFiredByBot);
 
-        if (options.onHitByBullet) {
+        if (typeof options.onHitByBullet === 'function') {
             bot.onHitByBullet(options.onHitByBullet);
+        }
+        if (typeof options.onCollision === 'function') {
+            bot.onCollision(options.onCollision)
         }
 
         arenaState.addBot(bot);

@@ -5,6 +5,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     var shotFiredCallbacks = [];
     var killedCallbacks = [];
+    var collisionCallbacks = [];
     var hitByBulletCallbacks = [];
     var actionQueue = gosuArena.factories.createActionQueue(collisionDetector);
     var userActionQueue = gosuArena.factories.createUserActionQueue(actionQueue);
@@ -162,6 +163,10 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
 
     bot.onHitByBullet = function (callback) {
         hitByBulletCallbacks.push(callback);
+    }
+
+    bot.onCollision = function (callback) {
+        collisionCallbacks.push(callback);
     }
 
     bot.createStatus = function (simplified) {
@@ -326,6 +331,16 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         });
     }
 
+    function raiseCollidedEvent(bullet) {
+
+        var status = bot.createStatus();
+
+        collisionCallbacks.forEach(function (callback) {
+            callback(userActionQueue, status);
+        });
+    }
+
+    
     bot.hitBy = function (bullet) {
         bot.health -= bullet.damage;
 
@@ -334,6 +349,10 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         if (!bot.isAlive()) {
             raiseKilledEvent();
         }
+    };
+
+    bot.collided = function () {
+        raiseCollidedEvent();  
     };
 
     gosu.snapshot.extend(bot);

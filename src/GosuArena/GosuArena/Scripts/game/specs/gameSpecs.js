@@ -75,6 +75,156 @@ describe("Game", function () {
             clock.doTick();
         });
 
+        it("user gets callback when bot collides with other bot", function () {
+
+            var ticker = gosuArena.fakeTicker.create();
+
+            var bot1CollisionCount = 0, bot2CollisionCount = 0, bot3CollisionCount = 0;
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                name: "bot"
+            }, function () {
+                gosuArena.register({
+                    tick: ticker.tick,
+                    onCollision: function (actionQueue, status) {
+                        bot1CollisionCount++;
+
+                        expect(actionQueue.forward).toBeDefinedFunction();
+                        expect(status.canMoveForward).toBeDefinedFunction();
+                    },
+                    options: {
+                        startPosition: {
+                            x: 0,
+                            y: 0,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+            gosuArena.initiateBotRegistration({
+                id: 2,
+                name: "bot2"
+            }, function () {
+                gosuArena.register({
+                    tick: function () {},
+                    onCollision: function () {
+                        bot2CollisionCount++;
+                    },
+                    options: {
+                        startPosition: {
+                            x: botWidth,
+                            y: 0,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+            gosuArena.initiateBotRegistration({
+                id: 3,
+                name: "bot3"
+            }, function () {
+                gosuArena.register({
+                    tick: function () {},
+                    onCollision: function () {
+                        bot3CollisionCount++;
+                    },
+                    options: {
+                        startPosition: {
+                            x: botWidth / 2,
+                            y: botHeight,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+
+            startGame();
+
+            // Round 1
+            ticker.setNextAction(function (actionQueue) {
+                actionQueue.east(); // Should cause collision with bot2
+            });
+
+            clock.doTick();
+
+            expect(bot1CollisionCount).toEqual(1);
+            expect(bot2CollisionCount).toEqual(1);
+            expect(bot3CollisionCount).toEqual(0);
+
+
+            // Round 2
+            ticker.setNextAction(function (actionQueue) { }); // do nothing
+
+            clock.doTick();
+
+            // No new collisions, so all values should be as after round1
+            expect(bot1CollisionCount).toEqual(1);
+            expect(bot2CollisionCount).toEqual(1);
+            expect(bot3CollisionCount).toEqual(0);
+
+
+            // Round 3
+            ticker.setNextAction(function (actionQueue) {
+                actionQueue.forward(); // Collide with the bot to the south (bot3)
+            });
+
+            clock.doTick();
+
+            expect(bot1CollisionCount).toEqual(2);
+            expect(bot2CollisionCount).toEqual(1);
+            expect(bot3CollisionCount).toEqual(1);
+        });
+
+        it("checking if movement actions can be performed does not generate onCollision events", function () {
+
+            var collisionCount = 0;
+            var wasTickCalled = false;
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                name: "bot"
+            }, function () {
+                gosuArena.register({
+                    tick: function (actionQueue, status) {
+
+                        wasTickCalled = true;
+
+                        status.canMoveLeft();
+                        status.canMoveRight();
+                        status.canMoveBack();
+                        status.canMoveForward();
+                        status.canMoveNorth();
+                        status.canMoveSouth();
+                        status.canMoveEast();
+                        status.canMoveWest();
+                        status.canTurnLeft();
+                        status.canTurnRight();
+                    },
+                    onCollision: function () {
+                        collisionCount++;
+                    },
+                    options: {
+                        startPosition: {
+                            x: 0,
+                            y: 0,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+            startGame();
+
+            clock.doTick();
+
+            expect(wasTickCalled).toBe(true);
+            expect(collisionCount).toEqual(0);
+        });
+
         it("can move back, east and south when facing west in north west corner", function () {
             gosuArena.initiateBotRegistration({
                 id: 1,
@@ -268,7 +418,7 @@ describe("Game", function () {
             });
 
             startGame();
-            
+
             var hitByBulletCallbackCount = 0;
 
             clock.doTick(3);
@@ -330,7 +480,7 @@ describe("Game", function () {
             });
 
             startGame();
-            
+
             clock.doTick();
             clock.doTick();
 
@@ -477,11 +627,72 @@ describe("Game", function () {
             });
 
             startGame();
-            
+
             clock.doTick();
             clock.doTick();
 
             expect(wasTickCalled).toBe(true);
+        });
+
+        it("user gets callback with actionQueue and status when bot collides with wall", function () {
+
+            var ticker = gosuArena.fakeTicker.create();
+
+            var collisionCount = 0;
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                name: "bot"
+            }, function () {
+                gosuArena.register({
+                    tick: ticker.tick,
+                    onCollision: function (actionQueue, status) {
+                        collisionCount++;
+
+                        expect(actionQueue.forward).toBeDefinedFunction();
+                        expect(status.canMoveForward).toBeDefinedFunction();
+                    },
+                    options: {
+                        startPosition: {
+                            x: 0,
+                            y: 0,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+            startGame();
+
+            // Round 1
+            ticker.setNextAction(function (actionQueue) {
+                actionQueue.west();
+            });
+
+            clock.doTick();
+
+            expect(collisionCount).toEqual(1);
+
+
+            // Round 2
+            ticker.setNextAction(function (actionQueue) {
+                actionQueue.east();
+            });
+
+            clock.doTick();
+
+            // Should not be any collision this round
+            expect(collisionCount).toEqual(1);
+
+
+            // Round 3
+            ticker.setNextAction(function (actionQueue) {
+                actionQueue.north();
+            });
+
+            clock.doTick();
+
+            expect(collisionCount).toEqual(2);
         });
     });
 
