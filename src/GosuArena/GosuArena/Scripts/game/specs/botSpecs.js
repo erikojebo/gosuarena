@@ -455,7 +455,7 @@ describe("bot", function () {
         expect(bot.direction).toEqualVector({ x: -1, y: 0 });
     });
 
-    it("combines all movement actions during a round to calculate normalized direction vector", function () {
+    it("combines all movement actions during a round to calculate total direction vector", function () {
         var bot = gosuArena.factories.createBot(tick, {
             x: 0,
             y: 0,
@@ -467,6 +467,6 @@ describe("bot", function () {
             bot.moveEast();
         });
 
-        expect(bot.direction).toEqualVector({ x: 1 / Math.sqrt(2), y: -1 / Math.sqrt(2) });
+        expect(bot.direction).toEqualVector({ x: 1, y: -1 });
     });
 });

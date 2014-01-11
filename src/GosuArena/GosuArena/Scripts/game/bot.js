@@ -138,7 +138,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         var movementVector = gosu.math.createVector(vector.x, vector.y);
         var previousDirection = bot.direction;
         
-        bot.direction = movementVector.add(previousDirection).normalize();
+        bot.direction = movementVector.add(previousDirection);
     }
 
     bot.fire = function () {
