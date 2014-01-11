@@ -3,8 +3,8 @@ gosuArena.factories = gosuArena.factories || {};
 
 gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
 
-    var width = 20;
-    var height = 20;
+    var width = 31;
+    var height = 31;
     var weaponCooldownTime = 25;
     var weaponWidth = width * 0.2;
     var weaponLength = height * 0.3;

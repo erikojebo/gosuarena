@@ -3,8 +3,7 @@ gosuArena.factories = gosuArena.factories || {};
 
 gosuArena.factories.createGameVisualizer = function (canvas) {
 
-    var tintingCanvas = document.createElement('canvas');
-
+    var botCanvases = [];
     var hasMatchEnded = false;
     var hasDrawnWinnerName = false;
     var winnerName = null;
@@ -12,7 +11,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     var wallColor = "#000";
     var fieldColor = "#fff";
 
-    var context = canvas.getContext("2d");
+    var context = canvas.getContext('2d');
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
     var wallThickness = 25;
@@ -108,11 +107,11 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
                 // Rotate back to neutral since the images are
                 // already rotated
                 context.rotate(-angleInRadians);
-                
+
                 context.drawImage(
                     image,
-                    -image.width / 2,
-                    -image.height / 2,
+                        -image.width / 2,
+                        -image.height / 2,
                     image.width,
                     image.height
                 );
@@ -125,10 +124,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             context.drawImage(image, 0, 0, image.width, image.height);
 
             image = gosuArena.sprites.wallCornerRight;
-            
+
             context.drawImage(
                 image, terrain.width - image.width, 0, image.width, image.height);
-            
+
             context.restore();
         });
 
@@ -196,31 +195,78 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         });
     }
 
+    function hexToRgb(hex) {
+        var hexR, hexG, hexB;
+
+        if (hex.length <= 4) {
+            result = /^#?([a-f\d])([a-f\d])([a-f\d])$/i.exec(hex);
+            hexR = result[1] + result[1];
+            hexG = result[2] + result[2];
+            hexB = result[3] + result[3];
+        } else {
+            result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            hexR = result[1];
+            hexG = result[2];
+            hexB = result[3];
+        }
+        
+        return result ? {
+            r: parseInt(hexR, 16),
+            g: parseInt(hexG, 16),
+            b: parseInt(hexB, 16)
+        } : null;
+    }
+
     function drawBotBody(bot) {
         // The context is translated to the center of the bot, so the
         // position is relative to that
         var image = gosuArena.sprites.bot;
 
-        // var tintingContext = tintingCanvas.getContext('2d');
+        if (!botCanvases[bot.id]) {
+            var canvas = document.createElement('canvas');
 
-        // var botCenter = bot.center();
-        
-        // tintingContext.clearRect(0, 0, arena.Width, arena.Height);
-        // tintingContext.translate(botCenter.x, botCenter.y);
-        // tintingContext.rotate(bot.angle);
-        // tintingContext.drawImage(image, -image.width / 2, -image.height / 2);
+            var image = gosuArena.sprites.bot;
 
-        // var botRectangle = bot.rectangle();
-        // var imageData = tintingContext.getImageData(
-        //     botRectangle.minX,
-        //     botRectangle.minY,
-        //     botRectangle.maxX - botRectangle.minX,
-        //     botRectangle.maxY - botRectangle.minY);
+            canvas.width = image.width;;
+            canvas.height = image.height;;
 
-        // context.putImageData(imageData, botRectangle.minX, botRectangle.minY);
-        
-         context.drawImage(
-             image, -image.width / 2, -image.height / 2, image.width, image.height);
+            var tintingContext = canvas.getContext('2d');
+
+            tintingContext.drawImage(image, 0, 0);
+
+            var imageData = tintingContext.getImageData(0, 0, image.width, image.height);
+            var rgba = imageData.data;
+
+            var botColor = hexToRgb(bot.color);
+            
+            // Step by 4 since there are 4 values for each pixel (rgba)
+            for (var px = 0; px < rgba.length - 4; px += 4) {
+
+                // If the rgb values are on the same level (i.e 12,12,12)
+                // then the pixel is considered to be gray scale and should
+                // not be tinted
+                var isGrayScale = rgba[px] == rgba[px+1] && rgba[px+1] == rgba[px+2];
+
+                if (isGrayScale) {
+                    continue;
+                }
+                
+                var tintFactor = 0.5;
+
+                rgba[px] = rgba[px] * (1 - tintFactor) + botColor.r * tintFactor;   // r
+                rgba[px+1] = rgba[px+1] * (1 - tintFactor) + botColor.g * tintFactor; // g
+                rgba[px+2] = rgba[px+2] * (1 - tintFactor) + botColor.b * tintFactor; // b
+                rgba[px+3]; // a
+            }
+
+            tintingContext.putImageData(imageData, 0, 0);
+
+            botCanvases[bot.id] = canvas;
+        }
+
+        var botCanvas = botCanvases[bot.id];
+
+        context.drawImage(botCanvas, -botCanvas.width / 2, -botCanvas.height / 2);
     }
 
     function drawSight(bot) {
