@@ -34,8 +34,10 @@ namespace GosuArena.Controllers
         {
             var botNames = names.Split(',', ';');
 
+            var currentUserId = GetCurrentUserId();
+
             var bots = Repository.Find<Bot>()
-                .Where(x => botNames.Contains(x.Name) && x.IsPublic)
+                .Where(x => botNames.Contains(x.Name) && (x.IsPublic || x.UserId == currentUserId))
                 .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 
