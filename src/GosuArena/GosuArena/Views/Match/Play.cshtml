@@ -1,6 +1,6 @@
 ﻿@using System.Web.Optimization
-@using Yahoo.Yui.Compressor
-@model IList<GosuArena.Entities.Bot>
+
+@model IList<GosuArena.Models.Match.BotModel>
 
 @{
     ViewBag.Title = "Play match!";
@@ -65,16 +65,7 @@
 
             // User written code starts here:
             
-            @{
-                var isBotWrittenByCurrentUser = User.Identity.Name == bot.User.Username;
-                var shouldRenderPlainScript = isBotWrittenByCurrentUser || bot.IsTrainer || bot.IsDemoBot;
-                 
-                var compressor = new JavaScriptCompressor();
-                
-                var scriptToRender = shouldRenderPlainScript ? bot.Script : compressor.Compress(bot.Script);
-            }
-            
-            @Html.Raw(scriptToRender)
+            @Html.Raw(bot.GetScriptToRender(User))
             
             // User written code ends here
         });

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Entities;
+using GosuArena.Models.Match;
 
 namespace GosuArena.Controllers
 {
@@ -56,9 +57,16 @@ namespace GosuArena.Controllers
             return PlayMatch(bots);
         }
 
-        private ActionResult PlayMatch(IList<Bot> bots)
+        private ActionResult PlayMatch(IEnumerable<Bot> bots)
         {
-            return View("Play", bots);
+            var botModels = bots.Select(x => new BotModel(x)).ToList();
+
+            return PlayMatch(botModels);
+        }
+
+        private ActionResult PlayMatch(IList<BotModel> botModels)
+        {
+            return View("Play", botModels);
         }
     }
 }
