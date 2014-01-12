@@ -2,17 +2,15 @@ var xDirection = 1;
 
 gosuArena.register({
     tick: function (actionQueue, status) {
-        if (status.position.x > gosuArena.arenaWidth / 2.0) {
-            xDirection = -1;
-        } else if (status.position.x < gosuArena.arenaWidth / 4.0) {
-            xDirection = 1;
-        }
-
         if (xDirection == 1) {
             actionQueue.east(2);
         } else {
             actionQueue.west(2);
         }
+    },
+    onCollision: function (actionQueue, status) {
+        actionQueue.clear();
+        xDirection *= -1;
     },
     options: {
         color: "#a00",

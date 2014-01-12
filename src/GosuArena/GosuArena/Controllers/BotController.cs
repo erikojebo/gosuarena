@@ -42,6 +42,7 @@ namespace GosuArena.Controllers
                 return new HttpForbiddenResult("Training bots cannot be edited via the web UI");
 
             existingBot.Script = bot.Script;
+            existingBot.IsPublic = bot.IsPublic;
 
             Repository.Update(existingBot);
 

@@ -9,6 +9,7 @@ namespace GosuArena.Entities
         public Bot()
         {
             CreatedDate = DateTime.Now;
+            IsPublic = true;
         }
 
         public int Id { get; set; }
@@ -22,6 +23,7 @@ namespace GosuArena.Entities
         public DateTime CreatedDate { get; set; }
         public bool IsTrainer { get; set; }
         public bool IsDemoBot { get; set; }
+        public bool IsPublic { get; set; }
 
         public string AuthorUsername
         {
@@ -46,6 +48,5 @@ namespace GosuArena.Entities
                 return !IsTrainer;
             }
         }
-
     }
 }

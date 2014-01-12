@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[Bots](
 	[CreatedDate] [datetime] NOT NULL,
 	[IsTrainer] [bit] NOT NULL,
 	[IsDemoBot] [bit] NOT NULL,
+	[IsPublic] [bit] NOT NULL,
 	CONSTRAINT UQ_Bots_Name UNIQUE(Name))
 GO
 

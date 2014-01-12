@@ -36,6 +36,11 @@
 
         <label for="Script">JavaScript for the bot</label>
         <textarea id="editor" name="Script" placeholder="JavaScript goes here...">@Model.Script</textarea>
+        
+        <label>
+            @Html.CheckBoxFor(x => x.IsPublic)
+            Make bot avaible for playing with bots written by other players
+        </label>
 
         <button type="submit" class="main-submit clear-dirty-flags">Save</button>
     </fieldset>

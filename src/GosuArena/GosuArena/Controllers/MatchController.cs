@@ -21,7 +21,7 @@ namespace GosuArena.Controllers
         public ActionResult Setup()
         {
             var bots = Repository.Find<Bot>()
-                .Where(x => !x.IsDemoBot)
+                .Where(x => !x.IsDemoBot && x.IsPublic)
                 .Join(x => x.User)
                 .OrderBy(x => x.Name)
                 .ExecuteList();
@@ -35,7 +35,7 @@ namespace GosuArena.Controllers
             var botNames = names.Split(',', ';');
 
             var bots = Repository.Find<Bot>()
-                .Where(x => botNames.Contains(x.Name))
+                .Where(x => botNames.Contains(x.Name) && x.IsPublic)
                 .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 

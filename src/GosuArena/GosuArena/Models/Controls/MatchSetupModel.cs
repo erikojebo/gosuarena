@@ -13,11 +13,12 @@ namespace GosuArena.Models.Controls
         }
 
         public string Title { get; set; }
+        public string InfoMessage { get; set; }
         public IList<Bot> Bots { get; set; }
         public IList<Bot> PreselectedBots { get; set; }
         public bool ShouldOpenNewTab { get; set; }
         public bool IsTraining { get; set; }
-
+        
         public string Target
         {
             get { return ShouldOpenNewTab ? "_blank" : "_self"; }

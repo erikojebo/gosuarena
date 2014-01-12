@@ -1,7 +1,14 @@
-﻿@model GosuArena.Models.Controls.MatchSetupModel
+﻿@using Microsoft.Ajax.Utilities
+@model GosuArena.Models.Controls.MatchSetupModel
 
 <h2>@Model.Title</h2>
 
+@if (!Model.InfoMessage.IsNullOrWhiteSpace())
+{
+    <p class="alert alert-info">
+        @Model.InfoMessage
+    </p>
+}
 
 <section id="bot-lists-container">
     <div id="available-bots-container">
