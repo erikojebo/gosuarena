@@ -5,7 +5,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
 
     var width = 25;
     var height = 25;
-    var weaponCooldownTime = 15;
+    var weaponCooldownTime = 25;
     var weaponWidth = width * 0.2;
     var weaponLength = 0; // Cannon is no further forward than top edge of bot
     var weaponDamage = 10;
