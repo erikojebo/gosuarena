@@ -29,5 +29,10 @@ namespace GosuArena.Controllers
                 .Execute();
             return user;
         }
+
+        protected ActionResult Error(string message)
+        {
+            return View("Error", (object)message);
+        }
     }
 }

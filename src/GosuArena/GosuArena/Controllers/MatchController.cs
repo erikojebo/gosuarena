@@ -41,6 +41,18 @@ namespace GosuArena.Controllers
                 .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 
+            var matchIncludesPrivateBots = bots.Any(x => !x.IsPublic);
+            var matchIncludesBotsWrittenByAnotherUser = bots.Any(x => !x.IsTrainer && x.UserId != currentUserId);
+
+            if (matchIncludesPrivateBots && matchIncludesBotsWrittenByAnotherUser)
+            {
+                return Error(
+                    "Your private bots are not allowed to participate in matches which include " +
+                    "bots written by other users. Make your bot public again to enable facing " +
+                    "other users' bots. Read the 'Private and Public Bots' section of the documentation " +
+                    "for more information");
+            }
+
             return PlayMatch(bots);
         }
 
