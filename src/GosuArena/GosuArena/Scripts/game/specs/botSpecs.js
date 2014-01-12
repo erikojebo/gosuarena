@@ -315,6 +315,16 @@ describe("bot", function () {
         expect(actualAngle).toEqual(315);
     });
 
+    it("includes actionsPerRound in the bot status", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            actionsPerRound: 123
+        }, collisionDetector);
+
+        var status = bot.createStatus();
+
+        expect(status.actionsPerRound).toEqual(123);
+    });
+    
     it("only exposes performNext on the action queue of the bot, not on the queue sent to the tick callback", function () {
 
         var wasTickCalled = false;

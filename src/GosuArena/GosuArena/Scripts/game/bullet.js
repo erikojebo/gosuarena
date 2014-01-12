@@ -22,7 +22,7 @@ gosuArena.factories.createBullet = function (bot) {
     var bullet = gosuArena.worldObject.create(properties);
     
     bullet.tick = function () {
-        var movementVector = gosu.math.point.rotate({ x: 0, y: 10 }, bullet.angle);
+        var movementVector = gosu.math.point.rotate({ x: 0, y: 12 }, bullet.angle);
         bullet.translate(movementVector);
     };
 
