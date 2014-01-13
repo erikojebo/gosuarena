@@ -36,9 +36,13 @@
     document.getElementById("restartMatch").onclick = restartMatch;
     document.getElementById("stopMatch").onclick = stopMatch;
 
+    // Make sure the match is not started until all resources have been loaded
+    // that are needed for the game (e.g. sprites)
+    gosuArena.events.resourcesLoaded(function() {
+        restartMatch();
+    });
 
     $(function () {
-        restartMatch();
         ko.applyBindings(gosuArena.matchViewModel); 
     });
 })();

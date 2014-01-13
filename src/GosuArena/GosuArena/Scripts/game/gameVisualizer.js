@@ -209,7 +209,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             hexG = result[2];
             hexB = result[3];
         }
-        
+
         return result ? {
             r: parseInt(hexR, 16),
             g: parseInt(hexG, 16),
@@ -225,8 +225,6 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         if (!botCanvases[bot.id]) {
             var canvas = document.createElement('canvas');
 
-            var image = gosuArena.sprites.bot;
-
             canvas.width = image.width;;
             canvas.height = image.height;;
 
@@ -238,7 +236,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
             var rgba = imageData.data;
 
             var botColor = hexToRgb(bot.color);
-            
+
             // Step by 4 since there are 4 values for each pixel (rgba)
             for (var px = 0; px < rgba.length - 4; px += 4) {
 
@@ -249,7 +247,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
                 // Color distance allowed for pixel to be kept at
                 // original color (not tinted)
                 var tintTolerance = 20;
-                
+
                 // If the rgb values are on the same level (i.e 12,12,12)
                 // then the pixel is considered to be gray scale and should
                 // not be tinted
@@ -260,7 +258,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
                 if (isGrayScale) {
                     continue;
                 }
-                
+
                 var tintFactor = 0.5;
 
                 rgba[px] = rgba[px] * (1 - tintFactor) + botColor.r * tintFactor;   // r

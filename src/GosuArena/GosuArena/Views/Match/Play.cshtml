@@ -76,11 +76,34 @@
     
     gosuArena.sprites = gosuArena.sprites || {};
 
+    var requestedResources = [];
+
+    function areAllSpritesLoaded() {
+        for (var i = 0; i < requestedResources.length; i++) {
+            var resourceName = requestedResources[i];
+            
+            // Make sure that all requested resources have been initialized
+            if (!gosuArena.sprites[resourceName]) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     function loadSprite(name, url) {
+        
+        // Mark the resource as requested, to keep track of all resources are loaded
+        requestedResources.push(name);
+
         var img = new Image();
 
         img.onload = function () {
             gosuArena.sprites[name] = img;
+            
+            if (areAllSpritesLoaded()) {
+                gosuArena.events.raiseResourcesLoaded();
+            }
         };
 
         img.src = url;

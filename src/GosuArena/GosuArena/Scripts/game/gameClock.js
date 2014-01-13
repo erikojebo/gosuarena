@@ -29,7 +29,11 @@ gosuArena.gameClock.create = function () {
 
             callbacks.forEach(function (callback) {
 
-                for (var i = 0; i < roundsToExecute; i++) {
+                // Make sure there is nothing funky going on which 
+                // makes the game execute loads of rounds all the time
+                // if rendering should be very slow
+                for (var i = 0; i < roundsToExecute && i < 4; i++)
+                {
                     callback();
                     roundCountSinceIntervalStart++;
                 }

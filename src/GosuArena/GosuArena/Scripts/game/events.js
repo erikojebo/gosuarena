@@ -9,10 +9,20 @@ gosuArena.events = (function () {
     function matchEnded(callback) {
         gosu.eventAggregator.subscribe("matchEnded", callback);
     }
+
+    function raiseResourcesLoaded() {
+        gosu.eventAggregator.publish("resourcesLoaded");
+    }
+    
+    function resourcesLoaded(callback) {
+        gosu.eventAggregator.subscribe("resourcesLoaded", callback);
+    }
     
     return {
         raiseMatchEnded: raiseMatchEnded,
-        matchEnded: matchEnded
+        matchEnded: matchEnded,
+        raiseResourcesLoaded: raiseResourcesLoaded,
+        resourcesLoaded: resourcesLoaded
     };
 })();
 
