@@ -15,6 +15,8 @@ gosuArena.gameClock.create = function () {
     }
 
     function callTickCallbacks(timestamp) {
+        requestAnimationFrame(callTickCallbacks);
+        
         if (isRunning) {
             callbacks.forEach(function (callback) {
                 callback();
@@ -33,8 +35,6 @@ gosuArena.gameClock.create = function () {
 
             tickCount++;
         }
-
-        requestAnimationFrame(callTickCallbacks);
     }
 
     function start() {
