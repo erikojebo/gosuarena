@@ -1,6 +1,7 @@
 ﻿(function () {
-    
+
     var gameClock = null;
+    var isRunning = false;
 
     gosuArena.events.matchEnded(function (result) {
         stopMatch();
@@ -12,7 +13,7 @@
         if (gameClock) {
             gameClock.stop();
         }
-        
+
         gameClock = gosuArena.gameClock.create();
 
         var canvas = document.getElementById("gameCanvas");
@@ -26,12 +27,15 @@
         gosuArena.events.raiseGameStarting();
 
         gameClock.start();
+        isRunning = true;
     };
 
     function stopMatch() {
         if (gameClock) {
-            gameClock.stop();            
+            gameClock.stop();
         }
+
+        isRunning = false;
     }
 
     document.getElementById("restartMatch").onclick = restartMatch;
@@ -44,6 +48,11 @@
     });
 
     $(function () {
+        
+        if (gosuArena.sprites.isLoaded && !isRunning) {
+            restartMatch();
+        }
+
         ko.applyBindings(gosuArena.matchViewModel); 
     });
 })();

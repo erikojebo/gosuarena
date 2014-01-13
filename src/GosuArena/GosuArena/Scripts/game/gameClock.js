@@ -79,5 +79,5 @@ gosuArena.gameClock.create = function () {
         start: start,
         stop: stop,
         tick: tick
-    }
+    };
 };
