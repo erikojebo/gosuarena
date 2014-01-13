@@ -9,11 +9,6 @@
     gosuArena.matchViewModel = gosuArena.factories.createMatchViewModel();
     
     function restartMatch() {
-
-        $("#restartMatch").html("Restart match")
-            .removeClass('btn-primary')
-            .addClass('btn-default');
-
         if (gameClock) {
             gameClock.stop();
         }
@@ -27,6 +22,8 @@
             isTraining: gosuArena.settings.isTraining(),
             listeners: [gosuArena.matchViewModel]
         });
+
+        gosuArena.events.raiseGameStarting();
 
         gameClock.start();
     };

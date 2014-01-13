@@ -195,6 +195,7 @@
     <Content Include="Scripts\gosu\meta.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
     <Content Include="Scripts\Pages\Match\Play\botViewModel.js" />
+    <Content Include="Scripts\Pages\Match\Play\matchUI.js" />
     <Content Include="Scripts\Pages\Match\Play\matchViewModel.js" />
     <Compile Include="Services\FileBotRepository.cs" />
   </ItemGroup>

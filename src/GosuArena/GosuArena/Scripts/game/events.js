@@ -17,12 +17,22 @@ gosuArena.events = (function () {
     function resourcesLoaded(callback) {
         gosu.eventAggregator.subscribe("resourcesLoaded", callback);
     }
-    
+
+    function raiseGameStarting() {
+        gosu.eventAggregator.publish("gameStarting");
+    }
+
+    function gameStarting(callback) {
+        gosu.eventAggregator.subscribe("gameStarting", callback);
+    }
+
     return {
         raiseMatchEnded: raiseMatchEnded,
         matchEnded: matchEnded,
         raiseResourcesLoaded: raiseResourcesLoaded,
-        resourcesLoaded: resourcesLoaded
+        resourcesLoaded: resourcesLoaded,
+        raiseGameStarting: raiseGameStarting,
+        gameStarting: gameStarting
     };
 })();
 
