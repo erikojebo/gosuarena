@@ -7,8 +7,11 @@ gosuArena.gameClock.create = function () {
     var hasStarted = false;
 
     var tickCount = 0;
+    var roundCountSinceIntervalStart = 0;
     var roundTimeSampleLength = 500;
-    var lastTimestamp = 0;
+    var intervalStartTimestamp = 0;
+    var lastTimestamp = null;
+    var targetRoundLength = 1000 / 60; // 60 FPS, ~16 ms
 
     function tick(callback) {
         callbacks.push(callback);
@@ -16,24 +19,42 @@ gosuArena.gameClock.create = function () {
 
     function callTickCallbacks(timestamp) {
         requestAnimationFrame(callTickCallbacks);
-        
+
         if (isRunning) {
+
+            // Try to keep game speed stable at 60 ticks/second
+            // even if the FPS in the browser drops to 30 or below.
+            var lastRoundLength = timestamp - lastTimestamp;
+            var roundsToExecute = Math.round(lastRoundLength / targetRoundLength);
+
             callbacks.forEach(function (callback) {
-                callback();
+
+                for (var i = 0; i < roundsToExecute; i++) {
+                    callback();
+                    roundCountSinceIntervalStart++;
+                }
             });
 
             if (tickCount > 0 && tickCount % roundTimeSampleLength == 0) {
-                var averageRoundTime = (timestamp - lastTimestamp) / roundTimeSampleLength;
-                var averageFps = 1000 / averageRoundTime;
+                var intervalTimeInMilliseconds = timestamp - intervalStartTimestamp;
+                var averageRoundTimeInMilliseconds =
+                    intervalTimeInMilliseconds / roundTimeSampleLength;
+
+                var averageFps = 1000 / averageRoundTimeInMilliseconds;
+                var averageRoundsPerSecond = Math.round(
+                    roundCountSinceIntervalStart / intervalTimeInMilliseconds * 1000);
 
                 console.log(
-                    averageRoundTime.toFixed(3) + " ms / " +
-                        Math.round(averageFps) + " fps");
+                    averageRoundTimeInMilliseconds.toFixed(3) + " ms // " +
+                        Math.round(averageFps) + " fps // " +
+                        averageRoundsPerSecond + " rounds/second");
 
-                lastTimestamp = timestamp;
+                intervalStartTimestamp = timestamp;
+                roundCountSinceIntervalStart = 0;
             }
 
             tickCount++;
+            lastTimestamp = timestamp;
         }
     }
 
