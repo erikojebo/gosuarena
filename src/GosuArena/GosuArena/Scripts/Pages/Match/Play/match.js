@@ -10,6 +10,10 @@
     
     function restartMatch() {
 
+        $("#restartMatch").html("Restart match")
+            .removeClass('btn-primary')
+            .addClass('btn-default');
+
         if (gameClock) {
             gameClock.stop();
         }
