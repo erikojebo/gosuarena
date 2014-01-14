@@ -222,7 +222,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         // position is relative to that
         var image = gosuArena.sprites.bot;
 
-        if (!botCanvases[bot.id]) {
+        if (!botCanvases[bot.uniqueId]) {
             var canvas = document.createElement('canvas');
 
             canvas.width = image.width;;
@@ -269,10 +269,10 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
 
             tintingContext.putImageData(imageData, 0, 0);
 
-            botCanvases[bot.id] = canvas;
+            botCanvases[bot.uniqueId] = canvas;
         }
 
-        var botCanvas = botCanvases[bot.id];
+        var botCanvas = botCanvases[bot.uniqueId];
 
         context.drawImage(botCanvas, -botCanvas.width / 2, -botCanvas.height / 2);
     }

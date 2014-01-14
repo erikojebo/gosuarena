@@ -19,7 +19,8 @@ describe("Game", function () {
 
     function startGame() {
         gosuArena.engine.start(visualizer, clock, {
-            isTraining: true
+            isTraining: true,
+            listeners: [arenaStateInterceptor]
         });
     }
 
@@ -694,6 +695,45 @@ describe("Game", function () {
             expect(wasTickCalled).toBe(true);
         });
 
+        it("all bots get a unique id, even if they have the same database id", function () {
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                teamId: 2
+            }, function () {
+                gosuArena.register({
+                    tick: function () { }
+                });
+            });
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                teamId: 3
+            }, function () {
+                gosuArena.register({
+                    tick: function () { }
+                });
+            });
+
+            gosuArena.initiateBotRegistration({
+                id: 2,
+                teamId: 3
+            }, function () {
+                gosuArena.register({
+                    tick: function () { }
+                });
+            });
+
+            startGame();
+
+            var areIdsUnique =
+                arenaState.bots[0].uniqueId != arenaState.bots[1].uniqueId &&
+                arenaState.bots[0].uniqueId != arenaState.bots[2].uniqueId &&
+                arenaState.bots[1].uniqueId != arenaState.bots[2].uniqueId;
+
+            expect(areIdsUnique).toBe(true);
+        });
+
         it("user gets callback with actionQueue and status when bot collides with wall", function () {
 
             var ticker = gosuArena.fakeTicker.create();
@@ -837,10 +877,7 @@ describe("Game", function () {
             expect(result.winner.name).toEqual("expected winner");
         });
 
-        gosuArena.engine.start(visualizer, clock, {
-            isTraining: true,
-            listeners: [arenaStateInterceptor]
-        });
+        startGame();
 
         // Tick a bunch of rounds to make sure that the third bot had the time needed
         // to kill the other two bots.
@@ -903,11 +940,8 @@ describe("Game", function () {
             });
         });
 
-        gosuArena.engine.start(visualizer, clock, {
-            isTraining: true,
-            listeners: [arenaStateInterceptor]
-        });
-
+        startGame();
+        
         expect(arenaState.bots.length).toEqual(2);
         expect(arenaState.bots[0].id).toEqual(11);
         expect(arenaState.bots[1].id).toEqual(22);

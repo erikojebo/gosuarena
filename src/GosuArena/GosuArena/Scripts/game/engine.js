@@ -10,6 +10,8 @@ gosuArena.engine = (function () {
     var visualizer = null;
     var collisionDetector = gosuArena.factories.createCollisionDetector(arenaState);
 
+    var nextUniqueBotId = 1;
+
     var currentRegisteringBotOptions = null;
 
     gosuArena.ready = function(callback) {
@@ -42,6 +44,7 @@ gosuArena.engine = (function () {
         options.options.name = currentRegisteringBotOptions.name;
         options.options.id = currentRegisteringBotOptions.id;
         options.options.teamId = currentRegisteringBotOptions.teamId;
+        options.options.uniqueId = nextUniqueBotId++;
         
         var botOptions =
             gosuArena.factories.createSafeBotOptions(options.options, isTraining);

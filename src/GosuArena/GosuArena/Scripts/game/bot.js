@@ -13,6 +13,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     var properties = {
         id: options.id,
         teamId: options.teamId,
+        uniqueId: options.uniqueId,
         x: options.x,
         y: options.y,
         width: options.width,

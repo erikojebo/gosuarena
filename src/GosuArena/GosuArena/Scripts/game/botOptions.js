@@ -57,6 +57,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     
     return {
         id: userOptions.id,
+        uniqueId: userOptions.uniqueId,
         teamId: userOptions.teamId,
         name: userOptions.name,
         width: width,
