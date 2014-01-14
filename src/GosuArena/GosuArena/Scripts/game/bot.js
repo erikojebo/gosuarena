@@ -12,6 +12,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
     
     var properties = {
         id: options.id,
+        teamId: options.teamId,
         x: options.x,
         y: options.y,
         width: options.width,
@@ -185,6 +186,8 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
         }
 
         return {
+            id: bot.id,
+            teamId: bot.teamId,
             position: {
                 x: bot.x,
                 y: bot.y,

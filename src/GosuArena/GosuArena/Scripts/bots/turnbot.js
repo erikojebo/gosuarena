@@ -1,7 +1,11 @@
 ﻿gosuArena.register({
     tick: function (actionQueue, status) {
 
-        if (status.seenBots.length > 0) {
+        var seenEnemies = status.seenBots.filter(function(bot) {
+            return bot.teamId && bot.teamId != status.teamId;
+        });
+
+        if (seenEnemies.length && seenEnemies.length == status.seenBots.length) {
             actionQueue.clear();
             
             if (status.roundsUntilWeaponIsReady <= 0) {

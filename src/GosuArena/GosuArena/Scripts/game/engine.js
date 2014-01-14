@@ -42,6 +42,7 @@ gosuArena.engine = (function () {
 
         botOptions.name = currentRegisteringBotOptions.name;
         botOptions.id = currentRegisteringBotOptions.id;
+        botOptions.teamId = currentRegisteringBotOptions.teamId;
         botOptions.actionsPerRound = actionsPerRound;
 
         var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);

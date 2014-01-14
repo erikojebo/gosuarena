@@ -634,6 +634,66 @@ describe("Game", function () {
             expect(wasTickCalled).toBe(true);
         });
 
+        it("status for seen bots contain id and team id", function () {
+
+            var bot1Position = { x: 1, y: 2 };
+
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                teamId: 2
+            }, function () {
+                gosuArena.register({
+                    tick: function () { },
+                    options: {
+                        startPosition: {
+                            x: bot1Position.x,
+                            y: bot1Position.y,
+                            angle: 0
+                        }
+                    }
+                });
+            });
+
+            var wasTickCalled = false;
+            var round = 0;
+
+            // This bot spawns aiming directly at the other bot, which is
+            // to the west
+            gosuArena.initiateBotRegistration({
+                id: 1,
+                teamId: 3
+            }, function () {
+                gosuArena.register({
+                    tick: function (actionQueue, status) {
+
+                        expect(status.seenBots.length).toEqual(1);
+
+                        if (round > 0) {
+                            expect(status.seenBots[0].id).toEqual(1);
+                            expect(status.seenBots[0].teamId).toEqual(2);
+                        }
+
+                        wasTickCalled = true;
+                        round++;
+                    },
+                    options: {
+                        startPosition: {
+                            x: 100,
+                            y: 0,
+                            angle: 90
+                        }
+                    }
+                });
+            });
+
+            startGame();
+
+            clock.doTick();
+            clock.doTick();
+
+            expect(wasTickCalled).toBe(true);
+        });
+
         it("user gets callback with actionQueue and status when bot collides with wall", function () {
 
             var ticker = gosuArena.fakeTicker.create();

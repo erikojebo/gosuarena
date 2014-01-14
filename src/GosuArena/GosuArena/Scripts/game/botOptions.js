@@ -50,6 +50,8 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     var color = isValidColor(userOptions.color) ? userOptions.color : "#cecece";
 
     return {
+        id: 0,
+        teamId: 0,
         width: width,
         height: height,
         x: x,
