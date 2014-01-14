@@ -3,6 +3,12 @@ var gosu = gosu || {};
 gosu.eventAggregator = (function () {
     var callbacks = {};
 
+    function unsubscribeAll(eventName) {
+        if (callbacks[eventName]) {
+            callbacks[eventName].length = 0;            
+        }
+    }
+
     function publish(eventName, eventArgs) {
         if (callbacks[eventName]) {
             callbacks[eventName].forEach(function (callback) {
@@ -21,6 +27,7 @@ gosu.eventAggregator = (function () {
 
     return {
         publish: publish,
-        subscribe: subscribe
+        subscribe: subscribe,
+        unsubscribeAll: unsubscribeAll
     };
 })();

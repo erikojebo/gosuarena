@@ -25,6 +25,8 @@ describe("Game", function () {
     }
 
     beforeEach(function () {
+        gosu.eventAggregator.unsubscribeAll("matchEnded");
+
         visualizer = {
             render: function() { },
             arenaHeight: arenaHeight,
@@ -888,6 +890,101 @@ describe("Game", function () {
         expect(hasMatchEnded).toEqual(true);
     });
 
+    it("raises gameEnded event when there is only bots from one team left", function () {
+        gosuArena.initiateBotRegistration({
+            id : 1,
+            teamId: 12,
+            name: "winner 1"
+        }, function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    startPosition: {
+                        x: 0,
+                        y: 0,
+                        angle: 0
+                    }
+                }
+            });
+        });
+
+        gosuArena.initiateBotRegistration({
+            id: 2,
+            teamId: 11,
+            name: "loser 2"
+        }, function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) { },
+                options: {
+                    startPosition: {
+                        x: botWidth + 10,
+                        y: 0,
+                        angle: 0
+                    }
+                }
+            });
+        });
+
+        // Wrap the creation of bot options so that we can modify the default
+        // values without messing directly with the internal state of the engine
+        // and without having to reimplement the whole createSafeBotOptions
+        var defaultCreateSafeBotOptions = gosuArena.factories.createSafeBotOptions;
+
+        gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
+            var options = defaultCreateSafeBotOptions(userOptions, isTraining);
+
+            options.weaponDamage = 50;
+            options.weaponCooldownTime = 1;
+
+            return options;
+        }
+
+        // This bot spawns aiming directly at the two other bots, which are
+        // in a straight westward line.
+        gosuArena.initiateBotRegistration({
+            id: 3,
+            teamId: 12,
+            name: "winner 2"
+        }, function () {
+            gosuArena.register({
+                tick: function (actionQueue, status) {
+                    if (status.canFire) {
+                        actionQueue.fire();
+                    }
+                },
+                options: {
+                    startPosition: {
+                        x: botWidth * 2 + 20,
+                        y: 0,
+                        angle: 90
+                    }
+                }
+            });
+        });
+
+        var hasMatchEnded = false;
+
+        gosuArena.events.matchEnded(function (result) {
+            hasMatchEnded = true;
+
+            var livingBots = arenaState.livingBots();
+
+            expect(livingBots.length).toEqual(2);
+            expect(result.winner.name).toEqual("12");
+            expect(result.winner.type).toEqual("team");
+        });
+
+        startGame();
+
+        // Tick a bunch of rounds to make sure that the third bot had the time needed
+        // to kill the other two bots.
+        for (var tickCount = 0; tickCount < 1000 && !hasMatchEnded; tickCount++) {
+            clock.doTick();
+        }
+
+        expect(hasMatchEnded).toEqual(true);
+    });
+    
     it("Initializes listeners before bot registration when the game starts", function () {
         gosuArena.initiateBotRegistration({
             id: 1,

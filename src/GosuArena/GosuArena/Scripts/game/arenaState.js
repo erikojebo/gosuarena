@@ -17,16 +17,42 @@ gosuArena.arenaState.create = function () {
         var livingBots = arenaState.livingBots();
 
         raiseOnBotKilled(bot);
-        
+
+        if (areAllLivingBotsOnTheSameTeam()) {
+            gosuArena.events.raiseMatchEnded({
+                winner: {
+                    name: livingBots[0].teamId.toString(),
+                    type: "team"
+                }
+            });
+        }
+
         if (livingBots.length == 1) {
             gosuArena.events.raiseMatchEnded({
                 winner: {
-                    name: livingBots[0].name
+                    name: livingBots[0].name,
+                    type: "bot"
                 }
             });
         }
     }
 
+    function areAllLivingBotsOnTheSameTeam() {
+        var livingBots = arenaState.livingBots();
+
+        if (livingBots.length <= 1 || !livingBots[0].teamId) {
+            return false;
+        }
+        
+        for (var i = 1; i < livingBots.length; i++) {
+            if (livingBots[i].teamId != livingBots[0].teamId) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
     arenaState.livingBots = function () {
         return arenaState.bots.filter(function (bot) {
             return bot.isAlive();
@@ -47,13 +73,13 @@ gosuArena.arenaState.create = function () {
     arenaState.addBot = function (bot) {
         bot.onKilled(handleOnBotKilled);
 
-        // Handle this inline so that we can pass the bot as the 
+        // Handle this inline so that we can pass the bot as the
         // parameter to the event handlers instead of the parameters
         // sent by the bot itself, since that passes arguments
         // suited for the bot developers, and hence cannot pass the
         // actual bot as an argument.
         bot.onHitByBullet(function () {
-           raiseOnBotHitByBullet(bot);
+            raiseOnBotHitByBullet(bot);
         });
 
         arenaState.bots.push(bot);

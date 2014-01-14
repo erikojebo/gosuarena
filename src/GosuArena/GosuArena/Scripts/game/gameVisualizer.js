@@ -6,7 +6,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
     var botCanvases = [];
     var hasMatchEnded = false;
     var hasDrawnWinnerName = false;
-    var winnerName = null;
+    var matchResult = null;
 
     var wallColor = "#000";
     var fieldColor = "#fff";
@@ -34,7 +34,7 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
 
     gosuArena.events.matchEnded(function (result) {
         hasMatchEnded = true;
-        winnerName = result.winner.name;
+        matchResult = result;
     });
 
     function clearField() {
@@ -325,8 +325,12 @@ gosuArena.factories.createGameVisualizer = function (canvas) {
         context.fillStyle = "white";
         context.font = "bold 30px verdana";
 
-        var message = "The winner is " + winnerName + "!";
+        var message = "The winner is " + matchResult.winner.name + "!";
 
+        if (matchResult.winner.type == "team") {
+            message = "The winner is team " + matchResult.winner.name + "!";
+        }
+        
         var textMeasurement = context.measureText(message);
 
         context.translate(arena.width / 2, arena.height / 2);
