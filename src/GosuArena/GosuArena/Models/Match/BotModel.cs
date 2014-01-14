@@ -22,6 +22,7 @@ namespace GosuArena.Models.Match
         public bool IsDemoBot { get; set; }
         public string AuthorUsername { get; set; }
         public string Script { get; set; }
+        public int TeamId { get; set; }
 
         public string GetScriptToRender(IPrincipal user)
         {

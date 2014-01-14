@@ -31,27 +31,56 @@ namespace GosuArena.Controllers
         }
 
         [Authorize]
+        public ActionResult Team(IList<string> teams)
+        {
+            var botNames = teams.SelectMany(GetBotNames).Distinct();
+
+            var bots = GetBots(botNames);
+
+            if (IsBotSetupInvalid(bots))
+            {
+                return InvalidBotSetupError();
+            }
+
+            var botModels = new List<BotModel>();
+
+            for (int i = 0; i < teams.Count; i++)
+            {
+                var botModelsInTeam = GetTeamBotModels(teams, i, bots);
+
+                botModels.AddRange(botModelsInTeam);
+            }
+
+            return PlayMatch(botModels);
+        }
+
+        private static IEnumerable<BotModel> GetTeamBotModels(IList<string> teams, int i, IEnumerable<Bot> bots)
+        {
+            var botNamesInTeam = GetBotNames(teams[i]);
+
+            var botsInTeam = bots.Where(x => botNamesInTeam.Contains(x.Name));
+            var botModelsInTeam = botsInTeam.Select(x => new BotModel(x)).ToList();
+
+            foreach (var botModel in botModelsInTeam)
+            {
+                // Use a one based team id to avoid confusion with unassigned team id (0) 
+                // if that would ever be useful
+                botModel.TeamId = i + 1;
+            }
+
+            return botModelsInTeam;
+        }
+
+        [Authorize]
         public ActionResult Play(string names)
         {
-            var botNames = names.Split(',', ';');
+            var botNames = GetBotNames(names);
 
-            var currentUserId = GetCurrentUserId();
+            var bots = GetBots(botNames);
 
-            var bots = Repository.Find<Bot>()
-                .Where(x => botNames.Contains(x.Name) && (x.IsPublic || x.UserId == currentUserId))
-                .Join<User, Bot>(x => x.Bots, x => x.User)
-                .ExecuteList();
-
-            var matchIncludesPrivateBots = bots.Any(x => !x.IsPublic);
-            var matchIncludesBotsWrittenByAnotherUser = bots.Any(x => !x.IsTrainer && x.UserId != currentUserId);
-
-            if (matchIncludesPrivateBots && matchIncludesBotsWrittenByAnotherUser)
+            if (IsBotSetupInvalid(bots))
             {
-                return Error(
-                    "Your private bots are not allowed to participate in matches which include " +
-                    "bots written by other users. Make your bot public again to enable facing " +
-                    "other users' bots. Read the 'Private and Public Bots' section of the documentation " +
-                    "for more information");
+                return InvalidBotSetupError();
             }
 
             return PlayMatch(bots);
@@ -67,6 +96,41 @@ namespace GosuArena.Controllers
         private ActionResult PlayMatch(IList<BotModel> botModels)
         {
             return View("Play", botModels);
+        }
+
+        private IList<Bot> GetBots(IEnumerable<string> botNames)
+        {
+            var currentUserId = GetCurrentUserId();
+
+            return Repository.Find<Bot>()
+                .Where(x => botNames.Contains(x.Name) && (x.IsPublic || x.UserId == currentUserId))
+                .Join<User, Bot>(x => x.Bots, x => x.User)
+                .ExecuteList();
+        }
+
+        private bool IsBotSetupInvalid(IList<Bot> bots)
+        {
+            var currentUserId = GetCurrentUserId();
+
+            var matchIncludesPrivateBots = bots.Any(x => !x.IsPublic);
+            var matchIncludesBotsWrittenByAnotherUser = bots.Any(x => !x.IsTrainer && x.UserId != currentUserId);
+
+            var isBotSetupInvalid = matchIncludesPrivateBots && matchIncludesBotsWrittenByAnotherUser;
+            return isBotSetupInvalid;
+        }
+
+        private ActionResult InvalidBotSetupError()
+        {
+            return Error(
+                "Your private bots are not allowed to participate in matches which include " +
+                "bots written by other users. Make your bot public again to enable facing " +
+                "other users' bots. Read the 'Private and Public Bots' section of the documentation " +
+                "for more information");
+        }
+
+        private static IEnumerable<string> GetBotNames(string names)
+        {
+            return names.Split(',', ';');
         }
     }
 }
