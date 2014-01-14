@@ -25,9 +25,7 @@ gosuArena.arenaState.create = function () {
                     type: "team"
                 }
             });
-        }
-
-        if (livingBots.length == 1) {
+        } else if (livingBots.length == 1) {
             gosuArena.events.raiseMatchEnded({
                 winner: {
                     name: livingBots[0].name,
@@ -40,7 +38,7 @@ gosuArena.arenaState.create = function () {
     function areAllLivingBotsOnTheSameTeam() {
         var livingBots = arenaState.livingBots();
 
-        if (livingBots.length <= 1 || !livingBots[0].teamId) {
+        if (livingBots.length < 1 || !livingBots[0].teamId) {
             return false;
         }
         
