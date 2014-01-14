@@ -37,12 +37,15 @@ gosuArena.engine = (function () {
 
     gosuArena.register = function (options) {
 
+        options.options = options.options || {};
+
+        options.options.name = currentRegisteringBotOptions.name;
+        options.options.id = currentRegisteringBotOptions.id;
+        options.options.teamId = currentRegisteringBotOptions.teamId;
+        
         var botOptions =
             gosuArena.factories.createSafeBotOptions(options.options, isTraining);
 
-        botOptions.name = currentRegisteringBotOptions.name;
-        botOptions.id = currentRegisteringBotOptions.id;
-        botOptions.teamId = currentRegisteringBotOptions.teamId;
         botOptions.actionsPerRound = actionsPerRound;
 
         var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);

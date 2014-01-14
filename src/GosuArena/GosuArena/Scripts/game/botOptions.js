@@ -3,6 +3,8 @@ gosuArena.factories = gosuArena.factories || {};
 
 gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
 
+    var teamColors = ['#f00', '#0f0', '#00f', '#f0f', '#ff0', '#0ff', '#990', '#909', '#099'];
+    
     var width = 25;
     var height = 25;
     var weaponCooldownTime = 25;
@@ -49,16 +51,20 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
 
     var color = isValidColor(userOptions.color) ? userOptions.color : "#cecece";
 
+    if (userOptions.teamId) {
+        color = teamColors[userOptions.teamId % teamColors.length];
+    }
+    
     return {
-        id: 0,
-        teamId: 0,
+        id: userOptions.id,
+        teamId: userOptions.teamId,
+        name: userOptions.name,
         width: width,
         height: height,
         x: x,
         y: y,
         angle: angle,
         color: color,
-        name: null, // Set through the registration process
         weaponCooldownTime: weaponCooldownTime,
         weaponWidth: weaponWidth,
         weaponHeight: weaponLength,
