@@ -1,5 +1,4 @@
 ﻿@using Microsoft.Ajax.Utilities
-@model string
 
 @{
     ViewBag.Title = "Error";
@@ -11,7 +10,7 @@
 
 <h2>An error occurred :(</h2>
 
-@if (!Model.IsNullOrWhiteSpace())
+@if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
 {
     <p>@Model</p>
 }

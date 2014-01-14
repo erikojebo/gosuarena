@@ -32,7 +32,9 @@ namespace GosuArena.Controllers
 
         protected ActionResult Error(string message)
         {
-            return View("Error", (object)message);
+            ViewBag.ErrorMessage = message;
+
+            return View("Error");
         }
     }
 }
