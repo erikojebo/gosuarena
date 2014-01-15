@@ -15,6 +15,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
     var initialHealthPoints = 100;
     var sightWidth = 1;
     var sightLength = 1000;
+    var actionsPerRound = 2;
 
     function isValidColor(value) {
         return value && /^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(value);
@@ -62,6 +63,7 @@ gosuArena.factories.createSafeBotOptions = function (userOptions, isTraining) {
         name: userOptions.name,
         width: width,
         height: height,
+        actionsPerRound: actionsPerRound,
         x: x,
         y: y,
         angle: angle,

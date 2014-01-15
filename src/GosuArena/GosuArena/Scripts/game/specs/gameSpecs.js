@@ -1095,8 +1095,6 @@ describe("Game", function () {
 
     it("gives bots ids specified during registration", function () {
 
-        gosuArena.engine.reset();
-
         gosuArena.initiateBotRegistration({
             id: 11,
             name: "bot1"
@@ -1120,5 +1118,24 @@ describe("Game", function () {
         expect(arenaState.bots.length).toEqual(2);
         expect(arenaState.bots[0].id).toEqual(11);
         expect(arenaState.bots[1].id).toEqual(22);
+    });
+
+    it("only one bot can be registered by a user's script'", function () {
+        gosuArena.initiateBotRegistration({
+            id: 11,
+            name: "bot1"
+        }, function () {
+            gosuArena.register({
+                tick: function () { }
+            });
+
+            gosuArena.register({
+                tick: function () { }
+            });
+        });
+
+        startGame();
+
+        expect(arenaState.bots.length).toEqual(1);
     });
 });

@@ -6,6 +6,7 @@ gosuArena.arenaState.create = function () {
     var botKilledCallbacks = [];
     var botAddedCallbacks = [];
     var botHitByBulletCallbacks = [];
+    var shotFiredCallbacks = [];
 
     var arenaState = {
         bots: [],
@@ -80,6 +81,8 @@ gosuArena.arenaState.create = function () {
             raiseOnBotHitByBullet(bot);
         });
 
+        bot.onShotFired(onShotFiredByBot);
+
         arenaState.bots.push(bot);
 
         raiseOnBotAdded(bot);
@@ -121,6 +124,11 @@ gosuArena.arenaState.create = function () {
         botAddedCallbacks.forEach(function (callback) {
             callback(bot);
         });
+    }
+
+    function onShotFiredByBot(bot) {
+        var bullet = gosuArena.factories.createBullet(bot);
+        arenaState.addBullet(bullet);
     }
 
     return arenaState;

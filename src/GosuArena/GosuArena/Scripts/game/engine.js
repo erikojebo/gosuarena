@@ -4,66 +4,23 @@ gosuArena.engine = (function () {
     var arenaState = gosuArena.arenaState.create();
     var readyCallbacks = [];
     var matchStartedCallbacks = [];
-    var actionsPerRound = 2;
-    var isTraining = true;
+    var isTraining = null;
     var gameListeners = [];
     var visualizer = null;
     var collisionDetector = gosuArena.factories.createCollisionDetector(arenaState);
 
-    var nextUniqueBotId = 1;
+    var botRegistrar = gosuArena.botRegistrar.create(collisionDetector, arenaState);
 
-    var currentRegisteringBotOptions = null;
+    gosuArena.initiateBotRegistration = botRegistrar.initiateBotRegistration;
+    gosuArena.register = botRegistrar.register;
 
     gosuArena.ready = function(callback) {
         readyCallbacks.push(callback);
     };
 
-    gosuArena.initiateBotRegistration = function (options, callback) {
-
-        // This makes sure that we keep track of the name of the bot being
-        // registered during the execution of the bot script, so that
-        // we can automatically initialize the bot with the name
-        // given when creating the bot.
-        gosuArena.ready(function () {
-            currentRegisteringBotOptions = options;
-
-            callback();
-
-            currentRegisteringBotOptions = null;
-        });
-    };
-
     gosuArena.matchStarted = function (callback) {
         matchStartedCallbacks.push(callback);
     }
-
-    gosuArena.register = function (options) {
-
-        options.options = options.options || {};
-
-        options.options.name = currentRegisteringBotOptions.name;
-        options.options.id = currentRegisteringBotOptions.id;
-        options.options.teamId = currentRegisteringBotOptions.teamId;
-        options.options.uniqueId = nextUniqueBotId++;
-        
-        var botOptions =
-            gosuArena.factories.createSafeBotOptions(options.options, isTraining);
-
-        botOptions.actionsPerRound = actionsPerRound;
-
-        var bot = gosuArena.factories.createBot(options.tick, botOptions, collisionDetector);
-
-        bot.onShotFired(onShotFiredByBot);
-
-        if (typeof options.onHitByBullet === 'function') {
-            bot.onHitByBullet(options.onHitByBullet);
-        }
-        if (typeof options.onCollision === 'function') {
-            bot.onCollision(options.onCollision)
-        }
-
-        arenaState.addBot(bot);
-    };
 
     function initializeTerrain() {
 
@@ -122,7 +79,7 @@ gosuArena.engine = (function () {
             x: arenaWidth / 2,
             y: arenaHeight + wallThickness / 2
         };
-        
+
         var southWall = gosuArena.factories.createTerrain({
             x: southWallCenter.x - horizontalWallWidth / 2,
             y: southWallCenter.y - wallThickness / 2,
@@ -143,11 +100,6 @@ gosuArena.engine = (function () {
                 bot.teleportToRandomLocation();
             }
         });
-    }
-
-    function onShotFiredByBot(bot) {
-        var bullet = gosuArena.factories.createBullet(bot);
-        arenaState.addBullet(bullet);
     }
 
     function updateBots() {
@@ -243,6 +195,7 @@ gosuArena.engine = (function () {
         gameListeners = options.listeners || [];
         isTraining = options.isTraining;
 
+        botRegistrar.setIsTraining(isTraining);
         visualizer = gameVisualizer;
 
         arenaState.clear();
