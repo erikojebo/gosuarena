@@ -205,6 +205,7 @@ gosuArena.factories.createBot = function (tickCallback, options, collisionDetect
             },
             angle: bot.angle,
             direction: bot.direction,
+            health: bot.health,
             actionsPerRound: bot.actionsPerRound,
             roundsUntilWeaponIsReady: bot.weapon.cooldownTimeLeft,
             canFire: function () {

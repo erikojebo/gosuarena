@@ -178,6 +178,15 @@ Your bot interacts with gosuArena through a couple of different events, and thos
             y
         },
 
+        // Remaining health (hit points) for the bot. The bot hass 100 hp when the match starts.
+        // At 0 hp the bot is killed
+        health: bot.health,
+
+        // The number of actions that the bot can take during one round. For example, forward(1) would
+        // be one action. forward(2) would be 2 actions, and forward followed(1) by turn(1) would be 
+        // two actions in total.
+        actionsPerRound: bot.actionsPerRound,
+
         // An array of <a href="#bot-status">bot status</a> objects representing the bots your bot currently can see.
         // The line of sight of the bot is a thin, straight line from the sight and forward so you can only see bots
         // on which your bot has aimed its gun.

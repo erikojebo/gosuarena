@@ -324,6 +324,16 @@ describe("bot", function () {
 
         expect(status.actionsPerRound).toEqual(123);
     });
+
+    it("includes health in the bot status", function () {
+        var bot = gosuArena.factories.createBot(tick, {
+            initialHealthPoints: 12
+        }, collisionDetector);
+
+        var status = bot.createStatus();
+
+        expect(status.health).toEqual(12);
+    })
     
     it("only exposes performNext on the action queue of the bot, not on the queue sent to the tick callback", function () {
 
