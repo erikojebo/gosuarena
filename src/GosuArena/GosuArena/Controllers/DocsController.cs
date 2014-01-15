@@ -15,5 +15,10 @@ namespace GosuArena.Controllers
         {
             return View();
         }
+
+        public ActionResult News()
+        {
+            return View();
+        }
     }
 }

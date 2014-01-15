@@ -463,6 +463,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Docs\Index.cshtml" />
     <Content Include="Views\Shared\MatchSetup.cshtml" />
+    <Content Include="Views\Docs\News.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
