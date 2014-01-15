@@ -96,7 +96,7 @@ Your bot interacts with gosuArena through a couple of different events, and thos
 </p>
 
 <p>
-    GosuArena passes three arguments to your tick callback: <a href="#action-queue">actionQueue</a>, <a href="#bot-status">status</a> and
+    GosuArena passes three arguments to your onHitByBullet callback: <a href="#action-queue">actionQueue</a>, <a href="#bot-status">status</a> and
     <a href="#onHitByBullet-eventArgs">eventArgs</a>.
 </p>
 
@@ -119,6 +119,31 @@ Your bot interacts with gosuArena through a couple of different events, and thos
         // See the <a href="coordinate-system">coordinate system and angles</a> section for more details.
         angle
     };
+</pre>
+
+<h4>OnCollision</h4>
+
+<p>
+    If your bot collides with a wall or one of the other bots you will be notified through the onCollision callback, if one is supplied.
+</p>
+
+<p>
+    GosuArena passes the two standard arguments to your onCollision callback: <a href="#action-queue">actionQueue</a> and <a href="#bot-status">status</a>.
+</p>
+
+<p>
+    Here is an example of how to register a callback for the onCollision event:
+</p>
+
+<pre class="prettyprint">
+    gosuArena.register({
+        tick: function (actionQueue, status) { 
+            // This gets called once every round
+        },
+        onCollision: function (actionQueue, status) {
+            // This will be called when your bot collides with something else
+        }
+    });
 </pre>
 
 <h4>But... Shouldn't there Be More?</h4>
