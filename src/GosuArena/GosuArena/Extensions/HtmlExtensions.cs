@@ -26,5 +26,10 @@ namespace GosuArena.Extensions
         {
             return html.Partial("MatchSetup", model);
         }
+        
+        public static MvcHtmlString QuickMatchSetup(this HtmlHelper html, MatchSetupModel model)
+        {
+            return html.Partial("QuickMatchSetup", model);
+        }
     }
 }

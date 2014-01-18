@@ -420,6 +420,8 @@
     <Content Include="Scripts\gosu\math\specs\vectorSpecs.js" />
     <Content Include="Scripts\Pages\Bot\Edit.js" />
     <Content Include="Scripts\Pages\changetracking.js" />
+    <Content Include="Scripts\Pages\Match\QuickSetup\botSelectionViewModel.js" />
+    <Content Include="Scripts\Pages\Match\QuickSetup\setupViewModel.js" />
     <Content Include="Scripts\Pages\Match\Setup\botSelectionViewModel.js" />
     <Content Include="Scripts\Pages\confirmation.js" />
     <Content Include="Scripts\game\rectangleCache.js" />
@@ -465,6 +467,7 @@
     <Content Include="Views\Docs\Index.cshtml" />
     <Content Include="Views\Shared\MatchSetup.cshtml" />
     <Content Include="Views\Docs\News.cshtml" />
+    <Content Include="Views\Shared\QuickMatchSetup.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
