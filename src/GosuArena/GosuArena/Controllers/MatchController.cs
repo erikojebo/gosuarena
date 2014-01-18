@@ -74,16 +74,14 @@ namespace GosuArena.Controllers
         [Authorize]
         public ActionResult Play(string names)
         {
-            var botNames = GetBotNames(names);
+            var botsInMatch = GetBotsInMatch(names);
 
-            var bots = GetBots(botNames);
-
-            if (IsBotSetupInvalid(bots))
+            if (IsBotSetupInvalid(botsInMatch))
             {
                 return InvalidBotSetupError();
             }
 
-            return PlayMatch(bots);
+            return PlayMatch(botsInMatch);
         }
 
         private ActionResult PlayMatch(IEnumerable<Bot> bots)
@@ -96,6 +94,24 @@ namespace GosuArena.Controllers
         private ActionResult PlayMatch(IList<BotModel> botModels)
         {
             return View("Play", botModels);
+        }
+
+        private List<Bot> GetBotsInMatch(string names)
+        {
+            var botNames = GetBotNames(names).ToList();
+
+            var bots = GetBots(botNames);
+
+            var botsInMatch = new List<Bot>();
+
+            foreach (var botName in botNames)
+            {
+                var matchingBot = bots.FirstOrDefault(x => x.Name == botName);
+
+                if (matchingBot != null)
+                    botsInMatch.Add(matchingBot);
+            }
+            return botsInMatch;
         }
 
         private IList<Bot> GetBots(IEnumerable<string> botNames)

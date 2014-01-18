@@ -5,11 +5,11 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
     var selectedBots = ko.observableArray();
     var filterString = ko.observable();
 
-    var botViewModels = bots.map(function (bot) {
+    var createdBotViewModels = bots.map(function (bot) {
         return gosuArena.factories.createBotSelectionViewModel(bot);
     });
 
-    var botViewModels = ko.observableArray(botViewModels);
+    var botViewModels = ko.observableArray(createdBotViewModels);
 
     var filteredBots = ko.computed(function () {
         return botViewModels().filter(function (bot) {
@@ -51,24 +51,13 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
         });
     });
 
-    function select(bot) {
-        bot.isSelected(true);
-
+    function addBot(bot) {
         selectedBots.push(bot);
     }
 
-    function deselect(bot) {
-        bot.isSelected(false);
-
-        selectedBots.remove(bot);
-    }
-
-    function toggleSelection (bot) {
-        if (bot.isSelected()) {
-            deselect(bot);
-        } else {
-            select(bot);
-        }
+    function removeBot(bot) {
+        var index = selectedBots.indexOf(bot);
+        selectedBots.splice(index, 1);
     }
 
     return {
@@ -77,10 +66,11 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
         filteredBots: filteredBots,
         visibleBots: visibleBots,
         selectedBotNames: selectedBotNames,
-        toggleSelection: toggleSelection,
         isResultLimited: isResultLimited,
         filterString: filterString,
         hasSelectedBots: hasSelectedBots,
-        isSelectionEmpty: isSelectionEmpty
+        isSelectionEmpty: isSelectionEmpty,
+        addBot: addBot,
+        removeBot: removeBot
     };
 }
