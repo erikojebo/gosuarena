@@ -179,6 +179,8 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Models\Match\BotModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\bootstrap-notify\css\bootstrap-notify.css" />
+    <Content Include="Content\bootstrap-notify\js\bootstrap-notify.js" />
     <Content Include="Content\images\docs\high_performance.png" />
     <Content Include="Content\images\sprites\map.jpg" />
     <Content Include="Content\images\sprites\mech.png" />
@@ -427,6 +429,7 @@
     <Content Include="Scripts\game\rectangleCache.js" />
     <Content Include="Scripts\game\gameSettings.js" />
     <Content Include="Scripts\Pages\Match\Setup\setupViewModel.js" />
+    <Content Include="Scripts\Pages\notifications.js" />
     <Content Include="Scripts\SpecRunner.html" />
     <Content Include="Scripts\game\userActionQueue.js" />
     <Content Include="Web.config" />
