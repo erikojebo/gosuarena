@@ -51,13 +51,24 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
         });
     });
 
-    function addBot(bot) {
+    function select(bot) {
+        bot.isSelected(true);
+
         selectedBots.push(bot);
     }
 
-    function removeBot(bot) {
-        var index = selectedBots.indexOf(bot);
-        selectedBots.splice(index, 1);
+    function deselect(bot) {
+        bot.isSelected(false);
+
+        selectedBots.remove(bot);
+    }
+
+    function toggleSelection (bot) {
+        if (bot.isSelected()) {
+            deselect(bot);
+        } else {
+            select(bot);
+        }
     }
 
     return {
@@ -66,11 +77,10 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
         filteredBots: filteredBots,
         visibleBots: visibleBots,
         selectedBotNames: selectedBotNames,
+        toggleSelection: toggleSelection,
         isResultLimited: isResultLimited,
         filterString: filterString,
         hasSelectedBots: hasSelectedBots,
-        isSelectionEmpty: isSelectionEmpty,
-        addBot: addBot,
-        removeBot: removeBot
+        isSelectionEmpty: isSelectionEmpty
     };
 }

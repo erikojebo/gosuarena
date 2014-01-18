@@ -13,7 +13,7 @@
 <section id="bot-lists-container">
     <div id="available-bots-container">
         <ul id="bots" data-bind="foreach: visibleBots">
-            <li class="bot well" data-bind="click: $parent.addBot">
+            <li class="bot well" data-bind="click: $parent.toggleSelection, css: { selected: isSelected }">
                 <span class="name" data-bind="text: name"></span>
                 <span class="author" data-bind="text: authorDescription"></span>
             </li>
@@ -24,7 +24,7 @@
     <div id="selected-bots-container">
         <span class="no-selection-message well" data-bind="visible: isSelectionEmpty()">No bots have been selected</span>
         <ul id="selected-bots" data-bind="foreach: selectedBots">
-            <li class="bot well" data-bind="click: $parent.removeBot">
+            <li class="bot well" data-bind="click: $parent.toggleSelection">
                 <span class="name" data-bind="text: name"></span>
                 <span class="author" data-bind="text: authorDescription"></span>
             </li>
