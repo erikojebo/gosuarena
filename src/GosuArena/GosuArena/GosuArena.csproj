@@ -192,6 +192,7 @@
     <Content Include="Content\images\sprites\wall_north.png" />
     <Content Include="Content\images\sprites\wall_south.png" />
     <Content Include="Content\images\sprites\wall_west.png" />
+    <Content Include="Scripts\bots\waller.js" />
     <Content Include="Scripts\game\botRegistrar.js" />
     <Content Include="Scripts\game\terrain.js" />
     <Content Include="Scripts\game\worldObject.js" />
