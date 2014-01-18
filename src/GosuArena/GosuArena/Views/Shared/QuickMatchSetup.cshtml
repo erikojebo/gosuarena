@@ -3,28 +3,10 @@
 
 <h2>@Model.Title</h2>
 
-@if (!Model.InfoMessage.IsNullOrWhiteSpace())
-{
-    <p class="alert alert-info">
-        @Model.InfoMessage
-    </p>
-}
-
 <section id="bot-lists-container">
     <div id="available-bots-container">
-        <ul id="bots" data-bind="foreach: visibleBots">
+        <ul id="bots" data-bind="foreach: allBots">
             <li class="bot well" data-bind="click: $parent.toggleSelection, css: { selected: isSelected }">
-                <span class="name" data-bind="text: name"></span>
-                <span class="author" data-bind="text: authorDescription"></span>
-            </li>
-        </ul>
-        <span id="result-filtered-message" data-bind="visible: isResultLimited()">Result has been limited due to too many matches</span>
-    </div>
-
-    <div id="selected-bots-container">
-        <span class="no-selection-message well" data-bind="visible: isSelectionEmpty()">No bots have been selected</span>
-        <ul id="selected-bots" data-bind="foreach: selectedBots">
-            <li class="bot well" data-bind="click: $parent.toggleSelection">
                 <span class="name" data-bind="text: name"></span>
                 <span class="author" data-bind="text: authorDescription"></span>
             </li>
@@ -32,13 +14,9 @@
     </div>
 </section>
 
-<form id="start-match" method="GET" action="@Url.Action("Play", "Match")" target="@Model.Target">
+<form id="start-match" method="GET" action="@Url.Action("Play", "Match")" target="_blank">
     <input type="hidden" name="names" id="names" data-bind="value: selectedBotNames" />
-
-    @if (Model.IsTraining)
-    {
-        <input type="hidden" name="training" value="@Model.IsTraining.ToString().ToLower()" />
-    }
+    <input type="hidden" name="training" value="@Model.IsTraining.ToString().ToLower()" />
 
     <button type="submit" id="play-button" class="btn btn-lg btn-primary">Play!</button>
 </form>
