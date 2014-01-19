@@ -44,5 +44,48 @@ namespace GosuArena.Controllers
                 .Join(x => x.Bots, x => x.User)
                 .Execute();
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegenerateApiKey()
+        {
+            var newKey = Guid.NewGuid().ToString();
+
+            Repository.Update<User>()
+                .Set(x => x.ApiKey, newKey)
+                .Where(x => x.Id == GetCurrentUserId())
+                .Execute();
+
+            return RedirectToAction("MyProfile");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EnableApiAccess()
+        {
+            SetApiAccessAllowed(true);
+            
+            return RedirectToAction("MyProfile");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DisableApiAccess()
+        {
+            SetApiAccessAllowed(false);
+
+            return RedirectToAction("MyProfile");
+        }
+
+        private void SetApiAccessAllowed(bool isApiAccessAllowed)
+        {
+            Repository.Update<User>()
+                .Set(x => x.IsApiAccessAllowed, isApiAccessAllowed)
+                .Where(x => x.Id == GetCurrentUserId())
+                .Execute();
+        }
     }
 }

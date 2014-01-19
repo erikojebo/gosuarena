@@ -206,6 +206,7 @@
     <Content Include="Scripts\Pages\Match\Play\botViewModel.js" />
     <Content Include="Scripts\Pages\Match\Play\matchUI.js" />
     <Content Include="Scripts\Pages\Match\Play\matchViewModel.js" />
+    <Content Include="Scripts\Pages\User\profile.js" />
     <Compile Include="Services\FileBotRepository.cs" />
   </ItemGroup>
   <ItemGroup>

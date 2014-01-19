@@ -1,7 +1,20 @@
 ﻿@import "../GosuArena.less";
 
+body {
+    margin-bottom: 50px;
+}
+
+#profile-menu ul {
+    padding-left: 0;
+    position: fixed;
+}
+
+#bot-actions {
+    height: 50px;
+}
+
 ul#bots {
-    margin-top: 25px;
+    margin-top: 14px;
     margin-left: 0;
     padding-left: 0;
 
@@ -48,5 +61,15 @@ ul#bots {
                 .btn-sm;
             }
         }
+    }
+}
+
+#api {
+    #api-key, #api-access-status {
+        font-weight: bold;
+    }
+
+    form {
+        display: inline-block;
     }
 }
