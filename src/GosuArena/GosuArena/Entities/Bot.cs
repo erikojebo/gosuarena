@@ -48,5 +48,10 @@ namespace GosuArena.Entities
                 return !IsTrainer;
             }
         }
+
+        public bool IsAuthorized(string apiKey)
+        {
+            return User.IsAuthorized(apiKey);
+        }
     }
 }

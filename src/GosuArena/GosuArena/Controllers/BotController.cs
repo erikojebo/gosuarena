@@ -26,7 +26,7 @@ namespace GosuArena.Controllers
             ViewBag.TrainingBots = trainingBots;
 
             return View(bot);
-        }
+        }   
 
         [HttpPost]
         [ValidateAntiForgeryToken]

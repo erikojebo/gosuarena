@@ -20,7 +20,7 @@ namespace GosuArena.Controllers
         }
 
         [Authorize]
-        public ActionResult Profile(string username)
+        public new ActionResult Profile(string username)
         {
             var user = GetUserWithBots(username);
 
@@ -35,6 +35,14 @@ namespace GosuArena.Controllers
                 return View(user);
 
             return View("ReadOnlyProfile", user);
+        }
+
+        protected User GetUserWithBots(string username)
+        {
+            return Repository.Find<User>()
+                .Where(x => x.Username == username)
+                .Join(x => x.Bots, x => x.User)
+                .Execute();
         }
     }
 }

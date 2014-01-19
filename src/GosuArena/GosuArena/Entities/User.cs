@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GosuArena.Infrastructure;
+using Microsoft.Ajax.Utilities;
 
 namespace GosuArena.Entities
 {
@@ -16,6 +17,9 @@ namespace GosuArena.Entities
         public int Id { get; set; }
         public string Username { get; set; }
         public string HashedPassword { get; set; }
+        public bool IsApiAccessAllowed { get; set; }
+        public string ApiKey { get; set; }
+        public int ApiRequestCount { get; set; }
         public DateTime JoinDate { get; set; }
         public IList<Bot> Bots { get; set; }
 
@@ -32,6 +36,14 @@ namespace GosuArena.Entities
         private static string Hash(string plainTextPassword)
         {
             return Md5Hash.Hash(plainTextPassword);
+        }
+
+        public bool IsAuthorized(string postedApiKey)
+        {
+            var hasApiKey = !ApiKey.IsNullOrWhiteSpace();
+            var isApiKeyMatch = ApiKey == postedApiKey;
+
+            return IsApiAccessAllowed && hasApiKey && isApiKeyMatch;
         }
     }
 }

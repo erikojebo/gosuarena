@@ -7,6 +7,9 @@ CREATE TABLE [dbo].[Users](
 	[HashedPassword] [nvarchar](255) NOT NULL,
 	[JoinDate] [datetime] NOT NULL,
 	[LastLoginDate] [datetime] NULL,
+	[ApiKey] [nvarchar](255) NULL,
+	[IsApiAccessAllowed] bit NOT NULL DEFAULT(0),
+	[ApiRequestCount] int NOT NULL DEFAULT(0),
 	CONSTRAINT UQ_Users_Username UNIQUE(Username))
 GO
 
