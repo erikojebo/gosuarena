@@ -25,6 +25,7 @@
     <li><a href="#technical-details">Technical Details</a></li>
     <li><a href="#private-bots">Public and Private Bots</a></li>
     <li><a href="#game-performance">Game Performance (FPS)</a></li>
+    <li><a href="#api">API Access</a></li>
 </ul>
 
 <h3 id="getting-started">Getting Started</h3>
@@ -429,6 +430,65 @@ Your bot interacts with gosuArena through a couple of different events, and thos
 </p>
 
 <img src="@Url.Content("~/Content/images/docs/high_performance.png")" alt="High performance power plan under Windows 7 can improve game performance" />
+
+<h3 id="api">API Access</h3>
+
+<p>
+    If you want to write some tool to improve your bot development workflow you can access the 
+    scripts of your bots through a simple REST API.
+</p>
+
+<p>
+    Each of your bots is exposed as a resource at the URI http://gosuarena.erikojebo.se/api/bot/your-bot-id,
+    so if your bot's id is 13 the URI would be http://gosuarena.erikojebo.se/api/bot/13.
+</p>
+
+<h4>Authorization</h4>
+
+<p>The first thing you have to do to enable API access to your bots is to go to your profile and click the Enable button in the Api Access section.</p>
+
+<img src="@Url.Content("~/Content/images/docs/profile_enable_api_access.png")" alt="Enabling API access on your user profile" />
+
+<p>You then need to generate an API key, by clicking the "Regenerate key" button. You can then click the "show" link to show the generated key</p>
+
+<img src="@Url.Content("~/Content/images/docs/profile_show_api_key.png")" alt="Showing your API key on your user profile" />
+
+<img src="@Url.Content("~/Content/images/docs/profile_after_show_api_key.png")" alt="Showing your API key on your user profile" />
+
+<p>
+    To make sure your requests are accepted you need to include an Authorization request header. The value of the header must be the string
+    GosuArenaApiKey followed by a space and then your key:
+</p>
+
+<pre class="prettyprint">
+    Authorization: GosuArenaApiKey f568d28a-8280-459d-a21d-80fd82b6cab2
+</pre>
+
+<h4>Downloading Your Script</h4>
+
+<p>
+    To download the script of one of your bots you simply issue a GET request to the URI of your bot.
+    Here is an example of how it could look in Fiddler:
+</p>
+
+<img src="@Url.Content("~/Content/images/docs/bot_api_get_request.png")" alt="Example of a GET request to dowload the script of a bot through the REST API" />
+
+<h4>Uploading a New Version of a Script</h4>
+
+<p>
+    To upload a new version of the script for one of your bots you issue a PUT request to the URI of your bot.
+    Here is an example:
+</p>
+
+<img src="@Url.Content("~/Content/images/docs/bot_api_put_request.png")" alt="Example of a PUT request to upload a new script for a bot through the REST API" />
+
+<h4>Troubleshooting</h4>
+
+<p>If you get a 404 Not found your URI does not point to any existing bot. You have probably specified the wrong id.</p>
+<p>
+    If you get a 401 Unauthorized your have not supplied an Authorization header with a key matching the one found on your
+    user profile, or perhaps you have not enabled API access.
+</p>
 
 <p class="conclusion">
     That is just about it. Now go forth and be awesome!

@@ -63,6 +63,10 @@
             use to authorize your API requests.
         </p>
         
+        <p>
+            See the @Html.ActionLink("documentation", "Index", "Docs", null, null, "api", null, null) for more information.
+        </p>
+
         @{
             var apiAccessStatus = Model.IsApiAccessAllowed ? "enabled" : "disabled";
             var apiAccessAction = Model.IsApiAccessAllowed ? "Disable" : "Enable";
