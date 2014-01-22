@@ -19,6 +19,16 @@ gosu.math = gosu.math || {};
             return angleInRadians / (2 * Math.PI) * 360;
         };
 
+        function signedAngleTo(other) {
+            var perpendicularDotProduct = x * other.y - y * other.x;
+
+            var angleInRadians = Math.atan2(
+                perpendicularDotProduct,
+                other.scalarProduct(gosu.math.createVector(x, y)));
+
+            return gosu.math.radiansToDegrees(angleInRadians);
+        }
+        
         function divide(factor) {
             return gosu.math.createVector(x / factor, y / factor);
         };
@@ -52,6 +62,7 @@ gosu.math = gosu.math || {};
             length: length,
             scalarProduct: scalarProduct,
             angleTo: angleTo,
+            signedAngleTo: signedAngleTo,
             divide: divide,
             multiply: multiply,
             add: add,

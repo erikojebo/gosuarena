@@ -71,11 +71,25 @@ describe("math", function () {
             });
         });
 
-        // describe("signed angle", function () {
-        //     it("is zero between vector and itself", function () {
-        //         expect(vector1.signedAngleTo(vector1)).toEqual(0);
-        //     });
-        // });
+        describe("signed angle", function () {
+            it("is zero between vector and itself", function () {
+                expect(vector1.signedAngleTo(vector1)).toEqual(0);
+            });
+
+            it("is 45 between x axis and (1,1)", function () {
+                var v1 = gosu.math.createVector(1, 0);
+                var v2 = gosu.math.createVector(1, 1);
+                
+                expect(v1.signedAngleTo(v2)).toBeCloseTo(45);
+            });
+            
+            it("is -45 between y axis and (1,1)", function () {
+                var v1 = gosu.math.createVector(0, 1);
+                var v2 = gosu.math.createVector(1, 1);
+                
+                expect(v1.signedAngleTo(v2)).toBeCloseTo(-45);
+            });
+        });
 
         describe("normalizing", function () {
             it("has length 1 after normalizing", function () {
