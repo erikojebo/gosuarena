@@ -71,6 +71,12 @@ describe("math", function () {
             });
         });
 
+        // describe("signed angle", function () {
+        //     it("is zero between vector and itself", function () {
+        //         expect(vector1.signedAngleTo(vector1)).toEqual(0);
+        //     });
+        // });
+
         describe("normalizing", function () {
             it("has length 1 after normalizing", function () {
                 var v = gosu.math.createVector(1, 1);
