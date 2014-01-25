@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GosuArena.Infrastructure;
 using Microsoft.Ajax.Utilities;
 
@@ -45,6 +46,19 @@ namespace GosuArena.Entities
             var isApiKeyMatch = ApiKey == postedApiKey;
 
             return IsApiAccessAllowed && hasApiKey && isApiKeyMatch;
+        }
+
+        public static bool IsAdmin(string username)
+        {
+            return Admins.Contains(username);
+        }
+
+        public static IEnumerable<string> Admins
+        {
+            get
+            {
+                yield return "erikojebo";
+            }
         }
     }
 }

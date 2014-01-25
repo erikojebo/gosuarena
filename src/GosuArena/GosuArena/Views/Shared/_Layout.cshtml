@@ -29,8 +29,14 @@
                             <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
                             <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
                         }
+                        
                         <li>@Html.NavigationMenuItem("Index", "Docs", "Documentation")</li>
                         <li>@Html.NavigationMenuItem("News", "Docs", "What's new?")</li>
+                        
+                        @if (User.IsAdmin())
+                        {
+                            <li>@Html.NavigationMenuItem("List", "Account", "Users")</li>
+                        }
                     </ul>
                 </nav>
 

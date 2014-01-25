@@ -1,12 +1,14 @@
 ﻿var ga = ga || {};
 
-ga.showNotification = function(message, type) {
+ga.showNotification = function (message, options) {
+    options = options || {};
+
     $("#notificationContainer").notify({
         message: { text: message },
-        type: type || "success",
+        type: options.type || "success",
         fadeOut: {
-            enabled: true,
-            delay: 2000
+            enabled: options.delay ? true : false,
+            delay: options.delay
         }
     }).show();
 };

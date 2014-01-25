@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Web.Mvc;
+using GosuArena.Infrastructure.Authorization;
 
 namespace GosuArena.Controllers
 {
     public class ErrorController : BaseController
     {
-        [Authorize(Users = "erikojebo")]
+        [Admin]
         public ActionResult Create()
         {
             throw new InvalidOperationException();

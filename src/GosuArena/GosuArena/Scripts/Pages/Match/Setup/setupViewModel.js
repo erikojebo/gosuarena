@@ -53,7 +53,7 @@ gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
 
     function addBot(bot) {
         selectedBots.push(bot);
-        ga.showNotification(bot.name + " was added");
+        ga.showNotification(bot.name + " was added", { delay: 2000 });
     }
 
     function removeBot(bot) {

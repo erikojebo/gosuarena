@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using GosuArena.Entities;
+using GosuArena.Infrastructure.Authorization;
 using GosuArena.Models;
 using GosuArena.Models.Account;
 
@@ -142,15 +143,24 @@ namespace GosuArena.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(string username)
+        public ActionResult ResetPassword(int id)
         {
-            var user = Repository.Find<User>().Where(x => x.Username == username).Execute();
+            var user = Repository.Find<User>().Where(x => x.Id == id).Execute();
 
-            user.SetPassword(Membership.GeneratePassword(8, 0));
+            var plainTextPassword = Membership.GeneratePassword(8, 0);
+            user.SetPassword(plainTextPassword);
 
             Repository.Update(user);
 
-            return RedirectToAction("Login", "Account");
+            return Content(plainTextPassword);
+        }
+
+        [Admin]
+        public ActionResult List()
+        {
+            var users = Repository.Find<User>().OrderBy(x => x.Username).ExecuteList();
+
+            return View(users);
         }
     }
 }

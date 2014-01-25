@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Controllers.ActionResults;
 using GosuArena.Entities;
+using GosuArena.Infrastructure.Authorization;
 using GosuArena.Services;
 
 namespace GosuArena.Controllers
@@ -110,7 +111,7 @@ namespace GosuArena.Controllers
             return RedirectToAction("MyProfile", "User");
         }
 
-        [Authorize(Users = "erikojebo")]
+        [Admin]
         public ActionResult CreateFromFiles()
         {
             using (var transaction = Repository.BeginTransaction())

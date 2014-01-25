@@ -179,7 +179,9 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\AuthorizationExtensions.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\Authorization\AdminAttribute.cs" />
     <Compile Include="Models\Controls\MatchSetupModel.cs" />
     <Compile Include="Models\Controls\NavigationMenuItemModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -218,6 +220,7 @@
     <Content Include="Scripts\game\worldObject.js" />
     <Content Include="Scripts\gosu\meta.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\Pages\Account\List.js" />
     <Content Include="Scripts\Pages\Match\Play\botViewModel.js" />
     <Content Include="Scripts\Pages\Match\Play\matchUI.js" />
     <Content Include="Scripts\Pages\Match\Play\matchViewModel.js" />
@@ -389,10 +392,10 @@
     <Content Include="Content\bootstrap-3.0.3\less\utilities.less" />
     <Content Include="Content\bootstrap-3.0.3\less\variables.less" />
     <Content Include="Content\bootstrap-3.0.3\less\wells.less" />
-    <Content Include="Content\Match\Play.less" />
-    <Content Include="Content\User\Profile.less" />
-    <Content Include="Content\Bot\Edit.less" />
-    <Content Include="Content\Match\Setup.less" />
+    <Content Include="Content\Pages\Match\Play.less" />
+    <Content Include="Content\Pages\User\Profile.less" />
+    <Content Include="Content\Pages\Bot\Edit.less" />
+    <Content Include="Content\Pages\Match\Setup.less" />
     <Content Include="Content\font-awesome-4.0.3\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\font-awesome-4.0.3\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\font-awesome-4.0.3\fonts\fontawesome-webfont.woff" />
@@ -410,13 +413,14 @@
     <Content Include="Content\font-awesome-4.0.3\less\spinning.less" />
     <Content Include="Content\font-awesome-4.0.3\less\stacked.less" />
     <Content Include="Content\font-awesome-4.0.3\less\variables.less" />
-    <Content Include="Content\Docs\Index.less" />
+    <Content Include="Content\Pages\Docs\Index.less" />
     <Content Include="Content\GosuArenaVariables.less" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Content\Match\SetupMatch.less" />
-    <Content Include="Content\Match\SetupTrainingMatch.less" />
+    <Content Include="Content\Pages\Match\SetupMatch.less" />
+    <Content Include="Content\Pages\Match\SetupTrainingMatch.less" />
+    <Content Include="Content\Pages\Account\List.less" />
     <None Include="Scripts\lib\jquery\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.js" />
     <Content Include="Scripts\lib\jquery\jquery-2.0.0.min.js" />
@@ -493,6 +497,7 @@
     <Content Include="Views\Shared\MatchSetup.cshtml" />
     <Content Include="Views\Docs\News.cshtml" />
     <Content Include="Views\Shared\QuickMatchSetup.cshtml" />
+    <Content Include="Views\Account\List.cshtml" />
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
