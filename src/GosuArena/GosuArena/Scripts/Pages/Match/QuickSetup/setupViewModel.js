@@ -32,7 +32,7 @@ gosuArena.factories.createSetupViewModel = function(bots, preselectedBots) {
     });
 
     function toggleSelection(bot) {
-        bot.isSelected(true);
+        bot.isSelected(!bot.isSelected());
     }
 
     return {
