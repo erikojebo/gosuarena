@@ -22,6 +22,7 @@ namespace GosuArena.Entities
         public string ApiKey { get; set; }
         public int ApiRequestCount { get; set; }
         public DateTime JoinDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
         public IList<Bot> Bots { get; set; }
         public string Email { get; set; }
 

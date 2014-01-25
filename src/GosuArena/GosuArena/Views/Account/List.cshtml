@@ -20,7 +20,11 @@
     @foreach (var user in Model)
     {
         <li class="well row">
-            <span class="username col-md-8">@user.Username</span>
+            <div class="info col-md-8">
+                <span class="username">@user.Username</span>
+                <span class="last-login">Last login: @user.LastLoginDate</span>
+                <span class="last-login">Bots: @user.Bots.Count</span>
+            </div>
             <div class="actions col-md-4">
                 <menu class="pull-right">
                     <form method="POST" action="@Url.Action("ResetPassword", "Account")" class="reset-password">

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using GosuArena.Entities;
@@ -13,6 +14,30 @@ namespace GosuArena.Controllers
         public ActionResult Login()
         {
             return View(new LogOnModel());
+        }
+
+        [HttpPost]
+        public ActionResult Login(LogOnModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (IsValid(model.UserName, model.Password))
+                {
+                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+
+                    Repository.Update<User>()
+                        .Set(x => x.LastLoginDate, DateTime.Now)
+                        .Where(x => x.Username == model.UserName)
+                        .Execute();
+
+                    return RedirectToReturnUrl(returnUrl);
+                }
+
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         public ActionResult Register()
@@ -47,25 +72,6 @@ namespace GosuArena.Controllers
             Repository.Insert(user);
 
             return RedirectToAction("Login", "Account");
-        }
-
-        [HttpPost]
-        public ActionResult Login(LogOnModel model, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (IsValid(model.UserName, model.Password))
-                {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-
-                    return RedirectToReturnUrl(returnUrl);
-                }
-
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
         }
 
         private ActionResult RedirectToReturnUrl(string returnUrl)
@@ -158,7 +164,10 @@ namespace GosuArena.Controllers
         [Admin]
         public ActionResult List()
         {
-            var users = Repository.Find<User>().OrderBy(x => x.Username).ExecuteList();
+            var users = Repository.Find<User>()
+                .Join<User, Bot>(x => x.Bots, x => x.User)
+                .OrderBy(x => x.Username)
+                .ExecuteList();
 
             return View(users);
         }
