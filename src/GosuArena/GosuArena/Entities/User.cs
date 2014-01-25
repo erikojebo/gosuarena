@@ -22,6 +22,7 @@ namespace GosuArena.Entities
         public int ApiRequestCount { get; set; }
         public DateTime JoinDate { get; set; }
         public IList<Bot> Bots { get; set; }
+        public string Email { get; set; }
 
         public void SetPassword(string plainTextPassword)
         {

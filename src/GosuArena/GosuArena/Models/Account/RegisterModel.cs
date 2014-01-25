@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using DataAnnotationsExtensions;
 
 namespace GosuArena.Models.Account
 {
@@ -10,8 +11,11 @@ namespace GosuArena.Models.Account
         [StringLength(255, ErrorMessage = "Username is too long")]
         public string UserName { get; set; }
 
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
+        [StringLength(512, ErrorMessage = "E-mail address is too long")]
+        [Email]
         public string Email { get; set; }
 
         [Required]

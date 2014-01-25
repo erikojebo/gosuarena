@@ -4,6 +4,7 @@ GO
 CREATE TABLE [dbo].[Users](
 	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[Username] [nvarchar](255) NOT NULL,
+	[Email] [nvarchar](512) NULL,
 	[HashedPassword] [nvarchar](255) NOT NULL,
 	[JoinDate] [datetime] NOT NULL,
 	[LastLoginDate] [datetime] NULL,

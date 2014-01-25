@@ -37,7 +37,8 @@ namespace GosuArena.Controllers
 
             var user = new User
             {
-                Username = model.UserName
+                Username = model.UserName,
+                Email = model.Email
             };
 
             user.SetPassword(model.Password);
