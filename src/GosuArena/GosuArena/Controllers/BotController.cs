@@ -60,7 +60,8 @@ namespace GosuArena.Controllers
 
         private bool IsBotOwnedByCurrentUser(Bot bot)
         {
-            return bot.User != null && bot.User.Username == User.Identity.Name;
+            var currentUserId = GetCurrentUserId();
+            return bot.User != null && bot.UserId == currentUserId;
         }
 
         public ActionResult Create()
