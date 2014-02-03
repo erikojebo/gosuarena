@@ -47,7 +47,7 @@
 </form>
 
 <aside id="match-setup" class="col-md-3 col-sm-3 col-xs-3">
-    @Html.QuickMatchSetup(new MatchSetupModel
+    @Html.Partial("QuickMatchSetup", new QuickMatchSetupModel
     {
         Title = "Play training match",
         Bots = ViewBag.TrainingBots,

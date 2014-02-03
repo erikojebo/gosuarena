@@ -2,16 +2,57 @@
 
 #selected-bots-container {
     .make-md-column(5);
+
+    ul#selected-bots li {
+            background-color: #dff0d8;
+        }
+    
+    &.team1 {
+        ul#selected-bots li {
+            background-color: #E9D8F0;
+        }
+    }
+    
+    &.team2 {
+        ul#selected-bots li {
+            background-color: #FFE256;
+        }
+    }
+    
+    &.team3 {
+        ul#selected-bots li {
+            background-color: #dff0d8;
+        }
+    }
+    
+    &.team4 {
+        ul#selected-bots li {
+            background-color: #D9EDF7;
+        }
+    }
+}
+
+#team-menu {
+    margin-bottom: 20px;
 }
 
 #available-bots-container {
     .make-md-column(7);
 
-    .selected {
-        display: none;
-    }
-    
     padding-right: 10px;
+}
+
+#start-match {
+    .make-md-column(5);
+    padding-right: 0;
+}
+
+#info {
+    .make-md-column(7);
+}
+
+#bot-lists-container {
+    margin-top: 0;
 }
 
 .no-selection-message {

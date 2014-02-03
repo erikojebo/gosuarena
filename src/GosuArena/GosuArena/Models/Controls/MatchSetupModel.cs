@@ -4,9 +4,9 @@ using GosuArena.Entities;
 
 namespace GosuArena.Models.Controls
 {
-    public class MatchSetupModel
+    public class QuickMatchSetupModel
     {
-        public MatchSetupModel()
+        public QuickMatchSetupModel()
         {
             Bots = new List<Bot>();
             PreselectedBots = new List<Bot>();
@@ -19,11 +19,6 @@ namespace GosuArena.Models.Controls
         public bool ShouldOpenNewTab { get; set; }
         public bool IsTraining { get; set; }
         
-        public string Target
-        {
-            get { return ShouldOpenNewTab ? "_blank" : "_self"; }
-        }
-
         public IList<Bot> SelectableBots
         {
             get

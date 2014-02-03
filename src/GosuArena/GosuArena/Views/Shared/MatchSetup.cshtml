@@ -1,5 +1,5 @@
 ﻿@using Microsoft.Ajax.Utilities
-@model GosuArena.Models.Controls.MatchSetupModel
+@model GosuArena.Models.Controls.QuickMatchSetupModel
 
 <h2>@Model.Title</h2>
 
@@ -32,7 +32,7 @@
     </div>
 </section>
 
-<form id="start-match" method="GET" action="@Url.Action("Play", "Match")" target="@Model.Target">
+<form id="start-match" method="GET" action="@Url.Action("Play", "Match")" target="_blank">
     <input type="hidden" name="names" id="names" data-bind="value: selectedBotNames" />
 
     @if (Model.IsTraining)

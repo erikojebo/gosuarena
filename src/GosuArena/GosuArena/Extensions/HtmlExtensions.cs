@@ -6,30 +6,20 @@ namespace GosuArena.Extensions
 {
     public static class HtmlExtensions
     {
-         public static MvcHtmlString NavigationMenuItem(this HtmlHelper html, string actionName, string controllerName, string linkText)
-         {
-             var model = new NavigationMenuItemModel(actionName, controllerName, linkText);
-             return html.Partial("NavigationMenuItem", model);
-         }
-
-         public static string ControllerName(this HtmlHelper html)
-         {
-             return html.ViewContext.RouteData.GetRequiredString("controller");
-         }
-
-         public static string ActionName(this HtmlHelper html)
-         {
-             return html.ViewContext.RouteData.GetRequiredString("action");
-         }
-
-        public static MvcHtmlString MatchSetup(this HtmlHelper html, MatchSetupModel model)
+        public static MvcHtmlString NavigationMenuItem(this HtmlHelper html, string actionName, string controllerName, string linkText)
         {
-            return html.Partial("MatchSetup", model);
+            var model = new NavigationMenuItemModel(actionName, controllerName, linkText);
+            return html.Partial("NavigationMenuItem", model);
         }
-        
-        public static MvcHtmlString QuickMatchSetup(this HtmlHelper html, MatchSetupModel model)
+
+        public static string ControllerName(this HtmlHelper html)
         {
-            return html.Partial("QuickMatchSetup", model);
+            return html.ViewContext.RouteData.GetRequiredString("controller");
+        }
+
+        public static string ActionName(this HtmlHelper html)
+        {
+            return html.ViewContext.RouteData.GetRequiredString("action");
         }
     }
 }

@@ -1,77 +1,32 @@
 ﻿var gosuArena = gosuArena || {};
 gosuArena.factories = gosuArena.factories || {};
 
-gosuArena.factories.createSetupViewModel = function (bots, preselectedBots) {
-    var selectedBots = ko.observableArray();
-    var filterString = ko.observable();
+gosuArena.factories.createSetupViewModel = function(bots, rosterCount) {
 
-    var createdBotViewModels = bots.map(function (bot) {
-        return gosuArena.factories.createBotSelectionViewModel(bot);
-    });
+    var rosterViewModels = [];
 
-    var botViewModels = ko.observableArray(createdBotViewModels);
-
-    var filteredBots = ko.computed(function () {
-        return botViewModels().filter(function (bot) {
-            var regex = new RegExp(filterString());
-            return regex.test(bot.name) || regex.test(bot.authorName);
-        }).sort();
-    });
-
-    var visibleBots = ko.computed(function () {
-        return _.first(filteredBots(), 50);
-    });
-
-    var isResultLimited = ko.computed(function () {
-        return visibleBots().length < filteredBots().length;
-    });
-
-    var hasSelectedBots = ko.computed(function () {
-        return selectedBots().length > 0;
-    });
-
-    var isSelectionEmpty = ko.computed(function () {
-        return !hasSelectedBots();
-    });
-
-    var selectedBotNames = ko.computed(function () {
-
-        var allSelectedBots = [];
-
-        selectedBots().forEach(function (bot) {
-            allSelectedBots.push(bot);
-        });
-
-        preselectedBots.forEach(function (bot) {
-           allSelectedBots.push(bot);
-        });
-
-        return allSelectedBots.map(function (bot) {
-            return bot.name;
-        });
-    });
-
-    function addBot(bot) {
-        selectedBots.push(bot);
-        ga.showNotification(bot.name + " was added", { delay: 2000 });
+    for (var i = 1; i <= rosterCount; i++) {
+        var viewModel = gosuArena.factories.createRosterViewModel(bots, i);
+        rosterViewModels.push(viewModel);
     }
 
-    function removeBot(bot) {
-        var index = selectedBots.indexOf(bot);
-        selectedBots.splice(index, 1);
-    }
+    var rosters = ko.observableArray(rosterViewModels);
+
+    var currentRosterNumber = ko.observable(1);
+
+    var currentRoster = ko.computed(function() {
+        return rosters()[currentRosterNumber() - 1];
+    });
+    
+    var setCurrentRoster = function (rosterNumber) {
+        currentRosterNumber(rosterNumber);
+    };
 
     return {
-        allBots: botViewModels,
-        selectedBots: selectedBots,
-        filteredBots: filteredBots,
-        visibleBots: visibleBots,
-        selectedBotNames: selectedBotNames,
-        isResultLimited: isResultLimited,
-        filterString: filterString,
-        hasSelectedBots: hasSelectedBots,
-        isSelectionEmpty: isSelectionEmpty,
-        addBot: addBot,
-        removeBot: removeBot
+        currentRoster: currentRoster,
+        currentRosterNumber: currentRosterNumber,
+        setCurrentRoster: setCurrentRoster,
+        rosters: rosters,
+        selectedBotNames: ko.observableArray()
     };
-}
+};

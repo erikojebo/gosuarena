@@ -11,7 +11,7 @@ namespace GosuArena.Controllers
         public ActionResult Index()
         {
             var bots = Repository.Find<Bot>()
-                .Where(x => x.IsTrainer || x.IsDemoBot)
+                .Where(x => x.IsTrainer && !x.IsDemoBot)
                 .Join<User, Bot>(x => x.Bots, x => x.User)
                 .ExecuteList();
 
@@ -21,13 +21,24 @@ namespace GosuArena.Controllers
         [Authorize]
         public ActionResult Setup()
         {
-            var bots = Repository.Find<Bot>()
-                .Where(x => !x.IsDemoBot && x.IsPublic)
-                .Join(x => x.User)
-                .OrderBy(x => x.Name)
-                .ExecuteList();
+            var bots = LoadBots();
 
-            return View(bots);
+            var model = new MatchSetupModel(bots);
+
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult TeamSetup()
+        {
+            var bots = LoadBots();
+
+            var model = new MatchSetupModel(bots)
+            {
+                MaxTeamCount = 4
+            };
+
+            return View("Setup", model);
         }
 
         [Authorize]
@@ -82,6 +93,16 @@ namespace GosuArena.Controllers
             }
 
             return PlayMatch(botsInMatch);
+        }
+
+        private IList<Bot> LoadBots()
+        {
+            var bots = Repository.Find<Bot>()
+                .Where(x => !x.IsDemoBot && x.IsPublic)
+                .Join(x => x.User)
+                .OrderBy(x => x.Name)
+                .ExecuteList();
+            return bots;
         }
 
         private ActionResult PlayMatch(IEnumerable<Bot> bots)

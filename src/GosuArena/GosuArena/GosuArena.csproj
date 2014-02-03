@@ -195,6 +195,7 @@
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Models\Match\BotModel.cs" />
+    <Compile Include="Models\Match\MatchSetupModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\bootstrap-notify\css\bootstrap-notify.css" />
     <Content Include="Content\bootstrap-notify\js\bootstrap-notify.js" />
@@ -225,6 +226,7 @@
     <Content Include="Scripts\Pages\Match\Play\botViewModel.js" />
     <Content Include="Scripts\Pages\Match\Play\matchUI.js" />
     <Content Include="Scripts\Pages\Match\Play\matchViewModel.js" />
+    <Content Include="Scripts\Pages\Match\Setup\rosterViewModel.js" />
     <Content Include="Scripts\Pages\User\profile.js" />
     <Compile Include="Services\FileBotRepository.cs" />
   </ItemGroup>
