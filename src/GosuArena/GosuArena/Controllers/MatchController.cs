@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GosuArena.Entities;
 using GosuArena.Models.Match;
+using WeenyMapper.Extensions;
 
 namespace GosuArena.Controllers
 {
@@ -35,34 +36,44 @@ namespace GosuArena.Controllers
 
             var model = new MatchSetupModel(bots)
             {
-                MaxTeamCount = 4
+                MaxRosterCount = 4
             };
 
             return View("Setup", model);
         }
 
         [Authorize]
-        public ActionResult Team(IList<string> teams)
+        public ActionResult Play(IList<string> rosters, bool isTeam = false)
         {
-            var botNames = teams.SelectMany(GetBotNames).Distinct();
+            if (rosters == null || rosters.IsEmpty())
+                return InvalidBotSetupError();
+
+            if (!isTeam)
+                return PlayFFA(rosters[0]);
+
+            var botNames = rosters.SelectMany(GetBotNames).Distinct();
 
             var bots = GetBots(botNames);
 
             if (IsBotSetupInvalid(bots))
+                return InvalidBotSetupError();
+
+            var botModels = CreateBotModels(rosters, bots);
+
+            return PlayMatch(botModels);
+        }
+
+        [Authorize]
+        public ActionResult PlayFFA(string names)
+        {
+            var botsInMatch = GetBotsInMatch(names);
+
+            if (IsBotSetupInvalid(botsInMatch))
             {
                 return InvalidBotSetupError();
             }
 
-            var botModels = new List<BotModel>();
-
-            for (int i = 0; i < teams.Count; i++)
-            {
-                var botModelsInTeam = GetTeamBotModels(teams, i, bots);
-
-                botModels.AddRange(botModelsInTeam);
-            }
-
-            return PlayMatch(botModels);
+            return PlayMatch(botsInMatch);
         }
 
         private static IEnumerable<BotModel> GetTeamBotModels(IList<string> teams, int i, IEnumerable<Bot> bots)
@@ -80,19 +91,6 @@ namespace GosuArena.Controllers
             }
 
             return botModelsInTeam;
-        }
-
-        [Authorize]
-        public ActionResult Play(string names)
-        {
-            var botsInMatch = GetBotsInMatch(names);
-
-            if (IsBotSetupInvalid(botsInMatch))
-            {
-                return InvalidBotSetupError();
-            }
-
-            return PlayMatch(botsInMatch);
         }
 
         private IList<Bot> LoadBots()
@@ -168,6 +166,19 @@ namespace GosuArena.Controllers
         private static IEnumerable<string> GetBotNames(string names)
         {
             return names.Split(',', ';');
+        }
+
+        private static List<BotModel> CreateBotModels(IList<string> rosters, IList<Bot> bots)
+        {
+            var botModels = new List<BotModel>();
+
+            for (int i = 0; i < rosters.Count; i++)
+            {
+                var botModelsInTeam = GetTeamBotModels(rosters, i, bots);
+
+                botModels.AddRange(botModelsInTeam);
+            }
+            return botModels;
         }
     }
 }

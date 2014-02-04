@@ -10,9 +10,18 @@ namespace GosuArena.Models.Match
         public MatchSetupModel(IEnumerable<Bot> bots)
         {
             Bots = bots.Select(x => new BotModel(x)).ToList();
+            MaxRosterCount = 1;
         }
 
-        public int MaxTeamCount { get; set; }
+        public int MaxRosterCount { get; set; }
         public IList<BotModel> Bots { get; set; }
+
+        public bool IsTeamSetup
+        {
+            get
+            {
+                return MaxRosterCount > 1;
+            }
+        }
     }
 }

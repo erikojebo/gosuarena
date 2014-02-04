@@ -26,7 +26,8 @@
                     <ul>
                         @if(User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.NavigationMenuItem("Setup", "Match", "Play match!")</li>
+                            <li>@Html.NavigationMenuItem("Setup", "Match", "Play FFA match!")</li>
+                            <li>@Html.NavigationMenuItem("TeamSetup", "Match", "Play team match!")</li>
                             <li>@Html.NavigationMenuItem("MyProfile", "User", "Profile")</li>
                         }
                         

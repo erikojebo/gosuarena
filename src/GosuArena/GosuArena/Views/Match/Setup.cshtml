@@ -24,17 +24,26 @@
         </p>
     </div>
     <form id="start-match" method="GET" action="@Url.Action("Play", "Match")">
-        <input type="hidden" name="names" id="names" data-bind="value: selectedBotNames" />
+        
+        @for (int teamIndex = 0; teamIndex < Model.MaxRosterCount; teamIndex++)
+        {
+            var inputName = string.Format("rosters[{0}]", teamIndex);
+            var valueBindingPath = string.Format("rosters()[{0}].selectedBotNames", teamIndex);
+                
+            <input type="hidden" name="@inputName" id="@inputName" data-bind="value: @valueBindingPath" />  
+        }    
+
+        <input type="hidden" name="isTeam" value="@Model.IsTeamSetup.ToString().ToLower()" />
 
         <button type="submit" id="play-button" class="btn btn-lg btn-primary">Play!</button>
     </form>
 </div>
 
-@if (Model.MaxTeamCount > 1)
+@if (Model.IsTeamSetup)
 {
     <ul id="team-menu" class="nav nav-tabs">
 
-    @for (int i = 1; i <= Model.MaxTeamCount; i++)
+    @for (int i = 1; i <= Model.MaxRosterCount; i++)
     {
         var teamName = string.Format("team{0}", i);
 
@@ -79,7 +88,7 @@
             }
         ];
         
-        ga.setupViewModel = gosuArena.factories.createSetupViewModel(bots, @Model.MaxTeamCount);
+        ga.setupViewModel = gosuArena.factories.createSetupViewModel(bots, @Model.MaxRosterCount);
         
         ko.applyBindings(ga.setupViewModel);
     });

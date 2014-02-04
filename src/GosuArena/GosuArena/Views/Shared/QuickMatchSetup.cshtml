@@ -15,7 +15,7 @@
 </section>
 
 <form id="start-match" method="GET" action="@Url.Action("Play", "Match")" target="_blank">
-    <input type="hidden" name="names" id="names" data-bind="value: selectedBotNames" />
+    <input type="hidden" name="rosters[0]" id="names" data-bind="value: selectedBotNames" />
     <input type="hidden" name="training" value="@Model.IsTraining.ToString().ToLower()" />
 
     <button type="submit" id="play-button" class="btn btn-lg btn-primary">Play!</button>
